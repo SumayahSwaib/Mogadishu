@@ -55,7 +55,7 @@ class HomeController extends Controller
             });
             $row->column(4, function (Column $column) {
                 $column->append(view('widgets.dashboard-floor3', [
-                    'rooms' => Room::where('floor', 'Floor2')->get()
+                    'rooms' => Room::where('floor', 'Floor3')->get()
                    
                 ]));
             });
@@ -64,72 +64,69 @@ class HomeController extends Controller
         $content->row(function (Row $row) {
             $row->column(4, function (Column $column) {
                 $column->append(view('widgets.dashboard-floor4', [
-                    'rooms' => Room::where('floor', 'Floor1')->get()
+                    'rooms' => Room::where('floor', 'Floor4')->get()
                 ]));
             });
             $row->column(4, function (Column $column) {
                 $column->append(view('widgets.dashboard-floor5', [
-                    'rooms' => Room::where('floor', 'Floor2')->get()
+                    'rooms' => Room::where('floor', 'Floor5')->get()
                     
                 ]));
             });
             $row->column(4, function (Column $column) {
                 $column->append(view('widgets.dashboard-floor6', [
-                    'rooms' => Room::where('floor', 'Floor2')->get()
+                    'rooms' => Room::where('floor', 'Floor6')->get()
                     
                 ]));
             });
            
         });
+        // titlle
+        $content->row(function (Row $row) {
+            $row->column(12, function (Column $column) {
+                $column->append(view('widgets.dashboard-title', [
+                    'title' => 'MOGADISHU RESIDENCE',
+                    'sub_title' => 'Dashboard',
+                    'icon' => 'fa fa-dashboard',
+                    'color' => 'bg-aqua'
+                ]));
+            });
+        });
+        
         $content->row(function (Row $row) {
          
            
           $row->column(2, function (Column $column) {
                 $column->append(view('widgets.dashboard-image', [
-                    'rooms' => Room::all(),
-                    'tenants' => Tenant::all(),
-                    'rentings' => Renting::all(),
-                    'payments' => TenantPayment::all()
+                   
                 ]));
             }); 
             $row->column(2, function (Column $column) {
-                $column->append(view('widgets.dashboard-image', [
-                    'rooms' => Room::all(),
-                    'tenants' => Tenant::all(),
-                    'rentings' => Renting::all(),
-                    'payments' => TenantPayment::all()
+                $column->append(view('widgets.dashboard-image1', [
+                    
                 ]));
             }); 
             $row->column(2, function (Column $column) {
-                $column->append(view('widgets.dashboard-image', [
-                    'rooms' => Room::all(),
-                    'tenants' => Tenant::all(),
-                    'rentings' => Renting::all(),
-                    'payments' => TenantPayment::all()
+                $column->append(view('widgets.dashboard-image2', [
+                    
                 ]));
             }); 
             $row->column(2, function (Column $column) {
-                $column->append(view('widgets.dashboard-image', [
-                    'rooms' => Room::all(),
+                $column->append(view('widgets.dashboard-image3', [
+                    /* 'rooms' => Room::all(),
                     'tenants' => Tenant::all(),
                     'rentings' => Renting::all(),
-                    'payments' => TenantPayment::all()
+                    'payments' => TenantPayment::all() */
                 ]));
             });
             $row->column(2, function (Column $column) {
-                $column->append(view('widgets.dashboard-image', [
-                    'rooms' => Room::all(),
-                    'tenants' => Tenant::all(),
-                    'rentings' => Renting::all(),
-                    'payments' => TenantPayment::all()
+                $column->append(view('widgets.dashboard-image4', [
+                    
                 ]));
             });
             $row->column(2, function (Column $column) {
-                $column->append(view('widgets.dashboard-image', [
-                    'rooms' => Room::all(),
-                    'tenants' => Tenant::all(),
-                    'rentings' => Renting::all(),
-                    'payments' => TenantPayment::all()
+                $column->append(view('widgets.dashboard-image5', [
+                    
                 ]));
             });
            

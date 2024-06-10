@@ -39,10 +39,10 @@ class TenantPayment extends Model
         parent::boot();
         self::created(function ($m) {
             $m->process_balance($m);
-            $landlord = Landload::find($m->landload_id);
+            /* $landlord = Landload::find($m->landload_id);
             if ($landlord == null) {
                 throw new Exception("Landlord not found.", 1);
-            }
+            } */
 
             $total_paid = $m->renting->payments->sum('amount');
             $balance =  $total_paid - $m->renting->payable_amount;
@@ -50,15 +50,15 @@ class TenantPayment extends Model
             $m->renting->save();
             DB::table('tenant_payments')->where('id', $m->id)->update(['balance' => $balance]);
 
-            $landlord->update_balance();
+          //  $landlord->update_balance();
             return $m;
         });
         self::updated(function ($m) {
             $m->process_balance($m);
-            $landlord = Landload::find($m->landload_id);
+            /* $landlord = Landload::find($m->landload_id);
             if ($landlord == null) {
                 throw new Exception("Landlord not found.", 1);
-            }
+            } */
 
             $total_paid = $m->renting->payments->sum('amount');
             $balance = $m->renting->payable_amount - $total_paid;

@@ -36,7 +36,7 @@ use App\Models\Utils;
                         <!-- The user image in the navbar-->
                         <img src="{{ Admin::user()->avatar }}" class="user-image" alt="User Image">
                         <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                        <span class="hidden-xs">{{ Admin::user()->name }}</span>
+                        <span class="hidden-xs">{{ Admin::user()->username }}</span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- The user image in the menu -->
@@ -44,7 +44,7 @@ use App\Models\Utils;
                             <img src="{{ Admin::user()->avatar }}" class="img-circle" alt="User Image">
 
                             <p>
-                                {{ Admin::user()->name }}
+                                {{ Admin::user()->username }}
                                 <small>Member since admin {{ Admin::user()->created_at }}</small>
                             </p>
                         </li>

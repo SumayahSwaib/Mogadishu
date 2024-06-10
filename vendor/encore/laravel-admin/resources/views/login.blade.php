@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 
@@ -42,7 +43,7 @@
 
             <br>
             <center>
-                <img width="60%" src="{{ url('public/assets/images/Mogadishuresidencelogo.png') }}" alt="">
+                <img width="60%" src="{{ url('public/assets/images/logo.png') }}" alt="">
             </center>
             <br>
             <hr style="background-color: rgb(6, 106, 44); height: 10px;">

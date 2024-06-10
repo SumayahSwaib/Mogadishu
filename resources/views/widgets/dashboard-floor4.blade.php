@@ -11,7 +11,7 @@ $text = 'text-success';
 $border = 'border-success';
 $text2 = 'text-dark';
 
-?><a href="{{ admin_url('rooms') }}" title="View All Rooms"
+?><a href="{{ admin_url('rooms') }}"
     class="card {{ $bg }} {{ $border }} mb-4 mb-md-5">
     <div class="card-body py-0 pb-2 pb-md-4">
         <p class="h3  text-bold mb-2 mb-md-3 text-success ">Fouth  Floor</p>

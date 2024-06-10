@@ -33,10 +33,10 @@ class RentingController extends AdminController
         $grid->filter(function ($filter) {
             // Remove the default id filter
             $filter->disableIdFilter();
-            $filter->equal('landload_id', 'Filter by landlord')
+           /*  $filter->equal('landload_id', 'Filter by landlord')
                 ->select(
                     Landload::where([])->orderBy('name', 'Asc')->get()->pluck('name', 'id')
-                );
+                ); */
             $filter->equal('tenant_id', 'Filter By Tenant')
                 ->select(
                     Tenant::get_items()
@@ -118,13 +118,13 @@ class RentingController extends AdminController
        
      
 
-        $grid->column('landload_id', __('Landlord'))->display(function ($x) {
+        /* $grid->column('landload_id', __('Landlord'))->display(function ($x) {
             $loc = Landload::find($x);
             if ($loc != null) {
                 return $loc->name;
             }
             return $x;
-        })->sortable();
+        })->sortable(); */
 
         $grid->column('invoice_status', __('STATUS'))
             ->filter(['Active' => 'Active', 'Not Active' => 'Not Active'])

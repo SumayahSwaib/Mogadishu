@@ -34,10 +34,10 @@ class TenantPaymentController extends AdminController
             // Remove the default id filter
             $filter->disableIdFilter();
 
-            $filter->equal('landload_id', 'Filter by landlord')
+            /* $filter->equal('landload_id', 'Filter by landlord')
                 ->select(
                     Landload::where([])->orderBy('name', 'Asc')->get()->pluck('name', 'id')
-                );
+                ); */
             $filter->equal('tenant_id', 'Filter By Tenant')
                 ->select(
                     Tenant::get_items()
@@ -85,28 +85,28 @@ class TenantPaymentController extends AdminController
                 return  number_format($x);
             })->sortable();
 
-        $grid->column('landlord_amount', __('Landlord (UGX)'))
+        /* $grid->column('landlord_amount', __('Landlord (UGX)'))
             ->display(function ($x) {
                 return number_format($x);
             })->totalRow(function ($x) {
                 return  number_format($x);
-            })->sortable();
+            })->sortable(); */
 
-        $grid->column('commission_amount', __('Commision (UGX)'))
+        /* $grid->column('commission_amount', __('Commision (UGX)'))
             ->display(function ($x) {
                 return number_format($x);
             })->totalRow(function ($x) {
                 return  number_format($x);
-            })->sortable();
+            })->sortable(); */
 
-        $grid->column('commission_type', __('Commision Calculation'))
+        /* $grid->column('commission_type', __('Commision Calculation'))
             ->display(function ($x) {
                 if ($x == 'Percentage') {
                     return $this->commission_type_value . "%";
                 } else {
                     return   $this->commission_type;
                 }
-            })->sortable();
+            })->sortable(); */
 
         $grid->column('balance', __('Balance (UGX)'))->display(function ($b) {
             return  number_format($b);
@@ -124,13 +124,13 @@ class TenantPaymentController extends AdminController
             ->display(function ($x) {
                 return $this->room->name_text;
             })->sortable();
-        $grid->column('landload_id', __('Landlord'))->display(function ($x) {
+        /* $grid->column('landload_id', __('Landlord'))->display(function ($x) {
             $loc = Landload::find($x);
             if ($loc != null) {
                 return $loc->name;
             }
             return $x;
-        })->sortable();
+        })->sortable(); */
 
 
 

@@ -1,9 +1,15 @@
+<?php
+
+$imagelink = url('floorimages/Third.png' );
+//$imagelink = public_path('');
 
 
+//dd($imagelink)
+?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Image Display</title>
+    <title>Third Floor</title>
     <style>
         body {
             margin: 0;
@@ -18,10 +24,12 @@
             max-width: 100%;
             max-height: 100%;
         }
+
     </style>
 </head>
 <body>
-    <img class="text-center img img-fluid rounded-circle" style="border-radius: 50%;"
-                    src="{{ url('assets/logo.jpg') }}" alt="logo">
+
+    <img src="{{$imagelink}}" alt="logo">
+                    
 </body>
 </html>

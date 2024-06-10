@@ -24,6 +24,33 @@ Route::get('cv', function () {
     $pdf->loadHTML(view('print/cv'));
     return $pdf->stream();
 });
+Route::get('first-floor', function () {
+    return view('floors/floor1');
+    
+});
+
+Route::get('second-floor', function () {
+    return view('floors/floor2');
+    
+});
+Route::get('third-floor', function () {
+    return view('floors/floor3');
+    
+});
+
+Route::get('fourth-floor', function () {
+    return view('floors/floor4');
+    
+});
+Route::get('fifth-floor', function () {
+    return view('floors/floor5');
+    
+});
+Route::get('sixth-floor', function () {
+    return view('floors/floor6');
+    
+});
+
 
 
 Route::get('invoice', function () {
