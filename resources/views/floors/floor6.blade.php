@@ -1,10 +1,11 @@
 <?php
 
-$imagelink = url('floorimages/Fifth.jpg' );
+$imagelink = url('floorimages/Fifth.jpg');
 //$imagelink = public_path('');
 
 
-//dd($imagelink)
+/* dd($imagelink)
+ */
 ?>
 <!DOCTYPE html>
 <html>
