@@ -4,9 +4,9 @@ use App\Models\Utils;
 use App\Models\TenantPayment;
 
 $receipt = TenantPayment::find($_GET['id']);
-$logo_link = public_path('/logo-1.png');
+//$logo_link = public_path('/logo-1.png');
 $sign = public_path('/sign.jpg');
-$imagelink = url('floorimages/Forth.jpg' );
+$imagelink = url('floorimages/logo-1.png' );
 ?>
 
 <!DOCTYPE html>
