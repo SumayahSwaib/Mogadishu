@@ -31,7 +31,7 @@ $text2 = 'text-dark';
             </span><br>
         </p> --}}
         <hr class="mt-0 mb-2 mb-md-2" style="background-color: white; height: 2px;">
-        <p class="h4  text-bold mb-2 bg-white text-success pl-3 pt-2 pb-1">Floor 2</p>
+        <p class="h4  text-bold mb-2 bg-white text-success pl-3 pt-2 pb-1"> First Flr</p>
        
         {{-- <img class="text-center img img-fluid rounded-circle" style="border-radius: 50%;"
                     src="{{public_path('storage/Mogadishu.png') }}" alt="logo"> --}}

@@ -18,7 +18,7 @@ $text2 = 'text-dark';
 /* <a href="{{admin_url('tenants') }}" title="View All image" */
 
 ?>
-<a href="{{admin_url('sixth-floor') }}" title="View All image"
+<a href="{{admin_url('fifth-floor') }}" title="View All image"
     class="card {{ $bg }} {{ $border }} mb-4 mb-md-5">
     <div class="card-body py-0 pb-2 pb-md-4">
         {{-- <p class="h3  text-bold mb-2 mb-md-3 {{$text}} ">All time</p> --}}
@@ -31,7 +31,7 @@ $text2 = 'text-dark';
             </span><br>
         </p> --}}
         <hr class="mt-0 mb-2 mb-md-2" style="background-color: white; height: 2px;">
-        <p class="h4  text-bold mb-2 bg-white text-success pl-3 pt-2 pb-1">Floor 6</p>
+        <p class="h4  text-bold mb-2 bg-white text-success pl-3 pt-2 pb-1">Fifth Flr</p>
        
         {{-- <img class="text-center img img-fluid rounded-circle" style="border-radius: 50%;"
                     src="{{public_path('storage/Mogadishu.png') }}" alt="logo"> --}}

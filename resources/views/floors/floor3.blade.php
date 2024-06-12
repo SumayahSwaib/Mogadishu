@@ -9,7 +9,7 @@ $imagelink = url('floorimages/Second.jpg' );
 <!DOCTYPE html>
 <html>
 <head>
-    <title>First Floor</title>
+    <title>Second Floor</title>
     <style>
         body {
             margin: 0;
