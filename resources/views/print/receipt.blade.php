@@ -5,10 +5,11 @@ use App\Models\TenantPayment;
 
 $receipt = TenantPayment::find($_GET['id']);
 $logo_link = public_path('/logo-1.png');
-//$sign = public_path('/sign.jpg');
+$sign = public_path('/sign.jpg');
 $imagelink = url('floorimages/logo-1.png' );
-/* dd($logo_link); */
-?>
+
+/* dd($receipt->details);
+ */?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -57,6 +58,8 @@ $imagelink = url('floorimages/logo-1.png' );
         <p>Received sum of <b>UGX {{ number_format($receipt->amount) }}</b> in words:
             <b>{{ Utils::convert_number_to_words($receipt->amount) }}</b>.
         <p>{{ $receipt->details }} </p>
+        <p>{{ $receipt->tenant->name}} </p>
+        
         </p>
         <p class="mt-3 mb-4">BALANCE: <b>UGX {{ number_format($receipt->balance) }}</b></p>
 

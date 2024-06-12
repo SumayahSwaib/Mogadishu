@@ -50,7 +50,7 @@ class TenantPayment extends Model
             $m->renting->save();
             DB::table('tenant_payments')->where('id', $m->id)->update(['balance' => $balance]);
 
-          //  $landlord->update_balance();
+          // $landlord->update_balance();
             return $m;
         });
         self::updated(function ($m) {
@@ -67,7 +67,7 @@ class TenantPayment extends Model
             DB::table('tenant_payments')->where('id', $m->id)->update(['balance' => $balance]);
 
 
-            $landlord->update_balance();
+           // $landlord->update_balance();
             return $m;
         });
         self::deleted(function ($m) {
@@ -99,7 +99,7 @@ class TenantPayment extends Model
             $m->balance = $rent->balance;
             $stat_rent = Utils::my_date($rent->start_date);
             $end_rent = Utils::my_date($rent->end_date);
-            $m->details = "Cash received from {$rent->tenant->name} being payment of rent of
+            $m->details = "Cash received from <b>{{$rent->tenant->name}}</b> being payment of rent of
              {$rent->number_of_months} months from {$stat_rent} to {$end_rent}. 
              Invoice no. #{$rent->id}.";
 
