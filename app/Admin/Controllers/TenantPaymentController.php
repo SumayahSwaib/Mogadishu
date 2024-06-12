@@ -75,11 +75,11 @@ class TenantPaymentController extends AdminController
                 return Utils::my_date($this->renting->start_date) . " - " . Utils::my_date($this->renting->end_date) . " Inoive #" . $this->renting_id;
             })
             ->sortable();
-        $grid->column('tenant_id', __('Tenant'))->display(function () {
-            if($this->tenant->name== null){
+        $grid->column('tenant_id', __('Tenant'))->display(function ($x) {
+            if ($this->tenant->name == null) {
+                return $x;
                 return $this->tenant->name;
             }
-           
         })->sortable();
         $grid->column('amount', __('Amount (UGX)'))
             ->display(function ($x) {
