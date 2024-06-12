@@ -42,19 +42,19 @@ class HomeController extends Controller
 
         $content->row(function (Row $row) {
             $row->column(4, function (Column $column) {
-                $column->append(view('widgets.dashboard-floor1', [
+                $column->append(view('widgets.dashboard-groundfloor', [
                    
                     'rooms' => Room::where('floor', 'Floor1')->get()
                 ]));
             });
             $row->column(4, function (Column $column) {
-                $column->append(view('widgets.dashboard-floor2', [
+                $column->append(view('widgets.dashboard-floor1', [
                     'rooms' => Room::where('floor', 'Floor2')->get()
                     
                 ]));
             });
             $row->column(4, function (Column $column) {
-                $column->append(view('widgets.dashboard-floor3', [
+                $column->append(view('widgets.dashboard-floor2', [
                     'rooms' => Room::where('floor', 'Floor3')->get()
                    
                 ]));
@@ -63,18 +63,18 @@ class HomeController extends Controller
         });
         $content->row(function (Row $row) {
             $row->column(4, function (Column $column) {
-                $column->append(view('widgets.dashboard-floor4', [
+                $column->append(view('widgets.dashboard-floor3', [
                     'rooms' => Room::where('floor', 'Floor4')->get()
                 ]));
             });
             $row->column(4, function (Column $column) {
-                $column->append(view('widgets.dashboard-floor5', [
+                $column->append(view('widgets.dashboard-floor4', [
                     'rooms' => Room::where('floor', 'Floor5')->get()
                     
                 ]));
             });
             $row->column(4, function (Column $column) {
-                $column->append(view('widgets.dashboard-floor6', [
+                $column->append(view('widgets.dashboard-floor5', [
                     'rooms' => Room::where('floor', 'Floor6')->get()
                     
                 ]));

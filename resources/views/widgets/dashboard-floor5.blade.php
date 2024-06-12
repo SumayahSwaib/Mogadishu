@@ -24,7 +24,7 @@ $text2 = 'text-dark';
                 style="font-weight: 800">{{ $rooms->where('status', 'Vacant')->count() }}</span>
         </p>
         <hr class="mt-0 mb-2 mb-md-2" style="background-color: var(--success); height: 2px;">
-        <p class="h4  text-bold mb-2 bg-success text-white pl-3 pt-2 pb-1">  FROM E01 -  E20</p>
+        <p class="h4  text-bold mb-2 bg-success text-white pl-3 pt-2 pb-1">  FROM F01 -  F04</p>
        {{--  <p class="mt-0 mb-0 text-dark text-uppercase">UNDER Construction: <span
                 style="font-weight: 800">{{ $rooms->where('state', 'Construction')->count() }}</span> --}}
  
@@ -35,3 +35,5 @@ $text2 = 'text-dark';
         </p>
     </div>
 </a>
+     
+    

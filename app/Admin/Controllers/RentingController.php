@@ -191,7 +191,7 @@ invoice_as_been_billed
         die("done");  */
 
         if ($form->isCreating()) {
-            $form->select('room_id', __('Room'))->options(Room::get_ready_rooms())
+            $form->select('room_id', __('Appartment'))->options(Room::get_ready_rooms())
                 ->rules('required')
                 ->required();
             $form->select('tenant_id', __('Tenant'))->options(Tenant::get_items())
@@ -199,7 +199,7 @@ invoice_as_been_billed
                 ->required();
         } else {
 
-            $form->select('room_id', __('Room'))->options(function ($x) {
+            $form->select('room_id', __('Appartment'))->options(function ($x) {
                 $r = Room::where('id', $x)->first();
                 return [
                     $r->id => $r->name

@@ -20,7 +20,7 @@ class RoomController extends AdminController
      *
      * @var string
      */
-    protected $title = 'Rooms';
+    protected $title = 'Appartments';
 
     /**
      * Make a grid builder.
@@ -31,13 +31,12 @@ class RoomController extends AdminController
     {
         $grid = new Grid(new Room());
 
-        // $grid->disableCreateButton();
+         $grid->disableCreateButton();
         //disable only delete on the actions
-        /* $grid->actions(function ($actions) {
+         $grid->actions(function ($actions) {
                 $actions->disableView();
-                $actions->disableEdit();
-                $actions->disableDelete();
-               }); */
+              $actions->disableDelete();
+               }); 
 
 
 
@@ -62,7 +61,7 @@ class RoomController extends AdminController
                     'Vacant' => 'Vacant',
                     'Occupied' => 'Occupied',
                 ]);
-            $filter->equal('state', 'Room State')
+            $filter->equal('state', 'Appartment State')
                 ->select([
                     'Pending' => 'Pending',
                     'Construction' => 'Construction',
@@ -105,7 +104,7 @@ class RoomController extends AdminController
             ->lightbox(['width' => 60, 'height' => 60])
             ->sortable();
 
-        $grid->column('name', __('Room Number'))
+        $grid->column('name', __('Appartment Number'))
             ->editable()
             ->sortable();
         $grid->column('floor', __('Floor'))->sortable();
@@ -142,7 +141,7 @@ class RoomController extends AdminController
             ->sortable();
         /*  $grid->column('address', __('Address'))->hide(); */
 
-        $grid->column('state', __('Room State'))->dot([
+        $grid->column('state', __('Appartment State'))->dot([
             'Pending' => 'danger',
             'Construction' => 'danger',
             'Repair' => 'danger',
@@ -238,12 +237,12 @@ class RoomController extends AdminController
     {
         $form = new Form(new Room());
 
-        $form->divider('Room Information');
+        $form->divider('Appartment Information');
 
         /* $form->select('house_id', __('Select house'))
             ->options(House::get_houses())
             ->rules('required'); */
-        $form->text('name', __('Room Number'))->rules('required');
+        $form->text('name', __('Appartment Number'))->rules('required');
         $form->select('floor', __('Floor'))
             ->options([
                 'Floor1' => 'Floor 1',

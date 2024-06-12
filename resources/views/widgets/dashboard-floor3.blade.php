@@ -14,7 +14,7 @@ $text2 = 'text-dark';
 ?><a href="{{ admin_url('rooms') }}"
     class="card {{ $bg }} {{ $border }} mb-4 mb-md-5">
     <div class="card-body py-0 pb-2 pb-md-4">
-        <p class="h3  text-bold mb-2 mb-md-3 text-success ">Third Floor</p>
+        <p class="h3  text-bold mb-2 mb-md-3 text-success ">Third  Floor</p>
        {{--  <p class="  m-0 text-center text-success h3" style="line-height: 3.2rem">{{ number_format($rooms->count()) }}</p> --}}
 
         <p class="mt-4 mb-2 text-dark text-uppercase">
@@ -24,7 +24,7 @@ $text2 = 'text-dark';
                 style="font-weight: 800">{{ $rooms->where('status', 'Vacant')->count() }}</span>
         </p>
         <hr class="mt-0 mb-2 mb-md-2" style="background-color: var(--success); height: 2px;">
-        <p class="h4  text-bold mb-2 bg-success text-white pl-3 pt-2 pb-1">  FROM C01 -  C20</p>
+        <p class="h4  text-bold mb-2 bg-success text-white pl-3 pt-2 pb-1">  FROM D01 -  D20</p>
        {{--  <p class="mt-0 mb-0 text-dark text-uppercase">UNDER Construction: <span
                 style="font-weight: 800">{{ $rooms->where('state', 'Construction')->count() }}</span> --}}
  

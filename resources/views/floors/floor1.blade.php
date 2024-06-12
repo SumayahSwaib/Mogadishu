@@ -1,6 +1,6 @@
 <?php
 
-$imagelink = url('floorimages/Ground.png' );
+$imagelink = url('floorimages/ground.jpg' );
 //$imagelink = public_path('');
 
 

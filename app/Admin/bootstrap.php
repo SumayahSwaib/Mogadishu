@@ -36,9 +36,9 @@ Admin::navbar(function (\Encore\Admin\Widgets\Navbar $navbar) {
     ]));
 
     $navbar->left(Shortcut::make([
-        'New renting' => 'rentings/create',
-        'New tenant' => 'tenants/create',
-        'New room' => 'rooms/create',
+        'New Renting' => 'rentings/create',
+        'New Tenant' => 'tenants/create',
+        'New Apartment' => 'rooms/create',
         // 'New house' => 'houses/create',
         // 'New landlord' => 'landloads/create',
         /*  'Products or Services' => 'products/create',

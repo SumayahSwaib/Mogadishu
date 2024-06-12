@@ -6,6 +6,7 @@ use App\Models\TenantPayment;
 $receipt = TenantPayment::find($_GET['id']);
 $logo_link = public_path('/logo-1.png');
 $sign = public_path('/sign.jpg');
+$imagelink = url('floorimages/Forth.jpg' );
 ?>
 
 <!DOCTYPE html>
@@ -33,7 +34,7 @@ $sign = public_path('/sign.jpg');
             <tbody>
                 <tr>
                     <td style="width: 12%;" class="pr-2">
-                        <img class="img-fluid" src="{{ $logo_link }}">
+                        <img class="img-fluid" src="{{ {{$imagelink}}}}">
                     </td>
                     <td class=" text-left">
                         <p class="p-0 m-0" style="font-size: 1.3rem;"><b>MOGADISHU RESIDENCE</b></p>
