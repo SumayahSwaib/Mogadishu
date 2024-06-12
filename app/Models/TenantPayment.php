@@ -70,7 +70,7 @@ class TenantPayment extends Model
            // $landlord->update_balance();
             return $m;
         });
-        self::deleted(function ($m) {
+        /* self::deleted(function ($m) {
             try {
                 $landlord = Landload::find($m->landload_id);
                 if ($landlord != null) {
@@ -81,7 +81,7 @@ class TenantPayment extends Model
             }
 
             return $m;
-        });
+        }); */
         self::updating(function ($m) {
             $m = self::process_commission($m);
             return $m;
@@ -146,10 +146,10 @@ class TenantPayment extends Model
         $commission =  ($percentage / 100) * $total_rent;
         $m->commission_type_value = $room->percentage_rate;
         $m->commission_amount = $commission;
-        $m->landlord_amount = $total_rent - $commission;
+      //  $m->landlord_amount = $total_rent - $commission;
         $m->house_id = $room->house_id;
         $m->room_id = $room->id;
-        $m->landload_id = $room->landload_id;
+       // $m->landload_id = $room->landload_id;
 
         return $m;
     }

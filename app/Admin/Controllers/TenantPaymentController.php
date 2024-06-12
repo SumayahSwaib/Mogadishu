@@ -76,7 +76,10 @@ class TenantPaymentController extends AdminController
             })
             ->sortable();
         $grid->column('tenant_id', __('Tenant'))->display(function () {
-            return $this->tenant->name;
+            if($this->tenant->name== null){
+                return $this->tenant->name;
+            }
+           
         })->sortable();
         $grid->column('amount', __('Amount (UGX)'))
             ->display(function ($x) {
