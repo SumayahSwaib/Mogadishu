@@ -72,15 +72,17 @@ class TenantPaymentController extends AdminController
         $grid->column('renting_id', __('Renting'))
             ->display(function ($x) {
                 if ($this->renting == null) return $x;
-                return Utils::my_date($this->renting->start_date) . " - " . Utils::my_date($this->renting->end_date) . " Inoive #" . $this->renting_id;
+                return Utils::my_date($this->renting->start_date) . " - " . Utils::my_date($this->renting->end_date) . " Invoice NO.0" . $this->renting_id;
             })
             ->sortable();
         $grid->column('tenant_id', __('Tenant'))->display(function ($x) {
-            if ($this->tenant->name == null) {
+            if ($this->tenant == null){
                 return $x;
-          }
-           $this->tenant->name;
+            } 
+            return $this->tenant->name;
+           
         })->sortable();
+       
         $grid->column('amount', __('Amount (UGX)'))
             ->display(function ($x) {
                 return number_format($x);
@@ -117,16 +119,16 @@ class TenantPaymentController extends AdminController
 
 
 
-        $grid->column('house_id', __('House'))
+        /* $grid->column('house_id', __('House'))
             ->display(function ($x) {
                 return $this->house->name;
             })
             ->hide()
-            ->sortable();
-        $grid->column('room_id', __('Room'))
+            ->sortable(); */
+        /* $grid->column('room_id', __('Room'))
             ->display(function ($x) {
-                return $this->room->name_text;
-            })->sortable();
+                return $this->room->name;
+            })->sortable(); */
         /* $grid->column('landload_id', __('Landlord'))->display(function ($x) {
             $loc = Landload::find($x);
             if ($loc != null) {

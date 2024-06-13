@@ -41,7 +41,7 @@ $imagelink = url('floorimages/logo-1.png' );
                     <td class=" text-left">
                         <p class="p-0 m-0" style="font-size: 1.3rem;"><b>MOGADISHU RESIDENCE</b></p>
                         <p class="mt-1">P.O.BOX: <b>113140 - Wakiso - Uganda</b>
-                        <p class="mt-1">Tel:  <b>+256708180880</b>, <b>+256775612261</b>
+                        <p class="mt-1">Tel:  <b>+256755906818</b>, <b>+256755906818</b>
                         </p>
                     </td>
                     <td style="width: 15%; text-align: right;">
@@ -52,13 +52,14 @@ $imagelink = url('floorimages/logo-1.png' );
             </tbody>
         </table>
 
-        <h2 class="text-center h4 mb-4 mt-4"><u>RECEIPT</u></h2>
+        <h2 class="text-center h4 mb-4 mt-2"><u>RECEIPT</u></h2>
 
-        <p class="text-right mb-4"><b>{{ Utils::my_date($receipt->created_at) }}</b></p>
+        <p class="text-right mb-2"><b>{{ Utils::my_date($receipt->created_at) }}</b></p>
         <p>Received sum of <b>UGX {{ number_format($receipt->amount) }}</b> in words:
-            <b>{{ Utils::convert_number_to_words($receipt->amount) }}</b>.
-        <p>{{ $receipt->details }} </p>
-        <b><p> from{{ $receipt->tenant->name}} </p></b>
+            <b>{{ Utils::convert_number_to_words($receipt->amount) }}</b> {{ $receipt->details }} From<b>  {{ $receipt->tenant->name}} </b>
+        
+<p>{{ $receipt->tenant->room }}</p>
+            
         
         </p>
         <p class="mt-3 mb-4">BALANCE: <b>UGX {{ number_format($receipt->balance) }}</b></p>
@@ -72,7 +73,7 @@ $imagelink = url('floorimages/logo-1.png' );
                     </div>
                 </td>
                 <td class="text-right">
-                    Approved by <b>.............................</b>
+                    Approved by <b>.............................</b> 
                 </td>
             </tr>
         </table>
