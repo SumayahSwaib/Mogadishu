@@ -100,8 +100,8 @@ class TenantPayment extends Model
             $stat_rent = Utils::my_date($rent->start_date);
             $end_rent = Utils::my_date($rent->end_date);
             //put space between words in html
-            $m->details = "being payment  of $rent->number_of_months months from {$stat_rent} to {$end_rent}. 
-             Invoice NO. 0{$rent->id}{$rent->room_number}";
+            $m->details = "being payment  of $rent->number_of_months months from {$stat_rent} to {$end_rent}
+             Invoice 0{$rent->id}{$rent->room_number}";
             /* $m->details = "being payment of rent of { $rent->number_of_months} months from {$stat_rent} to {$end_rent}. 
              Invoice no. 0{$rent->id}. recieved from {$rent->room_number}"; */
 

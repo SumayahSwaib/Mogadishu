@@ -58,7 +58,7 @@ $imagelink = url('floorimages/logo-1.png' );
         <p>Received sum of <b>UGX {{ number_format($receipt->amount) }}</b> in words:
             <b>{{ Utils::convert_number_to_words($receipt->amount) }}</b> {{ $receipt->details }} From<b>  {{ $receipt->tenant->name}} </b>
         
-<p>{{ $receipt->tenant->room }}</p>
+{{-- <p>{{ $receipt->tenant->room->name}}</p> --}}
             
         
         </p>
