@@ -35,13 +35,13 @@ $imagelink = url('floorimages/logo-1.png' );
         <table class="w-100 ">
             <tbody>
                 <tr>
-                    <td style="width: 12%;" class="pr-2">
+                    <td style="width: 18%;" class="pr-2">
                         <img class="img-fluid" src="{{$imagelink}}">
                     </td>
-                    <td class=" text-left">
-                        <p class="p-0 m-0" style="font-size: 1.3rem;"><b>MOGADISHU RESIDENCE</b></p>
-                        <p class="mt-1">P.O.BOX: <b>113140 - Wakiso - Uganda</b>
-                        <p class="mt-1">Tel:  <b>+256755906818</b>, <b>+256755906818</b>
+                    <td class=" text-center">
+                        <p class="p-0 m-0" style="font-size: 2.0rem;"><b>MOGADISHU RESIDENCE</b></p>
+                        <p class="mt-1">P.O.BOX: <b>113140 - Kampala - Uganda</b>
+                        
                         </p>
                     </td>
                     <td style="width: 15%; text-align: right;">
