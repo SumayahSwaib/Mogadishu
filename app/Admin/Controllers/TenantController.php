@@ -34,6 +34,9 @@ class TenantController extends AdminController
         $grid->column('created_at', __('Date'))->display(function ($x) {
             return Utils::my_date_time($x);
         })->sortable();
+        $grid->column('photo', __('Photo'))
+        ->lightbox(['width' => 60, 'height' => 60])
+            ->sortable();
 
         $grid->column('name', __('Name'))->sortable();
         $grid->column('email', __('Email'));
@@ -90,6 +93,7 @@ class TenantController extends AdminController
         $show->field('image', __('Image'));
         $show->field('attachment', __('Attachment'));
         $show->field('details', __('Details'));
+        $show->field('photo', __('Photo'));
 
         return $show;
     }
@@ -104,15 +108,15 @@ class TenantController extends AdminController
         $form = new Form(new Tenant());
 
         $form->text('name', __('Name'))->rules('required');
-        /*         $form->radio('gender', __('Gender'))->options([
+             /*   $form->radio('gender', __('Gender'))->options([
             'Male' => 'Male',
             'Female' => 'Female',
-        ])->rules('required'); */
+        ])->rules('required');  */
         $form->text('email', __('Email'));
-        $form->text('phone_number_2', __('Natioanl ID Number'));
+       
         $form->text('phone_number', __('Phone number'))->rules('required');
         $form->text('address', __('Details'))->rules('required');
-
+        $form->image('photo', __('Photo'));
         return $form;
     }
 }

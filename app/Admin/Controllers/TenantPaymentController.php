@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Models\Landload;
 use App\Models\Renting;
+use App\Models\Room;
 use App\Models\Tenant;
 use App\Models\TenantPayment;
 use App\Models\Utils;
@@ -90,6 +91,20 @@ class TenantPaymentController extends AdminController
                 return  number_format($x);
             })->sortable();
 
+        $grid->column('securty_deposit', __('Security Deposit (UGX)'))->display(function ($x) {
+            return number_format($x);
+        })->totalRow(function ($x) {
+            return  number_format($x);
+        })->sortable();
+        $grid->column('days_before', __('Days Before'))->display(function ($x) {
+            return number_format($x);
+        })->totalRow(function ($x) {
+            return  number_format($x);
+        })->sortable();
+
+            
+
+
         /* $grid->column('landlord_amount', __('Landlord (UGX)'))
             ->display(function ($x) {
                 return number_format($x);
@@ -125,10 +140,18 @@ class TenantPaymentController extends AdminController
             })
             ->hide()
             ->sortable(); */
-        /* $grid->column('room_id', __('Room'))
+         $grid->column('room_id', __('Room'))
             ->display(function ($x) {
-                return $this->room->name;
-            })->sortable(); */
+                if($this->renting == null) {
+                    return "No Renting";
+
+                }
+            
+                if ($this->renting->room == null) return "No room";
+                return $this->renting->room->name_text;     
+            })->sortable(); 
+
+           
         /* $grid->column('landload_id', __('Landlord'))->display(function ($x) {
             $loc = Landload::find($x);
             if ($loc != null) {
@@ -145,6 +168,7 @@ class TenantPaymentController extends AdminController
             $link = url('receipt?id=' . $this->id);
             return '<b><a target="_blank" href="' . $link . '">PRINT RECEIPT</a></b>';
         });
+       
 
         $grid->column('payment_method', __('Payment method'))->hide();
         $grid->column('payment_destination', __('Payment destination'))->hide();
@@ -170,6 +194,8 @@ class TenantPaymentController extends AdminController
         $show->field('renting_id', __('Renting id'));
         $show->field('tenant_id', __('Tenant id'));
         $show->field('amount', __('Amount'));
+        $show->field('securty_deposit', __('securty_deposit'));
+        $show->field('days_before', __('days_before'));
         $show->field('balance', __('Balance'));
         $show->field('details', __('Details'));
         $show->field('payment_method', __('Payment method'));
@@ -209,6 +235,9 @@ class TenantPaymentController extends AdminController
                 $form->textarea('details', __('Details')); 
         */
         $form->decimal('amount', __('Amount Paid'))->rules('required')->required();
+        $form->decimal('securty_deposit', __('Security Deposit'));
+        $form->decimal('days_before', __('Days Before'));
+        
 
         $form->radio('payment_method', __('Payment method'))
             ->options([

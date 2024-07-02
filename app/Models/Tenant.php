@@ -44,4 +44,10 @@ class Tenant extends Model
         }
         return $items;
     }
+
+    public function getImagesAttribute($d)
+    {
+        if ($d != null)
+            return json_decode($d, true);
+    }
 }

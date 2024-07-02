@@ -95,9 +95,8 @@ class RoomController extends AdminController
             $batch->disabledelete();
             $batch->add(new BatchCopy());
         });
-
         $grid->quickSearch('name')->placeholder('Search by name....');
-        $grid->model()->orderBy('id', 'desc');
+        $grid->model()->orderBy('id', 'Asc');
         $grid->column('id', __('No.'))->sortable();
 
         $grid->column('image', __('Photo'))

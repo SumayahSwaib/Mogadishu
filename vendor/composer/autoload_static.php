@@ -760,7 +760,6 @@ class ComposerStaticInitda89eef54c810448a827ed04bb3da82f
         'App\\Models\\Job' => __DIR__ . '/../..' . '/app/Models/Job.php',
         'App\\Models\\JobApplication' => __DIR__ . '/../..' . '/app/Models/JobApplication.php',
         'App\\Models\\LandLordReport' => __DIR__ . '/../..' . '/app/Models/LandLordReport.php',
-        'App\\Models\\Landload' => __DIR__ . '/../..' . '/app/Models/Landload.php',
         'App\\Models\\LandloadPayment' => __DIR__ . '/../..' . '/app/Models/LandloadPayment.php',
         'App\\Models\\Location' => __DIR__ . '/../..' . '/app/Models/Location.php',
         'App\\Models\\NewsPost' => __DIR__ . '/../..' . '/app/Models/NewsPost.php',

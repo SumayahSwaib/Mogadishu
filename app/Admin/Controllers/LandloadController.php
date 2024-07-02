@@ -41,7 +41,7 @@ class LandloadController extends AdminController
 
 
 
-        $grid->quickSearch('name')->placeholder('Search by name....');
+        /* $grid->quickSearch('name')->placeholder('Search by name....');
         $grid->model()->orderBy('id', 'desc');
         $grid->disableBatchActions();
         $grid->column('id', __('ID'))->sortable();
@@ -92,18 +92,18 @@ class LandloadController extends AdminController
                 return number_format($x);
             })->totalRow(function ($x) {
                 return  number_format($x);
-            })->sortable();
+            })->sortable(); */
       /*   $grid->column('report', __('Report'))
             ->display(function ($x) {
                 return "<a class=\"d-block text-primary text-center\" target=\"_blank\" href='" . url('landlord-report') . "?id={$this->id}'><b>PRINT</b></a>";
             })->sortable();
  */
-        $grid->column('created_at', __('Date'))->display(function ($x) {
+       /*  $grid->column('created_at', __('Date'))->display(function ($x) {
             return Utils::my_date_time($x);
         })
             ->hide()
             ->sortable();
-        return $grid;
+        return $grid; */
     }
 
     /**
@@ -112,7 +112,7 @@ class LandloadController extends AdminController
      * @param mixed $id
      * @return Show
      */
-    protected function detail($id)
+    /* protected function detail($id)
     {
         $show = new Show(Landload::findOrFail($id));
 
@@ -126,14 +126,14 @@ class LandloadController extends AdminController
         $show->field('address', __('Address'));
 
         return $show;
-    }
+    } */
 
     /**
      * Make a form builder.
      *
      * @return Form
      */
-    protected function form()
+    /* protected function form()
     {
         $form = new Form(new Landload());
         $form->text('name', __('Name'))->rules('required');
@@ -143,5 +143,5 @@ class LandloadController extends AdminController
         $form->text('address', __('Address'))->rules('required');
 
         return $form;
-    }
+    } */
 }

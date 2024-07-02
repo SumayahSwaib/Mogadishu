@@ -20,7 +20,7 @@ class Room extends Model
     public static function boot()
     {
         parent::boot();
-        /* self::creating(function ($m) {
+        self::creating(function ($m) {
             return Room::my_update($m); //she removed this, so when adding a new room, automatic things like landload_id where not being set!
         });
         self::updating(function ($m) {
@@ -30,7 +30,7 @@ class Room extends Model
              if ($m->id == 1) {
                 throw new Exception("You cannot delete this room.", 1);
             } 
-        }); */
+        });
     }
 
     public static function my_update($m)

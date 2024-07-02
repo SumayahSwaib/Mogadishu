@@ -19,7 +19,7 @@ class Invoice extends Model
 
         $tot = 0;
         foreach ($this->items as $key => $item) {
-            if ($item->pro == null) {
+            if ($item->pro == null){
                 continue;
             }
             $item->name = $item->pro->name;

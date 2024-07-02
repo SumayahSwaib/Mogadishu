@@ -55,21 +55,41 @@ $imagelink = url('floorimages/logo-1.png' );
         <h2 class="text-center h4 mb-4 mt-2"><u>RECEIPT</u></h2>
 
         <p class="text-right mb-2"><b>{{ Utils::my_date($receipt->created_at) }}</b></p>
-        <p>Received sum of <b>UGX {{ number_format($receipt->amount) }}</b> in words:
-            <b>{{ Utils::convert_number_to_words($receipt->amount) }}</b> {{ $receipt->details }} From<b>  {{ $receipt->tenant->name}} </b>
+        <p>Received sum of <b>UGX {{ number_format($receipt->amount +$receipt->securty_deposit+ $receipt->days_before) }}</b> in words:
+            <b>{{ Utils::convert_number_to_words($receipt->amount +$receipt->securty_deposit+ $receipt->days_before) }}</b>  From<b>  {{ $receipt->tenant->name}} </b></p>
         
-{{-- <p>{{ $receipt->tenant->room->name}}</p> --}}
+           <p class="mt-3 mb-1">
+            Rent Amount : <b>UGX {{ number_format($receipt->amount) }}</b> 
+                {{ $receipt->details }} 
             
-        
-        </p>
-        <p class="mt-3 mb-4">BALANCE: <b>UGX {{ number_format($receipt->balance) }}</b></p>
+           </p>
 
+         
+             
+          
+                @if($receipt->days_before > 0)
+            
+                <p class="mt-1 mb-1">Payment of the remaining days of the month: <b>UGX {{ number_format($receipt->days_before) }}</b></p>
+            
+            @endif 
+
+            @if($receipt->securty_deposit > 0)
+            
+            <p class="mt-1 mb-1">Security Deposit: <b>UGX {{ number_format($receipt->securty_deposit) }}</b></p>
+        
+            @endif
+        </p>
+           
+       </p>
+       <p class="mt-3 mb-3">Balance: <b>UGX {{ number_format($receipt->balance) }}</b></p>
+{{--  <p class="mt-1 mb-1">Room Number: <b> {{$receipt->room->name_text }}</b></p>
+ --}}  
         <table style="width: 100%;">
             <tr>
                 <td>
                     <div class="  d-inline p-2 px-3"
                         style="font-weight: 800; font-size: 1.4rem; border: solid black .2rem;">
-                        UGX {{ number_format($receipt->amount) }}
+                        UGX {{ number_format($receipt->amount +$receipt->securty_deposit+ $receipt->days_before) }}
                     </div>
                 </td>
                 <td class="text-right">

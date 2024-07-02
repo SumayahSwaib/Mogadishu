@@ -9,9 +9,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class House extends Model
 {
+
     use HasFactory;
 
-    public static function boot()
+
+    /* public static function boot()
     {
         parent::boot();
         self::creating(function ($m) {
@@ -102,7 +104,9 @@ class House extends Model
             return url('logo.jpg');
         }
         return $value;
-    }
+    }protected $appends = ['name_text'];
+     
+} 
+ */
 
-    protected $appends = ['name_text'];
 }

@@ -145,7 +145,6 @@ return array(
     'App\\Models\\Job' => $baseDir . '/app/Models/Job.php',
     'App\\Models\\JobApplication' => $baseDir . '/app/Models/JobApplication.php',
     'App\\Models\\LandLordReport' => $baseDir . '/app/Models/LandLordReport.php',
-    'App\\Models\\Landload' => $baseDir . '/app/Models/Landload.php',
     'App\\Models\\LandloadPayment' => $baseDir . '/app/Models/LandloadPayment.php',
     'App\\Models\\Location' => $baseDir . '/app/Models/Location.php',
     'App\\Models\\NewsPost' => $baseDir . '/app/Models/NewsPost.php',

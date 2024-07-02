@@ -6,7 +6,7 @@ use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Landload extends Model
+/* class Landload extends Model
 {
     public static function boot()
     {
@@ -77,3 +77,4 @@ class Landload extends Model
         return $this->hasMany(House::class);
     }
 }
+ */

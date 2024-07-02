@@ -30,7 +30,7 @@ class TenantPayment extends Model
     {
         return $this->belongsTo(Tenant::class);
     }
-    public function renting()
+public function renting()
     {
         return $this->belongsTo(Renting::class);
     }
@@ -163,5 +163,10 @@ class TenantPayment extends Model
     public function room()
     {
         return $this->belongsTo(Room::class);
+    }
+
+    public function get_grande_total()
+    {
+        return $this->amount + $this->securty_deposit + $this->days_before;
     }
 }

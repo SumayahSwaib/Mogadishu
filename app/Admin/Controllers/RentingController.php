@@ -76,7 +76,7 @@ class RentingController extends AdminController
             })->sortable();
         $grid->column('tenant_id', __('Tenant'))
             ->display(function ($x) {
-                return $this->tenant->name;
+                return $this->tenant->name; 
             })->sortable();
         $grid->column('start_date', __('Start date'))->sortable();
         $grid->column('end_date', __('End date'))

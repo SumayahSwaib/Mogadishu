@@ -10,7 +10,7 @@ class LandloadPayment extends Model
 {
     use HasFactory;
 
-    public static function boot()
+   /*  public static function boot()
     {
         parent::boot();
         self::creating(function ($m) {
@@ -28,5 +28,5 @@ class LandloadPayment extends Model
     public function landload()
     {
         return $this->belongsTo(Landload::class);
-    }
+    } */
 }
