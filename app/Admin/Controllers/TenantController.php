@@ -34,7 +34,7 @@ class TenantController extends AdminController
         $grid->column('created_at', __('Date'))->display(function ($x) {
             return Utils::my_date_time($x);
         })->sortable();
-        $grid->column('photo', __('Photo'))
+        $grid->column('image', __('Photo'))
         ->lightbox(['width' => 60, 'height' => 60])
             ->sortable();
 
@@ -90,10 +90,12 @@ class TenantController extends AdminController
         $show->field('name', __('Name'));
         $show->field('gender', __('Gender'));
         $show->field('address', __('Address'));
+        $show->field('phone_number_2', __('NIN'));
+        $show->field('phone_number', __('Phone Number'));
         $show->field('image', __('Image'));
         $show->field('attachment', __('Attachment'));
         $show->field('details', __('Details'));
-        $show->field('photo', __('Photo'));
+        $show->field('image', __('Photo'));
 
         return $show;
     }
@@ -115,8 +117,9 @@ class TenantController extends AdminController
         $form->text('email', __('Email'));
        
         $form->text('phone_number', __('Phone number'))->rules('required');
+        $form->text('phone_number_2', __('NIN'))->rules('required');
         $form->text('address', __('Details'))->rules('required');
-        $form->image('photo', __('Photo'));
+        $form->image('image', __('Photo'));
         return $form;
     }
 }
