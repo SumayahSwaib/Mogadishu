@@ -146,9 +146,9 @@ class TenantPaymentController extends AdminController
                     return "No Renting";
 
                 }
-            
-                if ($this->renting->room == null) return "No room";
-                return $this->renting->room->name_text;     
+                if ($this->renting->room == null)
+                 return "No room";
+                  return $this->renting->room->name;     
             })->sortable(); 
 
            

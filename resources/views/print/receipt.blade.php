@@ -52,7 +52,7 @@ $imagelink = url('floorimages/logo-1.png' );
             </tbody>
         </table>
 
-        <h2 class="text-center h4 mb-4 mt-2"><u>RECEIPT</u></h2>
+        <h2 class="text-center h4 mb-4 mt-2"><u>RECEIPT &#40;ROOM NUMBER {{$receipt->renting->room->name }}&#41;</u></h2>
 
         <p class="text-right mb-2"><b>{{ Utils::my_date($receipt->created_at) }}</b></p>
         <p>Received sum of <b>UGX {{ number_format($receipt->amount +$receipt->securty_deposit+ $receipt->days_before) }}</b> in words:
@@ -82,8 +82,10 @@ $imagelink = url('floorimages/logo-1.png' );
            
        </p>
        <p class="mt-3 mb-3">Balance: <b>UGX {{ number_format($receipt->balance) }}</b></p>
-{{--  <p class="mt-1 mb-1">Room Number: <b> {{$receipt->room->name_text }}</b></p>
- --}}  
+       // room name
+         <p class="mt-3 mb-3">Room Name: <b> {{$receipt->renting->room->name }}</b></p>
+ 
+  
         <table style="width: 100%;">
             <tr>
                 <td>
