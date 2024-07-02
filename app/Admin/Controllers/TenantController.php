@@ -92,7 +92,6 @@ class TenantController extends AdminController
         $show->field('address', __('Address'));
         $show->field('phone_number_2', __('NIN'));
         $show->field('phone_number', __('Phone Number'));
-        $show->field('image', __('Image'));
         $show->field('attachment', __('Attachment'));
         $show->field('details', __('Details'));
         $show->field('image', __('Photo'));
