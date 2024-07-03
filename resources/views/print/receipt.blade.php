@@ -82,8 +82,7 @@ $imagelink = url('floorimages/logo-1.png' );
            
        </p>
        <p class="mt-3 mb-3">Balance: <b>UGX {{ number_format($receipt->balance) }}</b></p>
-       // room name
-         <p class="mt-3 mb-3">Room Name: <b> {{$receipt->renting->room->name }}</b></p>
+       
  
   
         <table style="width: 100%;">

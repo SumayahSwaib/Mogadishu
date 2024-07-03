@@ -31,11 +31,14 @@ class RoomController extends AdminController
     {
         $grid = new Grid(new Room());
 
-         $grid->disableCreateButton();
+        // $grid->disableCreateButton();
+        
+         
         //disable only delete on the actions
          $grid->actions(function ($actions) {
                 $actions->disableView();
-              $actions->disableDelete();
+               $actions->disableDelete();
+
                }); 
 
 
