@@ -35,7 +35,7 @@ class Room extends Model
 
     public static function my_update($m)
     {
-
+/* 
         $house = House::find($m->house_id);
         if ($house == null) {
             throw new Exception("House not found.", 1);
@@ -45,14 +45,14 @@ class Room extends Model
         $m->region_id = $house->region_id;
         $m->area_id = $house->area_id;
 
-        return $m;
+        return $m; */
     }
 
     public static function get_rooms()
     {
         $houses = [];
         foreach (Room::where([])->orderBy('name', 'asc')->get() as $key => $h) {
-            $houses[$h->id] = "#" . $h->id . " - " . $h->name . ", " . $h->house->name;
+            $houses[$h->id] = "#" . $h->id . " - " . $h->name;
         }
         return $houses;
     }
