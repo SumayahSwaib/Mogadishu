@@ -64,15 +64,15 @@ class RentingController extends AdminController
             return Utils::my_date_4($x);
         })->sortable();
 
-        $grid->column('house_id', __('House'))
+       /*  $grid->column('house_id', __('House'))
             ->display(function ($x) {
                 return $this->house->name;
             })
             ->hide()
-            ->sortable();
+            ->sortable(); */
         $grid->column('room_id', __('Room'))
             ->display(function ($x) {
-                return $this->name_text;
+                return $this->room->name;
             })->sortable();
         $grid->column('tenant_id', __('Tenant'))
             ->display(function ($x) {
