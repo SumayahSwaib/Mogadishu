@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Models\Landload;
 use App\Models\LandLordReport;
+use App\Models\Tenant;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -16,7 +17,7 @@ class LandLordReportController extends AdminController
      *
      * @var string
      */
-    protected $title = 'Landlord Reports';
+    protected $title = 'Customer Reports';
 
     /**
      * Make a grid builder.
@@ -27,23 +28,23 @@ class LandLordReportController extends AdminController
     {
         $grid = new Grid(new LandLordReport());
 
-        $grid->filter(function ($filter) {
+        /* $grid->filter(function ($filter) {
             // Remove the default id filter
             $filter->disableIdFilter();
             $filter->equal('landload_id', 'Filter by landlord')
                 ->select(
-                    Landload::where([])->orderBy('name', 'Asc')->get()->pluck('name', 'id')
+                    Tenant::where([])->orderBy('name', 'Asc')->get()->pluck('name', 'id')
                 );
-        });
+        }); */
 
         $grid->model()->orderBy('id', 'desc');
         $grid->disableBatchActions();
         $grid->column('id', __('ID'))->sortable();
-        $grid->column('landload_id', __('Landload'))
+        $grid->column('landload_id', __('Customer'))
             //display landload name
 
             ->display(function ($x) {
-                $y = Landload::find($x);
+                $y = Tenant::find($x);
                 if ($y == null) {
                     
                     $this->delete();
@@ -112,8 +113,8 @@ class LandLordReportController extends AdminController
     protected function form()
     {
         $form = new Form(new LandLordReport());
-        $form->select('landload_id', __('Landlord'))
-            ->options(Landload::where([])->orderBy('name', 'asc')->get()->pluck('name', 'id'))
+        $form->select('landload_id', __('Customer'))
+            ->options(Tenant::where([])->orderBy('name', 'asc')->get()->pluck('name', 'id'))
             ->rules('required');
 
         //date picker range
@@ -128,12 +129,12 @@ class LandLordReportController extends AdminController
             $form->hidden('regenerate_report')->default('Yes');
         }
 
-        $form->decimal('total_expense', 'Total Expense (UGX)')
+        /* $form->decimal('total_expense', 'Total Expense (UGX)')
             ->rules('required');
-
+ */
         $form->disableCreatingCheck();
         $form->disableEditingCheck();
-        $form->disableViewCheck();
+        $form->disableViewCheck();  
 
 
         return $form;

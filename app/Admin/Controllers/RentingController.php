@@ -19,7 +19,7 @@ class RentingController extends AdminController
      *
      * @var string
      */
-    protected $title = 'Renting - Invoinces';
+    protected $title = 'Renting - Invoices';
 
     /**
      * Make a grid builder.
@@ -125,7 +125,7 @@ class RentingController extends AdminController
             }
             return $x;
         })->sortable(); */
-
+ 
         $grid->column('invoice_status', __('STATUS'))
             ->filter(['Active' => 'Active', 'Not Active' => 'Not Active'])
             ->label([
@@ -134,6 +134,9 @@ class RentingController extends AdminController
             ])->sortable();
         $grid->column('is_in_house', __('In House'))->hide();
         $grid->column('remarks', __('Remarks'))->editable();
+       
+        
+
         /* 
 
 fully_paid		
@@ -235,10 +238,7 @@ invoice_as_been_billed
             ->rules('required')
             ->default('Active');
 
-        /*
-         
-        
-        */
+       
 
         return $form;
     }

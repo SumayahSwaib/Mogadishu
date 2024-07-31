@@ -75,7 +75,7 @@ Route::get('landlord-report', function () {
         die("Report not found.");
     }
 
-    $landLord = \App\Models\Landload::find($report->landload_id);
+    $landLord = \App\Models\Tenant::find($report->landload_id);
     if ($landLord == null) {
         die("Landlord not found.");
     }
@@ -160,7 +160,7 @@ Route::get('landlord-report-1', function () {
         die("Report not found.");
     }
 
-    $landLord = \App\Models\Landload::find($report->landload_id);
+    $landLord = \App\Models\Tenant::find($report->landload_id);
     if ($landLord == null) {
         die("Landlord not found.");
     }

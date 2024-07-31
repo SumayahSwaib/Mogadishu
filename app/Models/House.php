@@ -12,6 +12,8 @@ class House extends Model
 
     use HasFactory;
 
+    protected $guarded = [];
+
 
     /* public static function boot()
     {

@@ -447,38 +447,10 @@ $sign = public_path('/sign.jpg');
         </table>
 
 
-        <br>
-        <p class="my-h2 mt-3 mb-2 title text-left" style="font-size: 1.0rem; page-break-before: always;">Landlord payments for the period
-            {{ Utils::my_date($start_date) . ' - ' . Utils::my_date($end_date) }}</p>
-        <table class="table-bordered my-table">
-            <thead class="table table-bordered p-0 bg-dark" style="font-size: 0.8rem;">
-                <tr style="background-color: black;" class="p-0  text-white">
-                    <th style="border-color: white; height: 10px; width: 15px;" class="py-1 text-white">S/n.</th>
-                    <th style="border-color: white; height: 10px; " class=" p-1 px-1">Date</th>
-                    <th style="border-color: white; height: 10px; " class=" p-1">Amount (UGX)</th>
-                    <th style="border-color: white; height: 10px; " class=" p-1">Detail</th>
-                </tr>
-            </thead>
-            <tbody>
-                @php
-                    $i = 0;
-                @endphp
-                @foreach ($landlordPayments as $trans)
-                    @php
-                        $i++;
-                    @endphp
-                    <tr>
-                        <td>{{ $i }}</td>
-                        <td>{{ Utils::my_date($trans->created_at) }}</td>
-                        <td style="text-align: right;"><b>{{ number_format($trans->amount) }}</b></td>
-                        <td style="text-align: left;"><b>{{ $trans->details }}</b></td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+        
 
 
-
+    
 
         <p class="my-h2 mt-3 mb-2 title text-left" style="font-size: 1.0rem">Summary</p>
         @include('components.detail-item', [

@@ -33,6 +33,15 @@ class Room extends Model
         });
     }
 
+    
+    /**
+     * Updates the given model by setting its landload_id, region_id, and area_id
+     * based on the corresponding values from the associated House model.
+     *
+     * @param mixed $m The model to be updated.
+     * @throws Exception If the House associated with the model is not found.
+     * @return mixed The updated model.
+     */
     public static function my_update($m)
     {
 /* 

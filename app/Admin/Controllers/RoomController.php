@@ -77,6 +77,7 @@ class RoomController extends AdminController
                 $group->lt('less than');
                 $group->equal('equal to');
             });
+            //
 
             $filter->equal('region_id', 'Filter by Region')
                 ->select(
