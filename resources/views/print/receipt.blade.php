@@ -40,6 +40,7 @@ $imagelink = url('floorimages/logo-1.png' );
                     </td> --}}
                     <td class=" text-center">
                         <p class="p-0 m-0" style="font-size: 2.5rem;"><b>NDEGE ESTATE LIMITED</b></p>
+                        <p class="mt-1">Dealers in Rental Houses</p>
                         <p class="mt-1">P.O.BOX: <b>28044 - Kampala - Uganda</b>
                         
                         </p>
