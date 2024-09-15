@@ -17,7 +17,7 @@ class LandLordReportController extends AdminController
      *
      * @var string
      */
-    protected $title = 'Customer Reports';
+    protected $title = 'Landloard Report';
 
     /**
      * Make a grid builder.
@@ -40,7 +40,7 @@ class LandLordReportController extends AdminController
         $grid->model()->orderBy('id', 'desc');
         $grid->disableBatchActions();
         $grid->column('id', __('ID'))->sortable();
-        $grid->column('landload_id', __('Customer'))
+        /* $grid->column('landload_id', __('Customer'))
             //display landload name
 
             ->display(function ($x) {
@@ -54,7 +54,7 @@ class LandLordReportController extends AdminController
                 return $y->name;
                 // $y->name;
 
-            })->sortable();
+            })->sortable(); */
 
         $grid->column('start_date', __('Start Date'))
             ->display(function ($x) {
@@ -70,7 +70,7 @@ class LandLordReportController extends AdminController
             ->display(function ($x) {
                 return "<a class=\"d-block text-primary text-center\" target=\"_blank\" href='" . url('landlord-report-1') . "?id={$this->id}'><b>PRINT REPORT</b></a>";
                 $url = "<a style=' line-height: 10px;' class=\"p-0 m-0 mb-2 d-block text-primary text-center\" target=\"_blank\" href='" . url('landlord-report-1') . "?id={$this->id}'><b>PRINT REPORT (Design 1)</b></a>";
-                $url .= "<a  style=' line-height: 10px;' class=\"d-block text-primary text-center\" target=\"_blank\" href='" . url('landlord-report') . "?id={$this->id}'><b>PRINT REPORT (Design 2)</b></a><br>";
+                $url .= "<a  style=' line-height: 10px;' class=\"d-block text-primary text-center\" target=\"_blank\" href='" . url('landlord-report-1') . "?id={$this->id}'><b>PRINT REPORT (Design 2)</b></a><br>";
                 return $url;
             })->sortable();
  
@@ -90,7 +90,7 @@ class LandLordReportController extends AdminController
         $show->field('id', __('Id'));
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
-        $show->field('landload_id', __('Landload id'));
+      //  $show->field('landload_id', __('Landload id'));
         $show->field('land_lord_name', __('Land lord name'));
         $show->field('land_lord_email', __('Land lord email'));
         $show->field('land_lord_phone', __('Land lord phone'));
@@ -113,9 +113,9 @@ class LandLordReportController extends AdminController
     protected function form()
     {
         $form = new Form(new LandLordReport());
-        $form->select('landload_id', __('Customer'))
+       /*  $form->select('landload_id', __('Customer'))
             ->options(Tenant::where([])->orderBy('name', 'asc')->get()->pluck('name', 'id'))
-            ->rules('required');
+            ->rules('required'); */
 
         //date picker range
         $form->dateRange('start_date', 'end_date', 'Report Date Range')

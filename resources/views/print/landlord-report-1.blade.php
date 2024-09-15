@@ -15,7 +15,8 @@ $sign = public_path('/sign.jpg');
 <html lang="en">
 <style>
     @page {
-        size: A4 landscape;
+        size: A4 potrait;
+        
     }
 
     .text-lowercase {
@@ -286,142 +287,40 @@ $sign = public_path('/sign.jpg');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{ $link }}">
-    <title>Payment report</title>
+    <title>Tenants Payment report</title>
 </head>
 
 <body>
     <div class="main">
-        <table class="w-100 ">
-            <tbody>
-                <tr>
-                    <td style="width: 15%;" class="pr-2">
-                        <img class="img-fluid" src="{{ $logo_link }}">
-                    </td>
-                    <td class=" text-center-left">
-                        <p class="p-0 m-0" style="font-size: 1.3rem;"><b>NMOGADISHU RESIDENCE</b></p>
-                        <p class="mt-1">P.O.BOX: <b>113140 WAKISO -UGANDA</b>
-                        <p class="mt-1">Tel: <b>+256708180880</b> , <b>+256775612261</b>
-                        <p class="mt-1">Email: <b>nicsimproperty@gmail.com</b> , Website <b>www.nicsimproperty.com</b>
-                        </p>
-                    </td>
-                    <td style="width: 15%; text-align: right;">
 
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+        <div class=" text-center">
+            <p class="p-0 m-0" class=" text-center" style="font-size: 2.5rem;color:rgb(12, 90, 12) ">  <strong><b>NDEGE ESTATE LIMITED</b></strong></p>
+            <p class="mt-1" style="font-size: 1.5rem;color:rgb(216, 30, 30)"><strong>&#40; Mogadishu Residence&#41;</strong> </p>
+            <p class="mt-1">P.O.BOX: <b>28044 - Kampala - Uganda</b> </p>
+        </div>
+      
+        <hr style="height:10px;border-width:0;color:rgb(12, 90, 12);background-color:rgb(12, 90, 12)">
 
-        @include('components.detail-item', ['t' => 'Name', 's' => $landLord->name])
-        @include('components.detail-item', ['t' => 'Phone number', 's' => $landLord->phone_number])
-        @include('components.detail-item', ['t' => 'Address', 's' => $landLord->address])
+        
 
-
-        <p class="my-h2 mt-3 mb-2" style="font-size: 1.0rem">
+        {{-- <p class="my-h2 mt-3 mb-2" style="font-size: 1.0rem">
             FINANCIAL REPORT FOR THE PERIOD {{ Utils::my_date($start_date) . ' - ' . Utils::my_date($end_date) }}
-        </p>
+        </p> --}}
 
-        <table class="table table-bordered my-table">
-            <thead class="table table-bordered p-0 bg-dark" style="font-size: 0.8rem;">
-                <tr style="background-color: black;" class="p-0  text-white">
-                    <th style="border-color: white; height: 10px;  font-size: 12px; width: 15px;"
-                        class="py-1 text-white">Ref.</th>
-                    <th style="border-color: white; height: 10px; font-size: 12px; " class=" p-1 px-1">Tenant's name
-                    </th>
-                    <th style="border-color: white; height: 10px;  font-size: 12px;  width: 15%" class=" p-1 px-1">From
-                        - To</th>
-                    <th style="border-color: white; height: 10px; font-size: 12px; " class=" p-1 px-1">Agreed Amount
-                    </th>
-
-                    {{-- <th style="border-color: white; height: 10px; font-size: 12px; " class=" p-1 px-1">Months Rented</th> --}}
-                    <th style="border-color: white; height: 10px;  font-size: 12px;" class=" p-1 px-1">Amount Paid</th>
-                    <th style="border-color: white; height: 10px;  font-size: 12px;" class=" p-1 px-1">Month (s) Paid
-                    </th>
-                    <th style="border-color: white; height: 10px;  font-size: 12px;" class=" p-1 px-1">Last Payment Date</th>
-                    <th style="border-color: white; height: 10px;  font-size: 12px;" class=" p-1 px-1">Months In arrears
-                    </th>
-
-
-                    {{-- <th style="border-color: white; height: 10px; font-size: 12px; " class=" p-1 px-1">Total (UGX)</th> --}}
-
-                    <th style="border-color: white; height: 10px;  font-size: 12px;" class=" p-1 px-1">Balance</th>
-                    <th style="border-color: white; height: 10px;  font-size: 12px;" class=" p-1 px-1">Commission</th>
-                    <th style="border-color: white; height: 10px;  font-size: 12px;" class=" p-1 px-1">Amount Banked
-                    </th>
-
-                    {{-- <th style="border-color: white; height: 10px;  font-size: 12px;" class=" p-1 px-1">Last Payment Made</th> --}}
-
-
-
-                </tr>
-            </thead>
-            <tbody>
-
-                @php
-                    $done_records = [];
-                @endphp
-                @foreach ($buldings as $bulding)
-                    <tr tyle="border: #000 solid 2px!important; border-collapse: collapse !important">
-                        <td style="border: #000 solid 2px!important; border-collapse: collapse !important;"
-                            class="text-uppercase font-weight-bold">
-                            <b>ESTATE:</b> {{ $bulding->name }}
-                        </td>
-                    </tr>
-                    @php
-                        $i = 0;
-                        $temp_rentings = $rentings->where('house_id', $bulding->id);
-                    @endphp
-
-                    @foreach ($temp_rentings as $trans)
-                        @php
-                            if (in_array($trans->id, $done_records)) {
-                                continue;
-                            }
-                            if ($trans->room->house_id != $bulding->id) {
-                                continue;
-                            }
-                            $done_records[] = $trans->id;
-                            $i++;
-                        @endphp
-                        <tr>
-                            <td>#{{ $trans->id }}</td>
-                            <td>{{ $trans->tenant->name }}</td>
-                            <td style="text-align: center;">{{ $trans->name_text2 }}</td>
-                            <td style="text-align: right;"><b>{{ number_format($trans->room->price) }}</b></td>
-                            {{-- <td style="text-align: center;"><b>{{ number_format($trans->number_of_months) }}</b></td> --}}
-                            <td style="text-align: right;"><b>{{ number_format($trans->amount_paid) }}</b></td>
-
-
-                            {{-- <td style="text-align: right;"><b>{{ number_format($trans->payable_amount) }}</b></td> --}}
-                            <td style="text-align: right;"><b>{{ number_format($trans->months_paid) }}</b>
-                            <td style="text-align: right;"><b>{{ Utils::my_date($trans->created_at) }}</b></td>
-                            <td style="text-align: right;">
-                                <b>{{ number_format($trans->months_paid - $trans->number_of_months) }}</b>
-                            </td>
-                            {{-- <td style="text-align: right;"><b>{{ number_format($trans->amount_paid) }}</b></td> --}}
-                            <td style="text-align: right;"><b>{{ number_format($trans->balance) }}</b></td>
-                            <td style="text-align: right;"><b>{{ number_format($trans->commission_amount) }}</b></td>
-                            <td style="text-align: right;"><b>{{ number_format($trans->landlord_amount) }}</b>
-                                {{-- <td style="text-align: right;"><b>{{ number_format($trans->last_payment_amount) }}</b> </td> --}}
-                                {{-- <td style="text-align: right;"> <b>{{ number_format($trans->months_paid - $trans->number_of_months) }}</b></td> --}}
-                        </tr>
-                    @endforeach
-                @endforeach
-            </tbody>
-        </table>
+       
 
         <br>
-        <p class="my-h2 mt-3 mb-2 title text-center" style="font-size: 1.0rem; page-break-before: always;">Tenants Payemnts for the period
+        <p class="my-h2  mb-2 title text-center" style="font-size: 1.0rem; ">Tenants Payemnts for the period
             {{ Utils::my_date($start_date) . ' - ' . Utils::my_date($end_date) }}</p>
         <table class="table-bordered my-table" style="width: 100%">
             <thead class="table table-bordered p-0 bg-dark" style="font-size: 0.8rem;">
-                <tr style="background-color: black;" class="p-0  text-white">
+                <tr style="background-color: rgb(104, 101, 101);" class="p-0  text-white">
                     <th style="border-color: white; height: 10px; width: 15px;" class="py-1 text-white">S/n.</th>
                     <th style="border-color: white; height: 10px; " class=" p-1 px-1">Date</th>
                     <th style="border-color: white; height: 10px; " class=" p-1">Tenant</th>
                     <th style="border-color: white; height: 10px; " class=" p-1">Amount (UGX)</th>
                     <th style="border-color: white; height: 10px; " class=" p-1">Due to Renting of</th>
-                    <th style="border-color: white; height: 10px; " class=" p-1">Ref</th>
+                    {{-- <th style="border-color: white; height: 10px; " class=" p-1">Ref</th> --}}
                     <th style="border-color: white; height: 10px; " class=" p-1">Balance</th>
                 </tr>
             </thead>
@@ -457,32 +356,16 @@ $sign = public_path('/sign.jpg');
             't' => 'Total Income',
             's' => 'UGX ' . number_format($total_income),
         ])
-        {{-- @include('components.detail-item', [
-            't' => 'Total Commission',
-            's' => 'UGX ' . number_format($total_commission),
-        ]) --}}
-
-        {{-- @include('components.detail-item', [
-            't' => 'Total Landlord Revenue',
-            's' => 'UGX ' . number_format($total_landlord_revenue),
-        ]) --}}
+       
 
         @include('components.detail-item', [
-            't' => 'Total Expenses',
+            't' => 'Total Balance',
             's' => 'UGX ' . number_format($report->total_expense),
         ])
 
-        @include('components.detail-item', [
-            't' => 'Total disbursement',
-            's' => 'UGX ' . number_format($total_land_lord_disbashment),
-        ])
+       
 
-        {{-- @include('components.detail-item', [
-            't' => 'Total Landlord Balance',
-            's' =>
-                'UGX ' .
-                number_format($landLord->balance) ,
-        ]) --}}
+       
 
 
 

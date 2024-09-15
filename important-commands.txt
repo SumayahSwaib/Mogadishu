@@ -99,6 +99,8 @@ php artisan admin:make InvoiceController --model=App\Models\Invoice
 php artisan admin:make InvoiceItemController --model=App\Models\InvoiceItem
 php artisan admin:make InvoiceItemController --model=App\Models\Quotations
 php artisan admin:make DeliveryController --model=App\Models\Delivery
+php artisan admin:make checkController --model=App\Models\check
+php artisan admin:make QuotationItemController --model=App\Models\QuotationItem
 php artisan admin:make QuotationItemController --model=App\Models\QuotationItem
 php artisan admin:make LandloadController --model=App\Models\Landload
 php artisan admin:make HouseController --model=App\Models\House
@@ -109,6 +111,7 @@ php artisan admin:make TenantPaymentController --model=App\Models\TenantPayment
 php artisan admin:make LandLordReportController --model=App\\Models\\LandLordReport
 
 php artisan make:model TenantPayment
+php artisan make:model check
 php artisan make:model LandloadPayment
 php artisan make:model Renting
 php artisan make:model Tenant
