@@ -191,9 +191,10 @@ Route::get('landlord-report-1', function () {
         ->whereBetween('created_at', [$start_date, $end_date])
         ->get();
 
-    $tenantPayments = TenantPayment::where([])->orderBy('id', 'DESC')
+    $tenantPayments = TenantPayment::where([])
         ->whereBetween('created_at', [$start_date, $end_date])
-        ->get();
+        ->orderBy('id', 'DESC')
+        ->get(); 
 
     $isView = true;
     $data = compact(
@@ -210,7 +211,7 @@ Route::get('landlord-report-1', function () {
     );
 
     $pdf = App::make('dompdf.wrapper');
-    $pdf->loadHTML(view("print.landlord-report-1"));
+    $pdf->loadHTML(view("print.landlord-report-1", $data));
     return $pdf->stream();
        
 });
