@@ -61,7 +61,7 @@ Route::get('receipt', function () {
 });
 
 //landlords report
-Route::get('landlord-report', function () {
+/* Route::get('landlord-report', function () {
 
     $report = \App\Models\LandLordReport::find(request()->id);
 
@@ -75,17 +75,17 @@ Route::get('landlord-report', function () {
     }
     if ($landLord == null) {
         die("Landlord not found.");
-    } */
+    } 
 
     //start_date
     //end_date
     $start_date = Carbon::parse($report->start_date)->format('Y-m-d');
     $end_date = Carbon::parse($report->end_date)->format('Y-m-d');
     $tempTenantPayments = TenantPayment::where([
-        /* 'landload_id' => $landLord->id */])->whereBetween('created_at', [$start_date, $end_date])->get();
+         'landload_id' => $landLord->id ])->whereBetween('created_at', [$start_date, $end_date])->get();
 
-    $buldings = [];
-    $buldings_ids = [];
+   // $buldings = [];
+    //$buldings_ids = [];
     $total_income = 0;
     $total_commission = 0;
     $total_land_lord_disbashment = 0;
@@ -111,7 +111,7 @@ Route::get('landlord-report', function () {
 
     $pdf = App::make('dompdf.wrapper');
     $rentings = Renting::where([
-        'landload_id' => $landLord->id
+        //'landload_id' => $landLord->id
     ])->orderBy('start_date', 'DESC')
         ->limit(250)
         ->whereBetween('created_at', [$start_date, $end_date])
@@ -119,7 +119,7 @@ Route::get('landlord-report', function () {
 
 
     $landlordPayments = LandloadPayment::where([
-        'landload_id' => $landLord->id
+       // 'landload_id' => $landLord->id
     ])->orderBy('id', 'DESC')
         ->whereBetween('created_at', [$start_date, $end_date])
         ->get();
@@ -132,7 +132,7 @@ Route::get('landlord-report', function () {
     $pdf->loadHTML(view('print/landlord-report-1', compact(
         'rentings',
         'landlordPayments',
-        'landLord',
+       // 'landLord',
         'total_income',
         'buldings',
         'tenantPayments',
@@ -143,8 +143,8 @@ Route::get('landlord-report', function () {
         'start_date',
         'end_date'
     )));
-    return $pdf->stream($landLord->name . '-report.pdf');
-});
+    return $pdf->stream();
+}); */
 
 
 // used landloard report route
@@ -161,8 +161,8 @@ Route::get('landlord-report-1', function () {
 
     //display range
 
-    $buldings = [];
-    $buldings_ids = [];
+    /* $buldings = [];
+    $buldings_ids = []; */
 
 
     $rentings = Renting::where([])->orderBy('start_date', 'ASC')
@@ -178,14 +178,13 @@ Route::get('landlord-report-1', function () {
         //created_at not in range of start_date and end_date continue
 
 
-        if (!in_array($renting->house_id, $buldings_ids)) {
+        /* if (!in_array($renting->house_id, $buldings_ids)) {
             $buldings[] = $renting->house;
-        }
+        } */
         $total_income += $renting->amount_paid;
     }
 
 
-    $pdf = App::make('dompdf.wrapper');
 
 
     $landlordPayments = LandloadPayment::where([])->orderBy('id', 'DESC')
@@ -203,17 +202,17 @@ Route::get('landlord-report-1', function () {
         'tenantPayments',
 
         'total_income',
-        'buldings',
+        //'buldings',
         'report',
         'start_date',
         'isView',
         'end_date'
     );
 
-
-    return
-        //$pdf->loadHTML(view('print/landlord-report-1', $data));
-        view('print/landlord-report-1', $data);
+    $pdf = App::make('dompdf.wrapper');
+    $pdf->loadHTML(view("print.landlord-report-1"));
+    return $pdf->stream();
+       
 });
 
 

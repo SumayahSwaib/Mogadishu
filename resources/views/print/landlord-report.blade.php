@@ -2,6 +2,8 @@
 
 $link = public_path('css/bootstrap-print.css');
 use App\Models\Utils;
+use App\Models\Renting;
+use App\Models\TenantPayment;
 
 $logo_link = public_path('/logo-1.png');
 $sign = public_path('/sign.jpg');
@@ -308,10 +310,10 @@ $sign = public_path('/sign.jpg');
         </table>
         <hr style="height:2px;border-width:0;color:gray;background-color:gray">
 
-        @include('components.detail-item', ['t' => 'Name', 's' => $landLord->name])
-        @include('components.detail-item', ['t' => 'Phone number', 's' => $landLord->phone_number])
+        {{-- @include('components.detail-item', ['t' => 'Name', 's' => $landLord->name]) --}}
+        {{-- @include('components.detail-item', ['t' => 'Phone number', 's' => $landLord->phone_number])
         @include('components.detail-item', ['t' => 'Address', 's' => $landLord->address])
-
+ --}}
 
         <p class="my-h2 mt-3 mb-2" style="font-size: 1.0rem">
             FINANCIAL REPORT PERIOD {{ Utils::my_date($start_date) . ' - ' . Utils::my_date($end_date) }}
@@ -370,7 +372,7 @@ $sign = public_path('/sign.jpg');
                 @foreach ($buldings as $bulding)
                     <tr>
                         <td colspan="8" class="text-uppercase font-weight-bold">
-                            {{ $bulding->name }}
+                           {{--  {{ $bulding->name }} --}}
                         </td>
                     </tr>
                     @php
