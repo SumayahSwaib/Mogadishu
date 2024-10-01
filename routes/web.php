@@ -165,10 +165,13 @@ Route::get('landlord-report-1', function () {
     $buldings_ids = []; */
 
 
+   
     $rentings = Renting::where([])->orderBy('start_date', 'ASC')
-        ->whereBetween('start_date', [$start_date, $end_date])
-        ->get();
-
+    /* ->whereBetween('start_date', [$start_date, $end_date]) */
+    ->get();
+    /* $is_overstay = Renting::where(['is_overstay'=>'Yes'])->orderBy('start_date', 'ASC')
+    ->whereBetween('start_date', [$start_date, $end_date])
+    ->get(); */
 
     $total_income = 0;
 
@@ -185,7 +188,7 @@ Route::get('landlord-report-1', function () {
     }
 
 
-
+   
 
     $landlordPayments = LandloadPayment::where([])->orderBy('id', 'DESC')
         ->whereBetween('created_at', [$start_date, $end_date])

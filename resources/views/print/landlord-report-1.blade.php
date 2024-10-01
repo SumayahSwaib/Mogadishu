@@ -42,6 +42,9 @@ $sign = public_path('/sign.jpg');
     .font-italic {
         font-style: italic !important
     }
+    .text-center {
+        text-align: center !important
+    }
 
     .text-white {
         color: #fff !important
@@ -261,6 +264,7 @@ $sign = public_path('/sign.jpg');
     }
 
     .my-table {
+        border: 1px solid green ! border-radius: 5px;
         font-size: 12px !important;
         line-height: .8rem !important;
         padding: 0.2rem !important;
@@ -289,10 +293,10 @@ $sign = public_path('/sign.jpg');
 <body>
     <div class="main">
 
-        <div class=" text-center">
-            <p class="p-0 m-0" class=" text-center" style="font-size: 2.5rem;color:rgb(12, 90, 12) ">  <strong><b>NDEGE ESTATE LIMITED</b></strong></p>
-            <p class="mt-1" style="font-size: 1.5rem;color:rgb(216, 30, 30)"><strong>&#40; Mogadishu Residence&#41;</strong> </p>
-            <p class="mt-1">P.O.BOX: <b>28044 - Kampala - Uganda</b> </p>
+        <div>
+            <p class="p-0 m-0 text-center" style="font-size: 2.5rem;color:rgb(12, 90, 12)" >  <strong><b>NDEGE ESTATE LIMITED</b></strong></p>
+            <p class="mt-1 text-center" style="font-size: 1.5rem;color:rgb(216, 30, 30)"><strong>&#40; Mogadishu Residence&#41;</strong> </p>
+            <p class="mt-1 text-center">P.O.BOX: <b>28044 - Kampala - Uganda</b> </p>
         </div>
       
         <hr style="height:10px;border-width:0;color:rgb(12, 90, 12);background-color:rgb(12, 90, 12)">
@@ -308,19 +312,21 @@ $sign = public_path('/sign.jpg');
         <br>
         <p class="my-h2  mb-2 title text-center" style="font-size: 1.0rem; ">Tenants Payemnts for the period
             {{ Utils::my_date($start_date) . ' - ' . Utils::my_date($end_date) }}</p>
+            <br>
         <table class="table-bordered my-table" style="width: 100%">
-            <thead class="table table-bordered p-0 bg-dark" style="font-size: 0.8rem;">
-                <tr style="background-color: rgb(104, 101, 101);" class="p-0  text-white">
-                    <th style="border-color: white; height: 10px; width: 15px;" class="py-1 text-white">S/n.</th>
+            <thead class="bg-primary text-white text-uppercase">
+                <tr style="background-color: rgb(15, 95, 19);"  class="p-4  text-white">
+                    <th style="border-color: white; height: 23px; width: 15px;" class="py-1 text-white">S/n.</th>
                     <th style="border-color: white; height: 10px; " class=" p-1 px-1">Date</th>
                     <th style="border-color: white; height: 10px; " class=" p-1">Tenant</th>
+                    {{-- <th style="border-color: white; height: 10px; " class=" p-1">Room</th> --}}
                     <th style="border-color: white; height: 10px; " class=" p-1">Amount (UGX)</th>
                     <th style="border-color: white; height: 10px; " class=" p-1">Due to Renting of</th>
                     {{-- <th style="border-color: white; height: 10px; " class=" p-1">Ref</th> --}}
                     <th style="border-color: white; height: 10px; " class=" p-1">Balance</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="table table-bordered p-2">
                 @php
                     $i = 0;
                 @endphp
@@ -332,43 +338,50 @@ $sign = public_path('/sign.jpg');
                         <td>{{ $i }}</td>
                         <td>{{ Utils::my_date($trans->created_at) }}</td>
                         <td style="text-align: left;"><b>{{ $trans->tenant->name }}</b></td>
-                        <td style="text-align: right;"><b>{{ number_format($trans->amount) }}</b></td>
+                        {{-- <td style= "border-color: rgb(12, 12, 12); height: 10px; text-align: left;"><b>{{ $trans->tenant->room_id }}</b></td> --}}
+                        <td style="text-align: left;"><b>{{ number_format($trans->amount) }}</b></td>
                         <td style="text-align: left;"><b>{{ $trans->renting->name_text2 }}</b></td>
-                        <td style="text-align: left;"><b>#{{ $trans->renting->id }}</b></td>
-                        <td style="text-align: right;"><b>{{ number_format($trans->renting->balance) }}</b></td>
+                       {{--  <td style="text-align: left;"><b>#{{ $trans->renting->id }}</b></td> --}} 
+                       {{--  <td style="text-align: left;"><b>#{{ $trans->renting->id }}</b></td> --}}
+                        <td style="text-align: left;"><b>{{ number_format($trans->renting->balance) }}</b></td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
+<br>
 
+       
 
-        
+<p class="my-h2  mb-2 title text-center" style="font-size: 1.0rem; ">Tenants in over stay</p>
+
+@foreach ($rentings as $rent )
+@if ($rent->is_overstay == 'Yes')
+@php
+$i++;
+@endphp
+<p>{{ $i }}. {{ $rent->tenant->name }}</p>
+@endif  
+@endforeach
+
+    <br>
 
 
     
-
-        <p class="my-h2 mt-3 mb-2 title text-left" style="font-size: 1.0rem">Summary</p>
-        @include('components.detail-item', [
-            't' => 'Total Income',
-            's' => 'UGX ' . number_format($total_income),
-        ])
+    <div class="mt-4 p-2" style="border: 2px solid ; border-radius: 10px;">
+        <p class="my-h2  ml-10 mt-10 mb-2 title text-left" style="font-size: 1.0rem">Summary</p>
+               @include('components.detail-item', [
+                   't' => 'Total Income',
+                   's' => 'UGX ' . number_format($total_income),
+               ])
+              
        
-
-        @include('components.detail-item', [
-            't' => 'Total Balance',
-            's' => 'UGX ' . number_format($report->total_expense),
-        ])
-
+               @include('components.detail-item', [
+                   't' => 'Total Balance',
+                   's' => 'UGX ' . number_format($report->total_expense),
+               ])
        
-
-       
-
-
-
-
-
-
-    </div>
+              
+       </div>
 </body>
 
 </html>

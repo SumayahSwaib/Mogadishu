@@ -2,8 +2,6 @@
 
 $link = public_path('css/bootstrap-print.css');
 use App\Models\Utils;
-use App\Models\Renting;
-use App\Models\TenantPayment;
 
 $logo_link = public_path('/logo-1.png');
 $sign = public_path('/sign.jpg');
