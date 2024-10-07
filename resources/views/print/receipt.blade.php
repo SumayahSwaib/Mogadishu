@@ -46,7 +46,7 @@ $imagelink = url('floorimages/logo-1.png' );
                         </p>
                     </td>
                     <td style="width: 15%; text-align: right;">
-                        <b>No. <span style="color: red;">{{ $receipt->id }}</span></b>
+                        <b>No.KA <span style="color: red;">{{ $receipt->id }}</span></b>
                         <br><br><br>
                     </td>
                 </tr>
