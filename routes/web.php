@@ -10,11 +10,16 @@ use App\Models\TenantPayment;
 use App\Models\Utils;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 Route::get('generate-class', [MainController::class, 'generate_class']);
 Route::get('process-things', [Utils::class, 'process_things']);
 
+Route::get('migrate', function () {
+    Artisan::call('migrate', ['--force' => true]);
+    return nl2br(Artisan::output());
+});
 Route::get('cv', function () {
     //return view('print/print-admission-letter');
     $pdf = App::make('dompdf.wrapper');
@@ -165,10 +170,10 @@ Route::get('landlord-report-1', function () {
     $buldings_ids = []; */
 
 
-   
+
     $rentings = Renting::where([])->orderBy('start_date', 'ASC')
-    /* ->whereBetween('start_date', [$start_date, $end_date]) */
-    ->get();
+        /* ->whereBetween('start_date', [$start_date, $end_date]) */
+        ->get();
     /* $is_overstay = Renting::where(['is_overstay'=>'Yes'])->orderBy('start_date', 'ASC')
     ->whereBetween('start_date', [$start_date, $end_date])
     ->get(); */
@@ -188,7 +193,7 @@ Route::get('landlord-report-1', function () {
     }
 
 
-   
+
 
     $landlordPayments = LandloadPayment::where([])->orderBy('id', 'DESC')
         ->whereBetween('created_at', [$start_date, $end_date])
@@ -197,7 +202,7 @@ Route::get('landlord-report-1', function () {
     $tenantPayments = TenantPayment::where([])
         ->whereBetween('created_at', [$start_date, $end_date])
         ->orderBy('id', 'DESC')
-        ->get(); 
+        ->get();
 
     $isView = true;
     $data = compact(
@@ -216,7 +221,6 @@ Route::get('landlord-report-1', function () {
     $pdf = App::make('dompdf.wrapper');
     $pdf->loadHTML(view("print.landlord-report-1", $data));
     return $pdf->stream();
-       
 });
 
 
