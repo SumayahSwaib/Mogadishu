@@ -329,10 +329,14 @@ $sign = public_path('/sign.jpg');
             <tbody class="table table-bordered p-2">
                 @php
                     $i = 0;
+                    $total_income = 0;
+                    $total_balance = 0;
                 @endphp
                 @foreach ($tenantPayments as $trans)
                     @php
                         $i++;
+                        $total_income += $trans->amount;
+                        $total_balance += $trans->renting->balance;
                     @endphp
                     <tr>
                         <td>{{ $i }}</td>
@@ -377,21 +381,25 @@ $sign = public_path('/sign.jpg');
 
 
     
-    <div class="mt-4 p-2" style="border: 2px solid ; border-radius: 10px;">
-        <p class="my-h2  ml-10 mt-10 mb-2 title text-left" style="font-size: 1.0rem">Summary</p>
-               @include('components.detail-item', [
-                   't' => 'Total Income',
-                   's' => 'UGX ' . number_format($total_income),
-               ])
-              
-       
-               @include('components.detail-item', [
-                   't' => 'Total Balance',
-                   's' => 'UGX ' . number_format($report->total_expense),
-               ])
-       
-              
-       </div>
+    <div class="mt-4 p-4" style="border: 2px solid #0c5a0c; border-radius: 12px; background: #f8fdf8; max-width: 400px; margin: 0 auto; box-shadow: 0 2px 8px rgba(12,90,12,0.07);">
+        <p class="my-h2 mb-3 title text-left" style="font-size: 1.2rem; color: #0c5a0c; letter-spacing: 1px;">Summary</p>
+        <div style="padding-left: 1rem;">
+            @include('components.detail-item', [
+                't' => 'Total Income',
+                's' => '<span style="color:#198754;font-weight:600;">UGX ' . number_format($total_income) . '</span>',
+            ])
+
+            @include('components.detail-item', [
+                't' => 'Total Balance',
+                's' => '<span style="color:#0d6efd;font-weight:600;">UGX ' . number_format($total_balance) . '</span>',
+            ])
+
+            @include('components.detail-item', [
+                't' => 'Total Expense',
+                's' => '<span style="color:#dc3545;font-weight:600;">UGX ' . number_format($report->total_expense) . '</span>',
+            ])
+        </div>
+    </div>
 </body>
 
 </html>
