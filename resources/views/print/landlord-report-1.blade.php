@@ -356,16 +356,22 @@ $sign = public_path('/sign.jpg');
 
        
 
-<p class="my-h2  mb-2 title text-center" style="font-size: 1.0rem; ">Tenants in over stay</p>
+<p class="my-h2 mb-2 title text-center" style="font-size: 1.0rem;">Tenants in over stay</p>
 
-@foreach ($rentings as $rent )
-@if ($rent->is_overstay == 'Yes')
 @php
-$i++;
+    $overstayTenants = $rentings->filter(function($rent) {
+        return $rent->is_overstay == 'Yes';
+    });
 @endphp
-<p>{{ $i }}. {{ $rent->tenant->name }}</p>
-@endif  
-@endforeach
+
+@if($overstayTenants->isEmpty())
+    <p class="text-center">No tenants in overstay.</p>
+@else
+    @php $j = 1; @endphp
+    @foreach ($overstayTenants as $rent)
+        <p>{{ $j++ }}. {{ $rent->tenant->name }}</p>
+    @endforeach
+@endif
 
     <br>
 

@@ -180,18 +180,6 @@ Route::get('landlord-report-1', function () {
 
     $total_income = 0;
 
-    foreach ($rentings as $renting) {
-
-        $created_at = Carbon::parse($renting->created_at)->format('Y-m-d');
-        //created_at not in range of start_date and end_date continue
-
-
-        /* if (!in_array($renting->house_id, $buldings_ids)) {
-            $buldings[] = $renting->house;
-        } */
-        $total_income += $renting->amount_paid;
-    }
-
 
 
 
@@ -203,6 +191,12 @@ Route::get('landlord-report-1', function () {
         ->whereBetween('created_at', [$start_date, $end_date])
         ->orderBy('id', 'DESC')
         ->get();
+
+    foreach ($tenantPayments as $renting) { 
+        $total_income += $renting->amount_paid;
+    }
+
+
 
     $isView = true;
     $data = compact(
