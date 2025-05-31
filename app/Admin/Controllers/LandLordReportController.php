@@ -28,6 +28,8 @@ class LandLordReportController extends AdminController
     {
         $grid = new Grid(new LandLordReport());
 
+
+
         /* $grid->filter(function ($filter) {
             // Remove the default id filter
             $filter->disableIdFilter();
@@ -73,7 +75,7 @@ class LandLordReportController extends AdminController
                 $url .= "<a  style=' line-height: 10px;' class=\"d-block text-primary text-center\" target=\"_blank\" href='" . url('landlord-report-1') . "?id={$this->id}'><b>PRINT REPORT (Design 2)</b></a><br>";
                 return $url;
             })->sortable();
- 
+
         return $grid;
     }
 
@@ -90,7 +92,7 @@ class LandLordReportController extends AdminController
         $show->field('id', __('Id'));
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
-      //  $show->field('landload_id', __('Landload id'));
+        //  $show->field('landload_id', __('Landload id'));
         $show->field('land_lord_name', __('Land lord name'));
         $show->field('land_lord_email', __('Land lord email'));
         $show->field('land_lord_phone', __('Land lord phone'));
@@ -113,13 +115,20 @@ class LandLordReportController extends AdminController
     protected function form()
     {
         $form = new Form(new LandLordReport());
-       /*  $form->select('landload_id', __('Customer'))
-            ->options(Tenant::where([])->orderBy('name', 'asc')->get()->pluck('name', 'id'))
-            ->rules('required'); */
 
-        //date picker range
-        $form->dateRange('start_date', 'end_date', 'Report Date Range')
-            ->rules('required');
+        /* $lastRec = LandLordReport::orderBy('id', 'desc')->first();
+        $lastRec->land_lord_address .= '.';
+        $lastRec->target_type = 'Custom';
+        $lastRec->start_date = $lastRec->end_date;
+        $lastRec->end_date = '2020-12-31';
+        $lastRec->save();
+        $model = $lastRec;
+        echo "Start Date: " . $model->start_date . "<br>";
+        echo "End Date: " . $model->end_date . "<br>";
+        echo "Target Year: " . $model->target_year . "<br>";
+        echo "Target Month: " . $model->target_month . "<br>"; */
+
+
 
         if ($form->isEditing()) {
             $form->radioCard('regenerate_report', __('Regenerate Report'))
@@ -133,8 +142,58 @@ class LandLordReportController extends AdminController
             ->rules('required');
  */
         $form->disableCreatingCheck();
-        $form->disableEditingCheck();
-        $form->disableViewCheck();  
+
+        $form->disableViewCheck();
+        $form->radio('target_type', 'Target Type')
+            ->options(['Monthly' => 'Monthly', 'Yearly' => 'Yearly', 'Custom' => 'Custom'])
+            ->when('Yearly', function (Form $form) {
+                //5 years ago to next year
+                $years_ago = [];
+                for ($i = 0; $i < 5; $i++) {
+                    $years_ago[date('Y', strtotime("-$i year"))] = date('Y', strtotime("-$i year"));
+                }
+                $form->select('target_year', 'Target Year')
+                    ->options($years_ago)
+                    ->rules('required');
+            })
+            ->when('Monthly', function (Form $form) {
+                $months_ago = [];
+                for ($i = 0; $i < 12; $i++) {
+                    $months_ago[date('Y-m', strtotime("-$i month"))] = date('F Y', strtotime("-$i month"));
+                }
+                $form->select('target_month', 'Target Month')
+                    ->options($months_ago)
+                    ->rules('required');
+            })
+            ->when('Custom', function (Form $form) {
+                $form->dateRange('start_date', 'end_date', 'Report Date Range')
+                    ->rules('required');
+            });
+
+
+
+        // $first = LandLordReport::first();
+        // dd($first);
+
+        /* 
+            $table->string('target_month')->nullable();
+            $table->string('target_year')->nullable();
+
+                "id" => 17
+    "created_at" => "2024-01-09 08:32:23"
+    "updated_at" => "2024-01-09 08:32:23"
+    "landload_id" => 68
+    "land_lord_name" => null
+    "land_lord_email" => null
+    "land_lord_phone" => null
+    "land_lord_address" => null
+    "start_date" => "2024-01-01"
+    "end_date" => "2024-01-31"
+    "regenerate_report" => "Yes"
+    "total_income" => null
+    "total_expense" => 0
+    "total_payment" => null
+        */
 
 
         return $form;

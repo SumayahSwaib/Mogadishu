@@ -1,6 +1,8 @@
 php artisan make:migration create_landloads_table
 php artisan make:migration create_houses_table
 
+php artisan make:migration add_targets_to_land_lord_reports_table --table=land_lord_reports
+
 
 activity_name
 ->farmer_activity_status

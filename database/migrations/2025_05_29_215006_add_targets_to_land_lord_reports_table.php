@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class DaysBefore extends Migration
+class AddTargetsToLandLordReportsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class DaysBefore extends Migration
      */
     public function up()
     {
-        Schema::table('tenant_payments', function (Blueprint $table) {
-            if (!Schema::hasColumn('tenant_payments', 'days_before')) {
-                $table->bigInteger('days_before')->default(0)->nullable();
-            }
+        Schema::table('land_lord_reports', function (Blueprint $table) {
+            $table->string('target_type')->nullable();
+            $table->string('target_month')->nullable();
+            $table->string('target_year')->nullable();
         });
     }
 
@@ -27,7 +27,7 @@ class DaysBefore extends Migration
      */
     public function down()
     {
-        Schema::table('tenant_payments', function (Blueprint $table) {
+        Schema::table('land_lord_reports', function (Blueprint $table) {
             //
         });
     }

@@ -337,9 +337,13 @@ $sign = public_path('/sign.jpg');
                     <tr>
                         <td>{{ $i }}</td>
                         <td>{{ Utils::my_date($trans->created_at) }}</td>
-                        <td style="text-align: left;"><b>{{ $trans->tenant->name }}</b></td>
+                        @if(isset($trans->tenant))
+                            <td style="text-align: left;"><b>{{ $trans->tenant->name }}</b></td>
+                        @else
+                            <td style="text-align: left;"><b>N/A</b></td>
+                        @endif
                         {{-- <td style= "border-color: rgb(12, 12, 12); height: 10px; text-align: left;"><b>{{ $trans->tenant->room_id }}</b></td> --}}
-                        <td style="text-align: left;"><b>{{ number_format($trans->amount) }}</b></td>
+                        <td style="text-align: right;"><b>{{ number_format($trans->amount) }}</b></td>
                         <td style="text-align: left;"><b>{{ $trans->renting->name_text2 }}</b></td>
                        {{--  <td style="text-align: left;"><b>#{{ $trans->renting->id }}</b></td> --}} 
                        {{--  <td style="text-align: left;"><b>#{{ $trans->renting->id }}</b></td> --}}
