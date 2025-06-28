@@ -11,7 +11,7 @@ return [
     | login page.
     |
     */
-    'name' => 'MOGADISHU RESIDENCE - Admin', 
+    'name' => env('APP_NAME') . ' - Admin',
 
     /*
     |--------------------------------------------------------------------------
@@ -22,7 +22,7 @@ return [
     | `img` tag, eg '<img src="http://logo-url" alt="Admin logo">'.
     |
     */
-    'logo' => '<b>MOGADISHU RESIDENCE</b> admin',
+    'logo' => env('APP_NAME') . ' - Admin',
 
     /*
     |--------------------------------------------------------------------------
@@ -34,7 +34,7 @@ return [
     | '<img src="http://logo-url" alt="Admin logo">'.
     |
     */
-    'logo-mini' => '<b>MOGADISHU RESIDENCE</b>',
+    'logo-mini' => '<b>' . env('APP_NAME') . '</b>',
 
     /*
     |--------------------------------------------------------------------------
@@ -403,18 +403,18 @@ return [
     |
     */
     'extensions' => [
-        
+
         'grid-lightbox' => [
-        
+
             // Set to `false` if you want to disable this extension
             'enable' => true,
         ],
-        
+
         'chartjs' => [
-        
+
             // Set to `false` if you want to disable this extension
             'enable' => true,
-    ],
+        ],
 
 
         'quill' => [

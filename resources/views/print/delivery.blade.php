@@ -173,7 +173,7 @@ $sign = public_path('/sign.jpg');
             <td>
                 <p class=""><b>DELIVERED BY:</b></p>
                 <img class="img-fluid w-25" src="{{ $sign }}"> 
-                <p class=""><i>MOGADISHU RESIDENCE</i></p>
+                <p class=""><i>{{ env('APP_NAME') }}</i></p>
                 <BR>
             </td>
             <td>

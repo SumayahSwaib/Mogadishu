@@ -294,7 +294,7 @@ $sign = public_path('/sign.jpg');
                         <img class="img-fluid" src="{{ $logo_link }}">
                     </td>
                     <td class=" text-center">
-                        <p class="p-0 m-0" style="font-size: 1.3rem;"><b>MOGADISHU RESIDENCE</b></p>
+                        <p class="p-0 m-0" style="font-size: 1.3rem;"><b>{{ env('APP_NAME') }}</b></p>
                         <p class="mt-1">P.O.BOX: <b>113140 - WAKISO UG</b>
                         <p class="mt-1">Tel: <b>+256708180880</b> , <b>+256775612261</b>
                         <p class="mt-1">Email: <b>info@nicsimproperty.com</b> , Website <b>www.nicsimproperty.com</b>

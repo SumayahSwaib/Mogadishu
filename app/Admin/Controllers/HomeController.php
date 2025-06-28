@@ -45,7 +45,7 @@ class HomeController extends Controller
 
         // Header
         $content
-            ->title('MOGADISHU RESIDENCE - Dashboard')
+            ->title(env('APP_NAME') . ' - Dashboard')
             ->description('Hello ' . $user->username . '!');
 
 
@@ -81,7 +81,7 @@ class HomeController extends Controller
         $content->row(function (Row $row) {
             $row->column(12, function (Column $column) {
                 $column->append(view('widgets.dashboard-title', [
-                    'title'     => 'MOGADISHU RESIDENCE',
+                    'title'     => env('APP_NAME'),
                     'sub_title' => 'Dashboard',
                     'icon'      => 'fa fa-dashboard',
                     'color'     => 'bg-aqua',

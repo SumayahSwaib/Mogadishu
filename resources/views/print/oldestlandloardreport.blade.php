@@ -291,7 +291,7 @@ $sign = public_path('/sign.jpg');
 
         <div class=" text-center">
             <p class="p-0 m-0" class=" text-center" style="font-size: 2.5rem;color:rgb(12, 90, 12) ">  <strong><b>NDEGE ESTATE LIMITED</b></strong></p>
-            <p class="mt-1" style="font-size: 1.5rem;color:rgb(216, 30, 30)"><strong>&#40; Mogadishu Residence&#41;</strong> </p>
+            <p class="mt-1" style="font-size: 1.5rem;color:rgb(216, 30, 30)"><strong>&#40; {{ env('APP_NAME') }}&#41;</strong> </p>
             <p class="mt-1">P.O.BOX: <b>28044 - Kampala - Uganda</b> </p>
         </div>
       
