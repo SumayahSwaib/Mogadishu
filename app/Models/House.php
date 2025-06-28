@@ -15,7 +15,7 @@ class House extends Model
     protected $guarded = [];
 
 
-    /* public static function boot()
+    public static function boot()
     {
         parent::boot();
         self::creating(function ($m) {
@@ -23,7 +23,7 @@ class House extends Model
         });
         self::updating(function ($m) {
             return House::my_update($m);
-        }); 
+        });
         self::deleting(function ($m) {
             if ($m->id == 1) {
                 throw new Exception("You cannot delete this house.", 1);
@@ -33,27 +33,19 @@ class House extends Model
             ])->update([
                 'house_id' => 1
             ]);
-        }); 
+        });
     }
 
     public static function get_houses()
     {
         $houses = [];
         foreach (House::where([])->orderBy('name', 'asc')->get() as $key => $h) {
-            $houses[$h->id] = $h->name . " - " . $h->landload->name;
+            $houses[$h->id] = $h->name;
         }
         return $houses;
     }
 
-    public function landload()
-    {
-        $l = Landload::find($this->landload_id);
-        if ($l == null) {
-            $this->landload_id = 1;
-            $this->save();
-        }
-        return $this->belongsTo(Landload::class);
-    }
+
 
     public function rooms()
     {
@@ -77,16 +69,14 @@ class House extends Model
     {
         $minRoom = $this->rooms()->min('price');
         $maxRoom = $this->rooms()->max('price');
-        $priceRange = Utils::number_format($minRoom,'') . " - " . Utils::number_format($maxRoom,'');
+        $priceRange = Utils::number_format($minRoom, '') . " - " . Utils::number_format($maxRoom, '');
         return $priceRange;
     }
 
     public function getNameTextAttribute()
     {
         $name = $this->name;
-        if ($this->landload != null) {
-            $name .= ", " . $this->landload->name;
-        }
+
         return $name;
     }
 
@@ -106,9 +96,6 @@ class House extends Model
             return url('logo.jpg');
         }
         return $value;
-    }protected $appends = ['name_text'];
-     
-} 
- */
-
+    }
+    protected $appends = ['name_text'];
 }

@@ -3,287 +3,150 @@
 namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Association;
-use App\Models\Candidate;
-use App\Models\Garden;
-use App\Models\Group;
-use App\Models\Invoice;
-use App\Models\InvoiceItem;
-use App\Models\Location;
-use App\Models\Person;
-use App\Models\Product;
-use App\Models\Renting;
+use App\Models\House;
 use App\Models\Room;
 use App\Models\Tenant;
+use App\Models\Renting;
 use App\Models\TenantPayment;
-use App\Models\Utils;
 use Carbon\Carbon;
-use Encore\Admin\Auth\Database\Administrator;
-use Encore\Admin\Controllers\Dashboard;
 use Encore\Admin\Facades\Admin;
-use Encore\Admin\Layout\Column;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Layout\Row;
-use Faker\Factory as Faker;
-use Illuminate\Support\Facades\Auth;
-use SplFileObject;
+use Encore\Admin\Layout\Column;
 
 class HomeController extends Controller
 {
+    /**
+     * Display the dashboard.
+     *
+     * @param Content $content
+     * @return Content
+     */
     public function index(Content $content)
     {
+        // Current admin user
+        $user = Admin::user();
 
-        $u = Auth::user();
+        // Overall metrics
+        $totalRooms     = Room::count();
+        $occupiedRooms  = Room::where('status', 'Occupied')->count();
+        $vacantRooms    = Room::where('status', 'Vacant')->count();
+        $totalTenants   = Tenant::count();
+        $totalRentings  = Renting::count();
+        $totalPayments  = TenantPayment::sum('amount');
+
+        // Last 30 days
+        $periodEnd      = Carbon::now()->endOfDay();
+        $periodStart    = Carbon::now()->subDays(30)->startOfDay();
+        $newRooms       = Room::whereBetween('created_at', [$periodStart, $periodEnd])->count();
+        $newTenants     = Tenant::whereBetween('created_at', [$periodStart, $periodEnd])->count();
+        $newRentings    = Renting::whereBetween('start_date', [$periodStart, $periodEnd])->count();
+        $recentPayments = TenantPayment::whereBetween('created_at', [$periodStart, $periodEnd])->sum('amount');
+
+        // Header
         $content
             ->title('MOGADISHU RESIDENCE - Dashboard')
-            ->description('Hello ' . $u->username . "!");
-         
+            ->description('Hello ' . $user->username . '!');
 
 
-        $content->row(function (Row $row) {
-            $row->column(4, function (Column $column) {
-                $column->append(view('widgets.dashboard-groundfloor', [
-                   
-                    'rooms' => Room::where('floor', 'Floor1')->get()
-                ]));
-            });
-            $row->column(4, function (Column $column) {
-                $column->append(view('widgets.dashboard-floor1', [
-                    'rooms' => Room::where('floor', 'Floor2')->get()
-                    
-                ]));
-            });
-            $row->column(4, function (Column $column) {
-                $column->append(view('widgets.dashboard-floor2', [
-                    'rooms' => Room::where('floor', 'Floor3')->get()
-                   
-                ]));
-            });
-            
+
+
+
+        // Floor overview
+        $floors = [
+            'Floor1' => 'widgets.dashboard-groundfloor',
+            'Floor2' => 'widgets.dashboard-floor1',
+            'Floor3' => 'widgets.dashboard-floor2',
+            'Floor4' => 'widgets.dashboard-floor3',
+            'Floor5' => 'widgets.dashboard-floor4',
+            'Floor6' => 'widgets.dashboard-floor5',
+        ];
+
+
+
+
+        $content->row(function (Row $row) use ($floors) {
+            foreach ($floors as $floor => $view) {
+                $row->column(4, function (Column $column) use ($floor, $view) {
+                    $column->append(
+                        view($view, [
+                            'rooms' => Room::where('floor', $floor)->get(),
+                        ])
+                    );
+                });
+            }
         });
-        $content->row(function (Row $row) {
-            $row->column(4, function (Column $column) {
-                $column->append(view('widgets.dashboard-floor3', [
-                    'rooms' => Room::where('floor', 'Floor4')->get()
-                ]));
-            });
-            $row->column(4, function (Column $column) {
-                $column->append(view('widgets.dashboard-floor4', [
-                    'rooms' => Room::where('floor', 'Floor5')->get()
-                    
-                ]));
-            });
-            $row->column(4, function (Column $column) {
-                $column->append(view('widgets.dashboard-floor5', [
-                    'rooms' => Room::where('floor', 'Floor6')->get()
-                    
-                ]));
-            });
-           
-        });
-        // titlle
+
+        // Title widget
         $content->row(function (Row $row) {
             $row->column(12, function (Column $column) {
                 $column->append(view('widgets.dashboard-title', [
-                    'title' => 'MOGADISHU RESIDENCE',
+                    'title'     => 'MOGADISHU RESIDENCE',
                     'sub_title' => 'Dashboard',
-                    'icon' => 'fa fa-dashboard',
-                    'color' => 'bg-aqua'
+                    'icon'      => 'fa fa-dashboard',
+                    'color'     => 'bg-aqua',
                 ]));
             });
         });
-        
-        $content->row(function (Row $row) {
-         
-           
-          $row->column(2, function (Column $column) {
-                $column->append(view('widgets.dashboard-image', [
-                   
-                ]));
-            }); 
-            $row->column(2, function (Column $column) {
-                $column->append(view('widgets.dashboard-image1', [
-                    
-                ]));
-            }); 
-            $row->column(2, function (Column $column) {
-                $column->append(view('widgets.dashboard-image2', [
-                    
-                ]));
-            }); 
-            $row->column(2, function (Column $column) {
-                $column->append(view('widgets.dashboard-image3', [
-                    /* 'rooms' => Room::all(),
-                    'tenants' => Tenant::all(),
-                    'rentings' => Renting::all(),
-                    'payments' => TenantPayment::all() */
-                ]));
-            });
-            $row->column(2, function (Column $column) {
-                $column->append(view('widgets.dashboard-image4', [
-                    
-                ]));
-            });
-            $row->column(2, function (Column $column) {
-                $column->append(view('widgets.dashboard-image5', [
-                    
-                ]));
-            });
-           
-        });
 
-        
-        return $content;
+        // Load houses with rooms & their rentings
+        $houses = House::with([
+            'rooms' => function ($q) {
+                $q->orderBy('name');
+            },
+            'rooms.rentings'             // eager-load to avoid N+1
+        ])->get();
 
-        // end of the dashboard
-        $content->row(function (Row $row) {
-            $row->column(4, function (Column $column) {
-                $column->append(view('widgets.dashboard-floor1', [
-                    //'rooms' => Room::all()
-                    'rooms' => Room::where('floor', 'Floor1')->get()
-                ]));
-            });
-            $row->column(4, function (Column $column) {
-                $column->append(view('widgets.dashboard-floor2', [
-                    'rooms' => Room::where('floor', 'Floor2')->get()
-                    /* 'rooms' => Room::all(),
-                    'tenants' => Tenant::all(),
-                    'rentings' => Renting::all() */
-                ]));
-            });
-            $row->column(4, function (Column $column) {
-                $column->append(view('widgets.dashboard-floor3', [
-                    'rooms' => Room::where('floor', 'Floor2')->get()
-                    /* 'rooms' => Room::all(),
-                    'tenants' => Tenant::all(),
-                    'rentings' => Renting::all() */
-                ]));
-            });
-            /* $row->column(3, function (Column $column) {
-                $min = new Carbon();
-                $max = new Carbon();
-                $max->subDays(0);
-                $min->subDays((30));
+        // For each room, grab its latest renting (by end_date)
+        foreach ($houses as $house) {
+            foreach ($house->rooms as $room) {
+                $room->latest_renting = $room
+                    ->rentings
+                    ->sortByDesc('end_date')
+                    ->first();
+            }
+        }
 
-                $column->append(view('widgets.dashboard-this-month', [
-                    'rooms' => Room::whereBetween('created_at', [$min, $max])->get(),
-                    'tenants' => Tenant::whereBetween('created_at', [$min, $max])->get(),
-                    'rentings' => Renting::whereBetween('start_date', [$min, $max])->get(),
-                    'payments' => TenantPayment::whereBetween('created_at', [$min, $max])->get()
-                ]));
-            }); */
-            /* $row->column(3, function (Column $column) {
-                $column->append(view('widgets.dashboard-all-time', [
-                    'rooms' => Room::all(),
-                    'tenants' => Tenant::all(),
-                    'rentings' => Renting::all(),
-                    'payments' => TenantPayment::all()
-                ]));
-            }); */
-        });
-        $content->row(function (Row $row) {
-            $row->column(6, function (Column $column) {
-                $column->append(view('widgets.by-categories', []));
-            });
-            $row->column(6, function (Column $column) {
-
-                $column->append(view('widgets.by-districts', []));
-                // $column->append(Dashboard::dashboard_events());
+        // Inject our grid at the very top
+        $content->row(function (Row $row) use ($houses) {
+            $row->column(12, function (Column $col) use ($houses) {
+                $col->append(
+                    view('admin.dashboard.house-room-grid', compact('houses'))
+                );
             });
         });
 
+
+
+
+        // Key stats widgets
+        $content->row(function (Row $row) use (
+            $totalRooms,
+            $occupiedRooms,
+            $vacantRooms,
+            $totalTenants,
+            $totalRentings,
+            $totalPayments
+        ) {
+            $stats = [
+                ['count' => $totalRooms,    'label' => 'Total Rooms',       'view' => 'widgets.dashboard-image'],
+                ['count' => $occupiedRooms, 'label' => 'Occupied Rooms',    'view' => 'widgets.dashboard-image1'],
+                ['count' => $vacantRooms,   'label' => 'Vacant Rooms',      'view' => 'widgets.dashboard-image2'],
+                ['count' => $totalTenants,  'label' => 'Total Tenants',     'view' => 'widgets.dashboard-image3'],
+                ['count' => $totalRentings, 'label' => 'Total Rentings',    'view' => 'widgets.dashboard-image4'],
+                ['count' => $totalPayments, 'label' => 'Total Payments (UGX)', 'view' => 'widgets.dashboard-image5'],
+            ];
+
+            foreach ($stats as $stat) {
+                $row->column(2, function (Column $column) use ($stat) {
+                    $column->append(view($stat['view'], [
+                        'count' => $stat['count'],
+                        'label' => $stat['label'],
+                    ]));
+                });
+            }
+        });
 
         return $content;
-
-        $u = Admin::user();
-
-
-        $content->row(function (Row $row) {
-            $row->column(3, function (Column $column) {
-                $column->append(view('widgets.box-5', [
-                    'is_dark' => false,
-                    'title' => 'New members',
-                    'sub_title' => 'Joined 30 days ago.',
-                    'number' => number_format(rand(100, 600)),
-                    'link' => 'javascript:;'
-                ]));
-            });
-            $row->column(3, function (Column $column) {
-                $column->append(view('widgets.box-5', [
-                    'is_dark' => false,
-                    'title' => 'Products & Services',
-                    'sub_title' => 'All time.',
-                    'number' => number_format(rand(1000, 6000)),
-                    'link' => 'javascript:;'
-                ]));
-            });
-            $row->column(3, function (Column $column) {
-                $column->append(view('widgets.box-5', [
-                    'is_dark' => false,
-                    'title' => 'Job oppotunities',
-                    'sub_title' => rand(100, 400) . ' jobs posted 7 days ago.',
-                    'number' => number_format(rand(1000, 6000)),
-                    'link' => 'javascript:;'
-                ]));
-            });
-            $row->column(3, function (Column $column) {
-                $column->append(view('widgets.box-5', [
-                    'is_dark' => true,
-                    'title' => 'System traffic',
-                    'sub_title' => rand(100, 400) . ' mobile app, ' . rand(100, 300) . ' web browser.',
-                    'number' => number_format(rand(100, 6000)),
-                    'link' => 'javascript:;'
-                ]));
-            });
-        });
-
-
-
-
-        $content->row(function (Row $row) {
-            $row->column(6, function (Column $column) {
-                $column->append(view('widgets.by-categories', []));
-            });
-            $row->column(6, function (Column $column) {
-                $column->append(view('widgets.by-districts', []));
-            });
-        });
-
-
-
-        $content->row(function (Row $row) {
-            $row->column(6, function (Column $column) {
-                $column->append(Dashboard::dashboard_members());
-            });
-            $row->column(3, function (Column $column) {
-                $column->append(Dashboard::dashboard_events());
-            });
-            $row->column(3, function (Column $column) {
-                $column->append(Dashboard::dashboard_news());
-            });
-        });
-
-
-
-
-        return $content;
-        return $content
-            ->title('Dashboard')
-            ->description('Description...')
-            ->row(Dashboard::title())
-            ->row(function (Row $row) {
-
-                $row->column(4, function (Column $column) {
-                    $column->append(Dashboard::environment());
-                });
-
-                $row->column(4, function (Column $column) {
-                    $column->append(Dashboard::extensions());
-                });
-
-                $row->column(4, function (Column $column) {
-                    $column->append(Dashboard::dependencies());
-                });
-            });
     }
 }

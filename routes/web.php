@@ -169,7 +169,12 @@ Route::get('landlord-report-1', function () {
     /* $buldings = [];
     $buldings_ids = []; */
 
+    $expenses = \App\Models\Expense::where([])
+        ->whereBetween('expense_date', [$start_date, $end_date])
+        ->orderBy('id', 'DESC')
+        ->get();
 
+    $totalExpenses = $expenses->sum('amount');
 
     $rentings = Renting::where([])->orderBy('start_date', 'ASC')
         /* ->whereBetween('start_date', [$start_date, $end_date]) */
@@ -192,7 +197,7 @@ Route::get('landlord-report-1', function () {
         ->orderBy('id', 'DESC')
         ->get();
 
-    foreach ($tenantPayments as $renting) { 
+    foreach ($tenantPayments as $renting) {
         $total_income += $renting->amount_paid;
     }
 
@@ -209,7 +214,9 @@ Route::get('landlord-report-1', function () {
         'report',
         'start_date',
         'isView',
-        'end_date'
+        'end_date',
+        'expenses',
+        'totalExpenses',
     );
 
     $pdf = App::make('dompdf.wrapper');

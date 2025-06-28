@@ -13,7 +13,10 @@ class Renting extends Model
 
 
     protected $appends = [
-        'name_text', 'name_text2', 'amount_paid', 'commission_amount',
+        'name_text',
+        'name_text2',
+        'amount_paid',
+        'commission_amount',
         'landlord_amount',
         'last_payment_date',
         'last_payment_amount',
@@ -65,7 +68,7 @@ class Renting extends Model
         //calculate amount_paid
         $amount_paid = $this->payments->sum('amount');
         $room_price = $this->room->price;
-        if($room_price == 0){
+        if ($room_price == 0) {
             return 0;
         }
 
@@ -106,8 +109,13 @@ class Renting extends Model
             if ($room == null) {
                 throw new Exception("House not found while billing.", 1);
             }
+
+            //check room of is vacant
+            if ($room->status != 'Vacant') {
+                throw new Exception("This room is not vacant. Please select a vacant room.", 1);
+            }
+
             $m =  Renting::my_update($m);
-            $m->landload_id =  $room->landload_id;
 
             return $m;
         });

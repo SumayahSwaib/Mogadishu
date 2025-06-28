@@ -1,7 +1,7 @@
 php artisan make:migration create_landloads_table
 php artisan make:migration create_houses_table
 
-php artisan make:migration add_targets_to_land_lord_reports_table --table=land_lord_reports
+php artisan make:migration add_garbage_fee_to_rentings --table=rentings
 
 
 activity_name
@@ -110,7 +110,7 @@ php artisan admin:make RoomController --model=App\Models\Room
 php artisan admin:make TenantController --model=App\Models\Tenant
 php artisan admin:make LandloadPaymentController --model=App\Models\LandloadPayment
 php artisan admin:make TenantPaymentController --model=App\Models\TenantPayment
-php artisan admin:make LandLordReportController --model=App\\Models\\LandLordReport
+php artisan admin:make ExpenseController --model=App\\Models\\Expense
 
 php artisan make:model TenantPayment
 php artisan make:model check
@@ -167,4 +167,5 @@ php artisan make:model Quotation
 php artisan make:model invoiceItem
 php artisan make:model Delivery
 php artisan make:model DeliveryItem
-php artisan make:model LandLordReport -m
+php artisan make:model Expense -m
+php artisan make:model Expense -m

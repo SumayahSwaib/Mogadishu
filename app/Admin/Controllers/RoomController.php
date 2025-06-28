@@ -31,15 +31,14 @@ class RoomController extends AdminController
     {
         $grid = new Grid(new Room());
 
-        // $grid->disableCreateButton();
-        
-         
-        //disable only delete on the actions
-         $grid->actions(function ($actions) {
-                $actions->disableView();
-               $actions->disableDelete();
+        $grid->disableCreateButton();
 
-               }); 
+
+        //disable only delete on the actions
+        $grid->actions(function ($actions) {
+            $actions->disableView();
+            $actions->disableDelete();
+        });
 
 
 
@@ -335,12 +334,16 @@ class RoomController extends AdminController
             ->default('Ready')
             ->rules('required');
 
-        $form->radio('status', __('Room Availabity'))->options([
+        if ($form->isCreating()) {
+            $form->hidden('state')->default('Vacant');
+        }
+
+        /* $form->radio('status', __('Room Availabity'))->options([
             'Occupied' => 'Occupied',
             'Vacant' => 'Vacant',
         ])
             ->default('Vacant')
-            ->rules('required');
+            ->rules('required'); */
         $form->radio('is_active', __('Room Is Active'))->options([
             'Yes' => 'Yes',
             'No' => 'No',

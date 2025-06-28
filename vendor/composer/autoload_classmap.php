@@ -89,6 +89,7 @@ return array(
     'App\\Models\\AdminRoleUser' => $baseDir . '/app/Models/AdminRoleUser.php',
     'App\\Models\\Delivery' => $baseDir . '/app/Models/Delivery.php',
     'App\\Models\\DeliveryItem' => $baseDir . '/app/Models/DeliveryItem.php',
+    'App\\Models\\Expense' => $baseDir . '/app/Models/Expense.php',
     'App\\Models\\House' => $baseDir . '/app/Models/House.php',
     'App\\Models\\Invoice' => $baseDir . '/app/Models/Invoice.php',
     'App\\Models\\InvoiceItem' => $baseDir . '/app/Models/InvoiceItem.php',

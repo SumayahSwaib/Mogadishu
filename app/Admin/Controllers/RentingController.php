@@ -29,11 +29,12 @@ class RentingController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new Renting());
+        $grid->disableCreateButton();
 
         $grid->filter(function ($filter) {
             // Remove the default id filter
             $filter->disableIdFilter();
-           /*  $filter->equal('landload_id', 'Filter by landlord')
+            /*  $filter->equal('landload_id', 'Filter by landlord')
                 ->select(
                     Landload::where([])->orderBy('name', 'Asc')->get()->pluck('name', 'id')
                 ); */
@@ -64,7 +65,7 @@ class RentingController extends AdminController
             return Utils::my_date_4($x);
         })->sortable();
 
-       /*  $grid->column('house_id', __('House'))
+        /*  $grid->column('house_id', __('House'))
             ->display(function ($x) {
                 return $this->house->name;
             })
@@ -76,7 +77,7 @@ class RentingController extends AdminController
             })->sortable();
         $grid->column('tenant_id', __('Tenant'))
             ->display(function ($x) {
-                return $this->tenant->name; 
+                return $this->tenant->name;
             })->sortable();
         $grid->column('start_date', __('Start date'))->sortable();
         $grid->column('end_date', __('End date'))
@@ -100,6 +101,21 @@ class RentingController extends AdminController
             ->totalRow(function ($x) {
                 return  number_format($x);
             })->sortable();
+        //security_fee
+        $grid->column('security_fee', __('Security Fee (UGX)'))
+            ->display(function ($x) {
+                return number_format($x);
+            })->totalRow(function ($x) {
+                return  number_format($x);
+            })->sortable();
+
+        //garbage_fee
+        $grid->column('garbage_fee', __('Garbage Fee (UGX)'))
+            ->display(function ($x) {
+                return number_format($x);
+            })->totalRow(function ($x) {
+                return  number_format($x);
+            })->sortable();
 
         $grid->column('receipts', __('Receipts (UGX)'))
             ->display(function ($x) {
@@ -115,8 +131,8 @@ class RentingController extends AdminController
             })->totalRow(function ($x) {
                 return  number_format($x);
             })->sortable();
-       
-     
+
+
 
         /* $grid->column('landload_id', __('Landlord'))->display(function ($x) {
             $loc = Landload::find($x);
@@ -125,7 +141,7 @@ class RentingController extends AdminController
             }
             return $x;
         })->sortable(); */
- 
+
         $grid->column('invoice_status', __('STATUS'))
             ->filter(['Active' => 'Active', 'Not Active' => 'Not Active'])
             ->label([
@@ -134,8 +150,8 @@ class RentingController extends AdminController
             ])->sortable();
         $grid->column('is_in_house', __('In House'))->hide();
         $grid->column('remarks', __('Remarks'))->editable();
-       
-        
+
+
 
         /* 
 
@@ -194,9 +210,32 @@ invoice_as_been_billed
         die("done");  */
 
         if ($form->isCreating()) {
-            $form->select('room_id', __('Appartment'))->options(Room::get_ready_rooms())
-                ->rules('required')
-                ->required();
+
+            $room_id = request()->get('room_id');
+            $room = null;
+            if ($room_id != null) {
+                $room = Room::find($room_id);
+            }
+
+            if ($room != null) {
+
+                //if room not vacant, then redirect to room list
+                if ($room->status != 'Vacant') {
+                    admin_error("Room '{$room->name}' is not vacant, please select another room.", 'error');
+                    return redirect(admin_url('rooms'));
+                }
+
+                $form->hidden('room_id')->default($room->id);
+                $form->display('room_name', __('Appartment'))->default(
+                    "#" . $room->id . " - " . $room->name . ", " . $room->house->name . " - UGX " . number_format($room->price)
+                );
+            } else {
+                $form->select('room_id', __('Appartment'))->options(Room::get_all_rooms())
+                    ->rules('required')
+                    ->required();
+            }
+
+
             $form->select('tenant_id', __('Tenant'))->options(Tenant::get_items())
                 ->rules('required')
                 ->required();
@@ -238,8 +277,18 @@ invoice_as_been_billed
             ->rules('required')
             ->default('Active');
 
-       
+        //security_fee
+        $form->decimal('security_fee', __('Security Fee (UGX)'))
+            ->rules('required')
+            ->required()
+            ->help('This is the security fee for the room, it is refundable at the end of the renting period. Terms and conditions apply.');
 
+        //garbage_fee
+        $form->decimal('garbage_fee', __('Garbage Fee (UGX)'))
+            ->default(0)
+            ->rules('required')
+            ->required()
+            ->help('This is the garbage fee for the room, it is not refundable. It is used to cover the cost of garbage collection and disposal.');
         return $form;
     }
 }
