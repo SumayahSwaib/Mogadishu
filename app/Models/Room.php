@@ -5,6 +5,7 @@ namespace App\Models;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Room extends Model
 {
@@ -27,13 +28,13 @@ class Room extends Model
             return Room::my_update($m);
         });
         self::deleting(function ($m) {
-             if ($m->id == 1) {
+            if ($m->id == 1) {
                 throw new Exception("You cannot delete this room.", 1);
-            } 
+            }
         });
     }
 
-    
+
     /**
      * Updates the given model by setting its landload_id, region_id, and area_id
      * based on the corresponding values from the associated House model.
@@ -44,7 +45,7 @@ class Room extends Model
      */
     public static function my_update($m)
     {
-/* 
+        /* 
         $house = House::find($m->house_id);
         if ($house == null) {
             throw new Exception("House not found.", 1);
@@ -70,8 +71,10 @@ class Room extends Model
     public static function get_ready_rooms()
     {
         $houses = [];
-        foreach (Room::where(['status' => 'Vacant'])
-            ->orderBy('name', 'asc')->get() as $key => $room) {
+        foreach (
+            Room::where(['status' => 'Vacant'])
+                ->orderBy('name', 'asc')->get() as $key => $room
+        ) {
             $houses[$room->id] = "#" . $room->id . " - " . $room->name . ", " . $room->house->name . " - UGX " . number_format($room->price);
         }
         return $houses;
@@ -79,8 +82,10 @@ class Room extends Model
     public static function get_all_rooms()
     {
         $houses = [];
-        foreach (Room::where([])
-            ->orderBy('name', 'asc')->get() as $key => $room) {
+        foreach (
+            Room::where([])
+                ->orderBy('name', 'asc')->get() as $key => $room
+        ) {
             $houses[$room->id] = "#" . $room->id . " - " . $room->name . ", " . $room->house->name . " - UGX " . number_format($room->price);
         }
         return $houses;
@@ -88,13 +93,26 @@ class Room extends Model
     public static function get_vacant_rooms()
     {
         $houses = [];
-        foreach (Room::where([
-            'status' => 'Vacant'
-        ])
-            ->orderBy('name', 'asc')->get() as $key => $room) {
+        foreach (
+            Room::where([
+                'status' => 'Vacant'
+            ])
+                ->orderBy('name', 'asc')->get() as $key => $room
+        ) {
             $houses[$room->id] = "#" . $room->id . " - " . $room->name . ", " . $room->house->name . " - UGX " . number_format($room->price);
         }
         return $houses;
+    }
+
+    //status attribute
+    public function getStatusAttribute($value)
+    {
+        if (!in_array($value, ['Vacant', 'Occupied',])) {
+            $sql = 'UPDATE rooms SET status = ? WHERE id = ?';
+            DB::update($sql, ['Vacant', $this->id]);
+            $value = 'Vacant'; // reset to Vacant if status is not recognized 
+        }
+        return $value;
     }
 
     public function house()
@@ -108,7 +126,7 @@ class Room extends Model
     }
     public function rentings()
     {
-        return $this->hasMany(Renting::class,'room_id');
+        return $this->hasMany(Renting::class, 'room_id');
     }
 
 
