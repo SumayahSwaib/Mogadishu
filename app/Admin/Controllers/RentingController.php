@@ -29,7 +29,7 @@ class RentingController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new Renting());
-        $grid->disableCreateButton();
+        // $grid->disableCreateButton();
 
         $grid->filter(function ($filter) {
             // Remove the default id filter
