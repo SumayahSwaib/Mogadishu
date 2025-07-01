@@ -125,7 +125,7 @@ class ExpenseController extends AdminController
             'Garbage Collectors'             => 'Garbage Collectors',
             'Others'                         => 'Others',
         ])->rules('required');
-        $form->textarea('description', 'Description')->rows(3)->rules('required');
+        $form->textarea('description', 'Description')->rows(3);
         $form->decimal('amount', 'Amount (UGX)')->rules('required|numeric|min:0');
         $form->date('expense_date', 'Expense date')->default(date('Y-m-d'))->rules('required|date');
 

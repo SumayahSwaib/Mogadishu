@@ -61,6 +61,28 @@ class Renting extends Model
         return $last_payment->amount;
     }
 
+    //days_remaining
+    public function getDaysRemainingAttribute()
+    {
+
+
+        if ($this->end_date == null) {
+            return 0;
+        }
+        if (strlen($this->end_date) < 5) {
+            return 0;
+        }
+        $end_date = Carbon::parse($this->end_date);
+        $now = Carbon::now();
+        if ($now->gt($end_date)) {
+            //diff with negative days 
+            $days_remaining = $end_date->diffInDays($now) * -1;
+            return $days_remaining . (' Overstay');
+        }
+        $days_remaining = $end_date->diffInDays($now);
+        return $days_remaining . (' Days Remaining');
+    }
+
     //getter for months_paid
     public function getMonthsPaidAttribute()
     {

@@ -230,7 +230,7 @@ invoice_as_been_billed
                     "#" . $room->id . " - " . $room->name . ", " . $room->house->name . " - UGX " . number_format($room->price)
                 );
             } else {
-                $form->select('room_id', __('Appartment'))->options(Room::get_all_rooms())
+                $form->select('room_id', __('Appartment'))->options(Room::get_vacant_rooms())
                     ->rules('required')
                     ->required();
             }

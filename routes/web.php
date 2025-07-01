@@ -177,7 +177,7 @@ Route::get('landlord-report-1', function () {
     $totalExpenses = $expenses->sum('amount');
 
     $rentings = Renting::where([])->orderBy('start_date', 'ASC')
-        /* ->whereBetween('start_date', [$start_date, $end_date]) */
+        ->whereBetween('start_date', [$start_date, $end_date])
         ->get();
     /* $is_overstay = Renting::where(['is_overstay'=>'Yes'])->orderBy('start_date', 'ASC')
     ->whereBetween('start_date', [$start_date, $end_date])
@@ -197,6 +197,7 @@ Route::get('landlord-report-1', function () {
         ->orderBy('id', 'DESC')
         ->get();
 
+        
     foreach ($tenantPayments as $renting) {
         $total_income += $renting->amount_paid;
     }

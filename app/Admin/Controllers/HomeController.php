@@ -100,6 +100,9 @@ class HomeController extends Controller
         // For each room, grab its latest renting (by end_date)
         foreach ($houses as $house) {
             foreach ($house->rooms as $room) {
+                if($room->latest_renting == null) {
+                    $room->latest_renting = null;
+                }
                 $room->latest_renting = $room
                     ->rentings
                     ->sortByDesc('end_date')

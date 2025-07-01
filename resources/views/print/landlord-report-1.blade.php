@@ -137,6 +137,7 @@
                 <th>S/N</th>
                 <th>Date</th>
                 <th>Tenant</th>
+                <th>Remaining Days</th>
                 <th>Amount</th>
                 <th>Security Fee</th>
                 <th>Room</th>
@@ -162,6 +163,7 @@
                     <td>{{ $i }}</td>
                     <td>{{ Utils::my_date($trans->created_at) }}</td>
                     <td>{{ optional($trans->tenant)->name ?? 'N/A' }}</td>
+                    <td>{{ $trans->renting->days_remaining }}</td>
                     <td style="text-align:right;">{{ number_format($amt) }}</td>
                     <td style="text-align:right;">({{ number_format($fee) }})</td>
                     <td>{{ optional(optional($trans->renting)->room)->name ?? 'N/A' }}</td>
@@ -204,30 +206,37 @@
         <p class="text-center mt-2">No expenses recorded for this period.</p>
     @endif
 
-    <div class="summary">
+    <section class="summary">
         <h3>Summary</h3>
-        <div class="detail-item">
-            <span class="label">Total Income:</span>
-            <span class="value text-success">UGX {{ number_format($totalIncome) }}</span>
-        </div>
-        <div class="detail-item">
-            <span class="label">Total Security Fees:</span>
-            <span class="value text-info">UGX {{ number_format($totalSecurityFee) }}</span>
-        </div>
-        <div class="detail-item">
-            <span class="label">Total Balance:</span>
-            <span class="value text-primary">UGX {{ number_format($totalBalance) }}</span>
-        </div>
-
-        <div class="detail-item">
-            <span class="label">Total Expenses:</span>
-            <span class="value text-danger">UGX {{ number_format($totalExpenses) }}</span>
-        </div>
-        <div class="detail-item">
-            <span class="label">Total Expense:</span>
-            <span class="value text-danger">UGX {{ number_format($report->total_expense) }}</span>
-        </div>
-    </div>
+        <table style="width:100%; border:none; background:transparent; font-size:inherit;">
+            <tr>
+                <td class="label" style="font-weight:600; border:none; padding:0.2rem 0;">Total Rent Collected:</td>
+                <td class="value text-success" style="font-weight:700; text-align:right; border:none; padding:0.2rem 0;">UGX {{ number_format($totalIncome) }}</td>
+            </tr>
+            <tr>
+                <td class="label" style="font-weight:600; border:none; padding:0.2rem 0;">Total Security Fees:</td>
+                <td class="value text-info" style="font-weight:700; text-align:right; border:none; padding:0.2rem 0;">UGX {{ number_format($totalSecurityFee) }}</td>
+            </tr>
+            <tr>
+                <td class="label" style="font-weight:600; border:none; padding:0.2rem 0;">Total Income:</td>
+                <td class="value text-primary" style="font-weight:700; text-align:right; border:none; padding:0.2rem 0;">UGX {{ number_format($totalIncome + $totalSecurityFee) }}</td>
+            </tr>
+            <tr>
+                <td colspan="2" style="border:none; padding:0;"><hr style="margin:0.4rem 0;"></td>
+            </tr>
+            <tr>
+                <td class="label" style="font-weight:600; border:none; padding:0.2rem 0;">Total Expenses:</td>
+                <td class="value text-danger" style="font-weight:700; text-align:right; border:none; padding:0.2rem 0;">UGX {{ number_format($totalExpenses) }}</td>
+            </tr>
+            <tr>
+                <td colspan="2" style="border:none; padding:0;"><hr style="margin:0.4rem 0;"></td>
+            </tr>
+            <tr>
+                <td class="label" style="font-weight:600; border:none; padding:0.2rem 0;">Total Balance:</td>
+                <td class="value text-danger" style="font-weight:700; text-align:right; border:none; padding:0.2rem 0;">UGX {{ number_format($totalIncome + $totalSecurityFee - $totalExpenses) }}</td>
+            </tr>
+        </table>
+    </section>
 
 </body>
 

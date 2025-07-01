@@ -85,6 +85,17 @@ class Room extends Model
         }
         return $houses;
     }
+    public static function get_vacant_rooms()
+    {
+        $houses = [];
+        foreach (Room::where([
+            'status' => 'Vacant'
+        ])
+            ->orderBy('name', 'asc')->get() as $key => $room) {
+            $houses[$room->id] = "#" . $room->id . " - " . $room->name . ", " . $room->house->name . " - UGX " . number_format($room->price);
+        }
+        return $houses;
+    }
 
     public function house()
     {
