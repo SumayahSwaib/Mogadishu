@@ -18,9 +18,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Favicon and Touch Icons -->
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ url('') }}/assets/images/Mogadishuresidencelogo.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ url('') }}/assets/images/Mogadishuresidencelogo.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ url('') }}/assets/images/Mogadishuresidencelogo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url('') }}/assets/images/mogadishu.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url('') }}/assets/images/mogadishu.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url('') }}/assets/images/mogadishu.png">
     <link rel="manifest" href="{{ url('') }}/assets/favicon/site.webmanifest">
     <link rel="mask-icon" href="{{ url('') }}/assets/img/logo.jpg" color="#6366f1">
     <link rel="shortcut icon" href="{{ url('') }}/assets/img/logo.jpg">
