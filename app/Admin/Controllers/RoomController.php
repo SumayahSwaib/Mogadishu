@@ -20,7 +20,7 @@ class RoomController extends AdminController
      *
      * @var string
      */
-    protected $title = 'Appartments';
+    protected $title = 'Rooms - Appartments';
 
     /**
      * Make a grid builder.
@@ -109,7 +109,9 @@ class RoomController extends AdminController
         $grid->column('name', __('Appartment Number'))
             ->editable()
             ->sortable();
-        $grid->column('floor', __('Floor'))->sortable();
+        $uniqur_floor = Room::distinct()->pluck('floor','floor')->toArray();
+        $grid->column('floor', __('Floor'))->sortable()
+            ->filter($uniqur_floor); 
 
 
         /* $grid->column('house_id', __('Estate'))
