@@ -140,6 +140,7 @@
                 <th>Remaining Days</th>
                 <th>Amount</th>
                 <th>Security Fee</th>
+                <th>Garbage Fee</th>
                 <th>Room</th>
                 <th>Balance</th>
             </tr>
@@ -149,12 +150,15 @@
                 $i = 0;
                 $totalIncome = 0;
                 $totalBalance = 0;
+                $total_garbage_fee = 0;
             @endphp
             @foreach ($tenantPayments as $trans)
                 @php
                     $i++;
                     $amt = $trans->amount;
                     $fee = optional($trans->renting)->security_fee ?? 0;
+                    $garbage_fee = optional($trans->renting)->garbage_fee ?? 0;
+                    $total_garbage_fee += $garbage_fee;
                     $bal = optional($trans->renting)->balance ?? 0;
                     $totalIncome += $amt;
                     $totalBalance += $bal;
@@ -166,6 +170,7 @@
                     <td>{{ $trans->renting->days_remaining }}</td>
                     <td style="text-align:right;">{{ number_format($amt) }}</td>
                     <td style="text-align:right;">({{ number_format($fee) }})</td>
+                    <td style="text-align:right;">({{ number_format($garbage_fee) }})</td>
                     <td>{{ optional(optional($trans->renting)->room)->name ?? 'N/A' }}</td>
                     <td style="text-align:right;">{{ number_format($bal) }}</td>
                 </tr>
@@ -211,29 +216,48 @@
         <table style="width:100%; border:none; background:transparent; font-size:inherit;">
             <tr>
                 <td class="label" style="font-weight:600; border:none; padding:0.2rem 0;">Total Rent Collected:</td>
-                <td class="value text-success" style="font-weight:700; text-align:right; border:none; padding:0.2rem 0;">UGX {{ number_format($totalIncome) }}</td>
+                <td class="value text-success"
+                    style="font-weight:700; text-align:right; border:none; padding:0.2rem 0;">UGX
+                    {{ number_format($totalIncome) }}</td>
             </tr>
             <tr>
                 <td class="label" style="font-weight:600; border:none; padding:0.2rem 0;">Total Security Fees:</td>
-                <td class="value text-info" style="font-weight:700; text-align:right; border:none; padding:0.2rem 0;">UGX {{ number_format($totalSecurityFee) }}</td>
+                <td class="value text-info" style="font-weight:700; text-align:right; border:none; padding:0.2rem 0;">
+                    UGX {{ number_format($totalSecurityFee) }}</td>
             </tr>
+            {{-- garbage_fee --}}
+            <tr>
+                <td class="label" style="font-weight:600; border:none; padding:0.2rem 0;">Total Garbage Fees:</td>
+                <td class="value text-info" style="font-weight:700; text-align:right; border:none; padding:0.2rem 0;">
+                    UGX {{ number_format($total_garbage_fee) }}</td>
+            </tr>
+
             <tr>
                 <td class="label" style="font-weight:600; border:none; padding:0.2rem 0;">Total Income:</td>
-                <td class="value text-primary" style="font-weight:700; text-align:right; border:none; padding:0.2rem 0;">UGX {{ number_format($totalIncome + $totalSecurityFee) }}</td>
+                <td class="value text-primary"
+                    style="font-weight:700; text-align:right; border:none; padding:0.2rem 0;">UGX
+                    {{ number_format($totalIncome + $totalSecurityFee + $total_garbage_fee) }}</td>
             </tr>
             <tr>
-                <td colspan="2" style="border:none; padding:0;"><hr style="margin:0.4rem 0;"></td>
+                <td colspan="2" style="border:none; padding:0;">
+                    <hr style="margin:0.4rem 0;">
+                </td>
             </tr>
             <tr>
                 <td class="label" style="font-weight:600; border:none; padding:0.2rem 0;">Total Expenses:</td>
-                <td class="value text-danger" style="font-weight:700; text-align:right; border:none; padding:0.2rem 0;">UGX {{ number_format($totalExpenses) }}</td>
+                <td class="value text-danger" style="font-weight:700; text-align:right; border:none; padding:0.2rem 0;">
+                    UGX {{ number_format($totalExpenses) }}</td>
             </tr>
             <tr>
-                <td colspan="2" style="border:none; padding:0;"><hr style="margin:0.4rem 0;"></td>
+                <td colspan="2" style="border:none; padding:0;">
+                    <hr style="margin:0.4rem 0;">
+                </td>
             </tr>
             <tr>
                 <td class="label" style="font-weight:600; border:none; padding:0.2rem 0;">Total Balance:</td>
-                <td class="value text-danger" style="font-weight:700; text-align:right; border:none; padding:0.2rem 0;">UGX {{ number_format($totalIncome + $totalSecurityFee - $totalExpenses) }}</td>
+                <td class="value text-danger" style="font-weight:700; text-align:right; border:none; padding:0.2rem 0;">
+                    UGX {{ number_format($totalIncome + $totalSecurityFee + $total_garbage_fee - $totalExpenses) }}
+                </td>
             </tr>
         </table>
     </section>
