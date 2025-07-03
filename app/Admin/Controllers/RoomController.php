@@ -7,6 +7,7 @@ use App\Models\House;
 use App\Models\Landload;
 use App\Models\Location;
 use App\Models\Room;
+use App\Models\Utils;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
@@ -109,9 +110,9 @@ class RoomController extends AdminController
         $grid->column('name', __('Appartment Number'))
             ->editable()
             ->sortable();
-        $uniqur_floor = Room::distinct()->pluck('floor','floor')->toArray();
+        $uniqur_floor = Room::distinct()->pluck('floor', 'floor')->toArray();
         $grid->column('floor', __('Floor'))->sortable()
-            ->filter($uniqur_floor); 
+            ->filter($uniqur_floor);
 
 
         /* $grid->column('house_id', __('Estate'))
@@ -186,7 +187,7 @@ class RoomController extends AdminController
             ->display(function ($x) {
                 $x = $this->rentings->sum('payable_amount');
                 $x = number_format($x);
-                return '<a target="_blank" title="View These Invoices" class="d-block text-left  text-primary" style="font-size: 16px; text-align: center;" href="' . admin_url('rentings?room_id=' . $this->id) . '" ><b>' . $x . '</b></a>';
+                return '<a target="_blank" title="View These Invoices" class="d-block text-left  " style="font-size: 16px; text-align: center;" href="' . admin_url('rentings?room_id=' . $this->id) . '" ><b>' . $x . '</b></a>';
             });
         $grid->column('remarks', __('Remarks'))->sortable()->hide()->editable();
 
@@ -247,15 +248,10 @@ class RoomController extends AdminController
             ->options(House::get_houses())
             ->rules('required'); */
         $form->text('name', __('Appartment Number'))->rules('required');
+        $floors = Utils::get_floors();
         $form->select('floor', __('Floor'))
-            ->options([
-                'Floor1' => 'Floor 1',
-                'Floor2' => 'Floor 2',
-                'Floor3' => 'Floor 3',
-                'Floor4' => 'Floor 4',
-                'Floor5' => 'Floor 5',
-                'Floor6' => 'Floor 6',
-            ])->rules('required');
+            ->options($floors)
+            ->rules('required');
 
         /*
         $form->decimal('bed_rooms', __('Number of Bed rooms'))->rules('required');

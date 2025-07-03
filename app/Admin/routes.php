@@ -74,6 +74,7 @@ Route::group([
     $router->resource('products', ProductController::class);
     $router->resource('product-orders', ProductOrderController::class);
     $router->resource('land-lord-reports', LandLordReportController::class);
+    $router->resource('floors', FloorController::class);
 
 
     $router->resource('expenses', ExpenseController::class);

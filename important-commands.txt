@@ -1,7 +1,7 @@
 php artisan make:migration create_landloads_table
 php artisan make:migration create_houses_table
 
-php artisan make:migration add_garbage_fee_to_rentings --table=rentings
+php artisan make:migration add_range_to_floors --table=floors
 
 
 activity_name
@@ -66,7 +66,7 @@ php artisan make:migration create_tenant_payments_table
 
 Encore\Admin\Auth\Database\Administrator::class,
 php artisan admin:make FormSr4Controller --model=App\FormSr4
-php artisan admin:make ParticipantController --model=App\\Job
+php artisan admin:make FloorController --model=App\\Models\\Floor
 
 php artisan admin:controller --model=App\FormSr4
 php artisan admin:make FormSr4Controller --model=App\FormSr4

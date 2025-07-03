@@ -8,7 +8,9 @@ use App\Models\Room;
 use App\Models\Tenant;
 use App\Models\Renting;
 use App\Models\TenantPayment;
+use App\Models\Utils;
 use Carbon\Carbon;
+use Dflydev\DotAccessData\Util;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Layout\Row;
@@ -50,27 +52,18 @@ class HomeController extends Controller
 
 
 
+        // Get all unique floors from rooms
+        $floors = Utils::get_floors();
 
-
-        // Floor overview
-        $floors = [
-            'Floor1' => 'widgets.dashboard-groundfloor',
-            'Floor2' => 'widgets.dashboard-floor1',
-            'Floor3' => 'widgets.dashboard-floor2',
-            'Floor4' => 'widgets.dashboard-floor3',
-            'Floor5' => 'widgets.dashboard-floor4',
-            'Floor6' => 'widgets.dashboard-floor5',
-        ];
-
-
-
-
+        // Floor overview using a single widget view
         $content->row(function (Row $row) use ($floors) {
-            foreach ($floors as $floor => $view) {
-                $row->column(4, function (Column $column) use ($floor, $view) {
+            foreach ($floors as $floor) {
+                $row->column(4, function (Column $column) use ($floor) {
+                    $rooms = Room::where('floor', $floor)->get();
                     $column->append(
-                        view($view, [
-                            'rooms' => Room::where('floor', $floor)->get(),
+                        view('widgets.dashboard-floor-overview', [
+                            'floor' => $floor,
+                            'rooms' => $rooms,
                         ])
                     );
                 });
@@ -100,7 +93,7 @@ class HomeController extends Controller
         // For each room, grab its latest renting (by end_date)
         foreach ($houses as $house) {
             foreach ($house->rooms as $room) {
-                if($room->latest_renting == null) {
+                if ($room->latest_renting == null) {
                     $room->latest_renting = null;
                 }
                 $room->latest_renting = $room

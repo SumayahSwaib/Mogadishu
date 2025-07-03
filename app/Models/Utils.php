@@ -14,6 +14,25 @@ class Utils extends Model
     use HasFactory;
 
     //static ent
+    public static function get_floors()
+    {
+        $unique_floor = Room::distinct()->pluck('floor', 'floor')->toArray();
+        $floors = [];
+        foreach ($unique_floor as $key => $value) {
+            $floor = Floor::where(['name' => $value])->first();
+            if ($floor == null) {
+                $floor = new Floor();
+                $floor->name = $value;
+                $floor->save();
+                $floor = Floor::where(['name' => $value])->first();
+                if ($floor == null) {
+                    continue; // skip if floor not found
+                }
+            }
+            $floors[$floor->name] = $floor->name;
+        }
+        return $floors;
+    }
     public static function ent()
     {
         $colors = [
@@ -38,7 +57,7 @@ class Utils extends Model
         $colour = $colors[rand(0, 15)];
 
         if (env('APP_NAME') == 'Mogadishu Residence') {
-            $colour = $colors[4]; // red for development environment
+            $colour = $colors[10]; // red for development environment
         } else if (env('APP_NAME') == 'Lubiri Apartments') {
             $colour = $colors[8]; // blue for live environment
         } else if (env('APP_NAME') == 'Rubaga Apartments') {
