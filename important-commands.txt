@@ -1,7 +1,7 @@
 php artisan make:migration create_landloads_table
 php artisan make:migration create_houses_table
 
-php artisan make:migration add_range_to_floors --table=floors
+php artisan make:migration add_rent_amount_to_rentings --table=rentings
 
 
 activity_name

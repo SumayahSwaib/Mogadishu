@@ -94,6 +94,13 @@ class RentingController extends AdminController
         $grid->column('number_of_months', __('Months'))
             ->hide()
             ->sortable();
+        //total rent amount rent_amount
+        $grid->column('rent_amount', __('Rent Amount (UGX)'))
+            ->display(function ($x) {
+                return number_format($x);
+            })->totalRow(function ($x) {
+                return  number_format($x);
+            })->sortable();
         $grid->column('payable_amount', __('Payable amount (UGX)'))
             ->display(function ($x) {
                 return number_format($x);
@@ -121,7 +128,7 @@ class RentingController extends AdminController
             ->display(function ($x) {
                 $x = $this->payments->sum('amount');
                 $x = number_format($x);
-                return '<a target="_blank" title="View These Receipts" class="d-block text-left  text-primary" style="font-size: 16px; text-align: center;" href="' . admin_url('tenant-payments?renting_id=' . $this->id) . '" ><b>' . $x . '</b></a>';
+                return '<a target="_blank" title="View These Receipts" class="d-block text-left  " style="font-size: 16px; text-align: center;" href="' . admin_url('tenant-payments?renting_id=' . $this->id) . '" ><b>' . $x . '</b></a>';
             });
 
 

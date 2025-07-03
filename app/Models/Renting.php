@@ -199,8 +199,17 @@ class Renting extends Model
         }
 
 
-        $m->payable_amount = ($room->price * $m->number_of_months);
+        $m->rent_amount = ($room->price * $m->number_of_months);
+        $security_fee = abs($room->security_fee);
+        $garbage_fee = abs($room->garbage_fee);
+        $m->payable_amount =  $m->rent_amount + $security_fee + $garbage_fee;
+
+        //security_fee
+        //garbage_fee
+
+
         $m->balance = -1 * (($room->price * $m->number_of_months) - $m->discount);
+
         $paidAmount = $m->payments->sum('amount');
         $m->balance = $m->balance + $paidAmount;
         $m->end_date = Carbon::parse($m->start_date)->addMonths($m->number_of_months);

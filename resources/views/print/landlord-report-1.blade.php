@@ -236,7 +236,7 @@
                 <td class="label" style="font-weight:600; border:none; padding:0.2rem 0;">Total Income:</td>
                 <td class="value text-primary"
                     style="font-weight:700; text-align:right; border:none; padding:0.2rem 0;">UGX
-                    {{ number_format($totalIncome + $totalSecurityFee + $total_garbage_fee) }}</td>
+                    {{ number_format($totalIncome) }}</td>
             </tr>
             <tr>
                 <td colspan="2" style="border:none; padding:0;">
@@ -256,7 +256,7 @@
             <tr>
                 <td class="label" style="font-weight:600; border:none; padding:0.2rem 0;">Total Balance:</td>
                 <td class="value text-danger" style="font-weight:700; text-align:right; border:none; padding:0.2rem 0;">
-                    UGX {{ number_format($totalIncome + $totalSecurityFee + $total_garbage_fee - $totalExpenses) }}
+                    UGX {{ number_format($totalIncome - $totalExpenses) }}
                 </td>
             </tr>
         </table>

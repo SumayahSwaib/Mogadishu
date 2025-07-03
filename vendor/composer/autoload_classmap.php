@@ -24,6 +24,7 @@ return array(
     'App\\Admin\\Controllers\\ExampleController' => $baseDir . '/app/Admin/Controllers/ExampleController.php',
     'App\\Admin\\Controllers\\ExpenseController' => $baseDir . '/app/Admin/Controllers/ExpenseController.php',
     'App\\Admin\\Controllers\\FailedController' => $baseDir . '/app/Admin/Controllers/FailedController.php',
+    'App\\Admin\\Controllers\\FloorController' => $baseDir . '/app/Admin/Controllers/FloorController.php',
     'App\\Admin\\Controllers\\GardenActivityController' => $baseDir . '/app/Admin/Controllers/GardenActivityController.php',
     'App\\Admin\\Controllers\\HomeController' => $baseDir . '/app/Admin/Controllers/HomeController.php',
     'App\\Admin\\Controllers\\HouseController' => $baseDir . '/app/Admin/Controllers/HouseController.php',
