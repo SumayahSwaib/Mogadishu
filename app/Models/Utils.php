@@ -13,6 +13,43 @@ class Utils extends Model
 {
     use HasFactory;
 
+    //static ent
+    public static function ent()
+    {
+        $colors = [
+            '#1abc9c', // turquoise
+            '#3498db', // blue
+            '#9b59b6', // purple
+            '#e67e22', // orange
+            '#ff0000', // solid red
+            '#27ae60', // green (improved)
+            '#34495e', // dark blue
+            '#f1c40f', // yellow
+            '#8e44ad', // solid purple
+            '#e84393', // pink
+            '#00b894', // teal
+            '#fdcb6e', // light yellow
+            '#636e72', // gray
+            '#00cec9', // cyan
+            '#fd79a8', // light pink
+            '#6c5ce7', // deep purple
+        ];
+        //4,8,6
+        $colour = $colors[rand(0, 15)];
+
+        if (env('APP_NAME') == 'Mogadishu Residence') {
+            $colour = $colors[4]; // red for development environment
+        } else if (env('APP_NAME') == 'Mogadishu Residence - Live') {
+            $colour = $colors[8]; // blue for live environment
+        } else if (env('APP_NAME') == 'Mogadishu Residence - Staging') {
+            $colour = $colors[6]; // green for staging environment
+        }
+
+        return (object)[
+            'color' => $colour,
+        ];
+    }
+
     /* 
 /* 
 
@@ -494,29 +531,33 @@ administrator_id
     public static function process_things()
     {
 
-        foreach (TenantPayment::where([
-           
-        ])->get() as $key => $value) {
+        foreach (
+            TenantPayment::where([])->get() as $key => $value
+        ) {
             try {
                 $value = $value->process_commission($value);
             } catch (\Throwable $th) {
-            } 
+            }
             echo ($value->landlord_amount . "<br>");
-            $value->save(); 
+            $value->save();
         }
 
-        foreach (Renting::where([/* 
+        foreach (
+            Renting::where([/* 
             'invoice_as_been_billed',
             '!=',
             'Yes'
-         */])->get() as $key => $inv) {
+         */])->get() as $key => $inv
+        ) {
             $inv->process_bill();
             echo $inv->id . ". INVOICE - " . $inv->name . ", BALANCE {$inv->balance} <br>";
         }
-        foreach (Renting::where(
-            'invoice_status',
-            'Active'
-        )->get() as $key => $m) {
+        foreach (
+            Renting::where(
+                'invoice_status',
+                'Active'
+            )->get() as $key => $m
+        ) {
             $m->is_overstay = 'No';
             if ($m->invoice_status == 'Active') {
                 $lastDate = Carbon::parse($m->end_date);
@@ -544,23 +585,29 @@ administrator_id
     public static function system_boot()
     {
 
-        foreach ($r = Renting::where(
-            'invoice_as_been_billed',
-            '!=',
-            'Yes'
-        )->get() as $key => $inv) {
+        foreach (
+            $r = Renting::where(
+                'invoice_as_been_billed',
+                '!=',
+                'Yes'
+            )->get() as $key => $inv
+        ) {
             $inv->process_bill();
         }
 
         return;
-        foreach ($r = Invoice::where([
-            'processed' => null
-        ])->get() as $key => $inv) {
+        foreach (
+            $r = Invoice::where([
+                'processed' => null
+            ])->get() as $key => $inv
+        ) {
             $inv->do_process();
         }
-        foreach ($r = Candidate::where([
-            'name' => null
-        ])->get() as $key => $value) {
+        foreach (
+            $r = Candidate::where([
+                'name' => null
+            ])->get() as $key => $value
+        ) {
             $value->name = $value->first_name . " " . $value->middle_name . " " . $value->last_name;
             $value->save();
         }
@@ -670,251 +717,253 @@ administrator_id
     public static function COUNTRIES()
     {
         $data = [];
-        foreach ([
-            '',
-            "Uganda",
-            "Somalia",
-            "Nigeria",
-            "Tanzania",
-            "Kenya",
-            "Sudan",
-            "Rwanda",
-            "Congo",
-            "Afghanistan",
-            "Albania",
-            "Algeria",
-            "American Samoa",
-            "Andorra",
-            "Angola",
-            "Anguilla",
-            "Antarctica",
-            "Antigua and Barbuda",
-            "Argentina",
-            "Armenia",
-            "Aruba",
-            "Australia",
-            "Austria",
-            "Azerbaijan",
-            "Bahamas",
-            "Bahrain",
-            "Bangladesh",
-            "Barbados",
-            "Belarus",
-            "Belgium",
-            "Belize",
-            "Benin",
-            "Bermuda",
-            "Bhutan",
-            "Bolivia",
-            "Bosnia and Herzegovina",
-            "Botswana",
-            "Bouvet Island",
-            "Brazil",
-            "British Indian Ocean Territory",
-            "Brunei Darussalam",
-            "Bulgaria",
-            "Burkina Faso",
-            "Burundi",
-            "Cambodia",
-            "Cameroon",
-            "Canada",
-            "Cape Verde",
-            "Cayman Islands",
-            "Central African Republic",
-            "Chad",
-            "Chile",
-            "China",
-            "Christmas Island",
-            "Cocos (Keeling Islands)",
-            "Colombia",
-            "Comoros",
-            "Cook Islands",
-            "Costa Rica",
-            "Cote D'Ivoire (Ivory Coast)",
-            "Croatia (Hrvatska",
-            "Cuba",
-            "Cyprus",
-            "Czech Republic",
-            "Denmark",
-            "Djibouti",
-            "Dominica",
-            "Dominican Republic",
-            "East Timor",
-            "Ecuador",
-            "Egypt",
-            "El Salvador",
-            "Equatorial Guinea",
-            "Eritrea",
-            "Estonia",
-            "Ethiopia",
-            "Falkland Islands (Malvinas)",
-            "Faroe Islands",
-            "Fiji",
-            "Finland",
-            "France",
-            "France",
-            "Metropolitan",
-            "French Guiana",
-            "French Polynesia",
-            "French Southern Territories",
-            "Gabon",
-            "Gambia",
-            "Georgia",
-            "Germany",
-            "Ghana",
-            "Gibraltar",
-            "Greece",
-            "Greenland",
-            "Grenada",
-            "Guadeloupe",
-            "Guam",
-            "Guatemala",
-            "Guinea",
-            "Guinea-Bissau",
-            "Guyana",
-            "Haiti",
-            "Heard and McDonald Islands",
-            "Honduras",
-            "Hong Kong",
-            "Hungary",
-            "Iceland",
-            "India",
-            "Indonesia",
-            "Iran",
-            "Iraq",
-            "Ireland",
-            "Israel",
-            "Italy",
-            "Jamaica",
-            "Japan",
-            "Jordan",
-            "Kazakhstan",
+        foreach (
+            [
+                '',
+                "Uganda",
+                "Somalia",
+                "Nigeria",
+                "Tanzania",
+                "Kenya",
+                "Sudan",
+                "Rwanda",
+                "Congo",
+                "Afghanistan",
+                "Albania",
+                "Algeria",
+                "American Samoa",
+                "Andorra",
+                "Angola",
+                "Anguilla",
+                "Antarctica",
+                "Antigua and Barbuda",
+                "Argentina",
+                "Armenia",
+                "Aruba",
+                "Australia",
+                "Austria",
+                "Azerbaijan",
+                "Bahamas",
+                "Bahrain",
+                "Bangladesh",
+                "Barbados",
+                "Belarus",
+                "Belgium",
+                "Belize",
+                "Benin",
+                "Bermuda",
+                "Bhutan",
+                "Bolivia",
+                "Bosnia and Herzegovina",
+                "Botswana",
+                "Bouvet Island",
+                "Brazil",
+                "British Indian Ocean Territory",
+                "Brunei Darussalam",
+                "Bulgaria",
+                "Burkina Faso",
+                "Burundi",
+                "Cambodia",
+                "Cameroon",
+                "Canada",
+                "Cape Verde",
+                "Cayman Islands",
+                "Central African Republic",
+                "Chad",
+                "Chile",
+                "China",
+                "Christmas Island",
+                "Cocos (Keeling Islands)",
+                "Colombia",
+                "Comoros",
+                "Cook Islands",
+                "Costa Rica",
+                "Cote D'Ivoire (Ivory Coast)",
+                "Croatia (Hrvatska",
+                "Cuba",
+                "Cyprus",
+                "Czech Republic",
+                "Denmark",
+                "Djibouti",
+                "Dominica",
+                "Dominican Republic",
+                "East Timor",
+                "Ecuador",
+                "Egypt",
+                "El Salvador",
+                "Equatorial Guinea",
+                "Eritrea",
+                "Estonia",
+                "Ethiopia",
+                "Falkland Islands (Malvinas)",
+                "Faroe Islands",
+                "Fiji",
+                "Finland",
+                "France",
+                "France",
+                "Metropolitan",
+                "French Guiana",
+                "French Polynesia",
+                "French Southern Territories",
+                "Gabon",
+                "Gambia",
+                "Georgia",
+                "Germany",
+                "Ghana",
+                "Gibraltar",
+                "Greece",
+                "Greenland",
+                "Grenada",
+                "Guadeloupe",
+                "Guam",
+                "Guatemala",
+                "Guinea",
+                "Guinea-Bissau",
+                "Guyana",
+                "Haiti",
+                "Heard and McDonald Islands",
+                "Honduras",
+                "Hong Kong",
+                "Hungary",
+                "Iceland",
+                "India",
+                "Indonesia",
+                "Iran",
+                "Iraq",
+                "Ireland",
+                "Israel",
+                "Italy",
+                "Jamaica",
+                "Japan",
+                "Jordan",
+                "Kazakhstan",
 
-            "Kiribati",
-            "Korea (North)",
-            "Korea (South)",
-            "Kuwait",
-            "Kyrgyzstan",
-            "Laos",
-            "Latvia",
-            "Lebanon",
-            "Lesotho",
-            "Liberia",
-            "Libya",
-            "Liechtenstein",
-            "Lithuania",
-            "Luxembourg",
-            "Macau",
-            "Macedonia",
-            "Madagascar",
-            "Malawi",
-            "Malaysia",
-            "Maldives",
-            "Mali",
-            "Malta",
-            "Marshall Islands",
-            "Martinique",
-            "Mauritania",
-            "Mauritius",
-            "Mayotte",
-            "Mexico",
-            "Micronesia",
-            "Moldova",
-            "Monaco",
-            "Mongolia",
-            "Montserrat",
-            "Morocco",
-            "Mozambique",
-            "Myanmar",
-            "Namibia",
-            "Nauru",
-            "Nepal",
-            "Netherlands",
-            "Netherlands Antilles",
-            "New Caledonia",
-            "New Zealand",
-            "Nicaragua",
-            "Niger",
-            "Niue",
-            "Norfolk Island",
-            "Northern Mariana Islands",
-            "Norway",
-            "Oman",
-            "Pakistan",
-            "Palau",
-            "Panama",
-            "Papua New Guinea",
-            "Paraguay",
-            "Peru",
-            "Philippines",
-            "Pitcairn",
-            "Poland",
-            "Portugal",
-            "Puerto Rico",
-            "Qatar",
-            "Reunion",
-            "Romania",
-            "Russian Federation",
-            "Saint Kitts and Nevis",
-            "Saint Lucia",
-            "Saint Vincent and The Grenadines",
-            "Samoa",
-            "San Marino",
-            "Sao Tome and Principe",
-            "Saudi Arabia",
-            "Senegal",
-            "Seychelles",
-            "Sierra Leone",
-            "Singapore",
-            "Slovak Republic",
-            "Slovenia",
-            "Solomon Islands",
+                "Kiribati",
+                "Korea (North)",
+                "Korea (South)",
+                "Kuwait",
+                "Kyrgyzstan",
+                "Laos",
+                "Latvia",
+                "Lebanon",
+                "Lesotho",
+                "Liberia",
+                "Libya",
+                "Liechtenstein",
+                "Lithuania",
+                "Luxembourg",
+                "Macau",
+                "Macedonia",
+                "Madagascar",
+                "Malawi",
+                "Malaysia",
+                "Maldives",
+                "Mali",
+                "Malta",
+                "Marshall Islands",
+                "Martinique",
+                "Mauritania",
+                "Mauritius",
+                "Mayotte",
+                "Mexico",
+                "Micronesia",
+                "Moldova",
+                "Monaco",
+                "Mongolia",
+                "Montserrat",
+                "Morocco",
+                "Mozambique",
+                "Myanmar",
+                "Namibia",
+                "Nauru",
+                "Nepal",
+                "Netherlands",
+                "Netherlands Antilles",
+                "New Caledonia",
+                "New Zealand",
+                "Nicaragua",
+                "Niger",
+                "Niue",
+                "Norfolk Island",
+                "Northern Mariana Islands",
+                "Norway",
+                "Oman",
+                "Pakistan",
+                "Palau",
+                "Panama",
+                "Papua New Guinea",
+                "Paraguay",
+                "Peru",
+                "Philippines",
+                "Pitcairn",
+                "Poland",
+                "Portugal",
+                "Puerto Rico",
+                "Qatar",
+                "Reunion",
+                "Romania",
+                "Russian Federation",
+                "Saint Kitts and Nevis",
+                "Saint Lucia",
+                "Saint Vincent and The Grenadines",
+                "Samoa",
+                "San Marino",
+                "Sao Tome and Principe",
+                "Saudi Arabia",
+                "Senegal",
+                "Seychelles",
+                "Sierra Leone",
+                "Singapore",
+                "Slovak Republic",
+                "Slovenia",
+                "Solomon Islands",
 
-            "South Africa",
-            "S. Georgia and S. Sandwich Isls.",
-            "Spain",
-            "Sri Lanka",
-            "St. Helena",
-            "St. Pierre and Miquelon",
-            "Suriname",
-            "Svalbard and Jan Mayen Islands",
-            "Swaziland",
-            "Sweden",
-            "Switzerland",
-            "Syria",
-            "Taiwan",
-            "Tajikistan",
-            "Thailand",
-            "Togo",
-            "Tokelau",
-            "Tonga",
-            "Trinidad and Tobago",
-            "Tunisia",
-            "Turkey",
-            "Turkmenistan",
-            "Turks and Caicos Islands",
-            "Tuvalu",
-            "Ukraine",
-            "United Arab Emirates",
-            "United Kingdom (Britain / UK)",
-            "United States of America (USA)",
-            "US Minor Outlying Islands",
-            "Uruguay",
-            "Uzbekistan",
-            "Vanuatu",
-            "Vatican City State (Holy See)",
-            "Venezuela",
-            "Viet Nam",
-            "Virgin Islands (British)",
-            "Virgin Islands (US)",
-            "Wallis and Futuna Islands",
-            "Western Sahara",
-            "Yemen",
-            "Yugoslavia",
-            "Zaire",
-            "Zambia",
-            "Zimbabwe"
-        ] as $key => $v) {
+                "South Africa",
+                "S. Georgia and S. Sandwich Isls.",
+                "Spain",
+                "Sri Lanka",
+                "St. Helena",
+                "St. Pierre and Miquelon",
+                "Suriname",
+                "Svalbard and Jan Mayen Islands",
+                "Swaziland",
+                "Sweden",
+                "Switzerland",
+                "Syria",
+                "Taiwan",
+                "Tajikistan",
+                "Thailand",
+                "Togo",
+                "Tokelau",
+                "Tonga",
+                "Trinidad and Tobago",
+                "Tunisia",
+                "Turkey",
+                "Turkmenistan",
+                "Turks and Caicos Islands",
+                "Tuvalu",
+                "Ukraine",
+                "United Arab Emirates",
+                "United Kingdom (Britain / UK)",
+                "United States of America (USA)",
+                "US Minor Outlying Islands",
+                "Uruguay",
+                "Uzbekistan",
+                "Vanuatu",
+                "Vatican City State (Holy See)",
+                "Venezuela",
+                "Viet Nam",
+                "Virgin Islands (British)",
+                "Virgin Islands (US)",
+                "Wallis and Futuna Islands",
+                "Western Sahara",
+                "Yemen",
+                "Yugoslavia",
+                "Zaire",
+                "Zambia",
+                "Zimbabwe"
+            ] as $key => $v
+        ) {
             $data[$v] = $v;
         };
         return $data;

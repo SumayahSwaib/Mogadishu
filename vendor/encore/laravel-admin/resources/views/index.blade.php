@@ -13,6 +13,9 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
+
+
+    {{-- include this /Applications/MAMP/htdocs/mogadishu/resources/views/widgets/js.blade.php --}}
     {{--     @if (!is_null($favicon = Admin::favicon()))
     <link rel="shortcut icon" href="{{$favicon}}">
     @endif --}}
@@ -21,6 +24,7 @@
 
     {!! Admin::css() !!}
 
+    @include('widgets.css')
     <script src="{{ Admin::jQuery() }}"></script>
     {!! Admin::headerJs() !!}
     <!--[if lt IE 9]>
