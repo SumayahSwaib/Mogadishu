@@ -200,15 +200,15 @@ class Renting extends Model
 
 
         $m->rent_amount = ($room->price * $m->number_of_months);
-        $security_fee = abs($room->security_fee);
-        $garbage_fee = abs($room->garbage_fee);
-        $m->payable_amount =  $m->rent_amount + $security_fee + $garbage_fee;
+        $security_fee = abs($m->security_fee);
+        $garbage_fee = abs($m->garbage_fee);
+        $m->payable_amount =  ($room->price * $m->number_of_months) + $security_fee + $garbage_fee;
 
         //security_fee
         //garbage_fee
 
 
-        $m->balance = -1 * (($room->price * $m->number_of_months) - $m->discount);
+        $m->balance = -1 * (($m->payable_amount) - $m->discount);
 
         $paidAmount = $m->payments->sum('amount');
         $m->balance = $m->balance + $paidAmount;

@@ -550,7 +550,7 @@ $book_link = admin_url('event-bookings/create?event=' . $d->id);
             <div class="col-xl-3 col-md-4 text-center text-md-start">
                 <h3 class="h4">Venue</h3>
                 <h2 class="h1 mb-4">{{ $d->venue_name }}</h2>
-                <div class="d-none d-md-block text-primary">
+                <div class="d-none d-md-block">
                     <svg xmlns="http://www.w3.org/2000/svg" width="118" height="118" fill="none">
                         <g clip-path="url(#A)">
                             <path

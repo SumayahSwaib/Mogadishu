@@ -16,6 +16,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('generate-class', [MainController::class, 'generate_class']);
 Route::get('process-things', [Utils::class, 'process_things']);
 
+Route::get('process-billings', function () {
+    //process 
+    foreach (Renting::all() as $key => $value) {
+        $value->process_bill();
+        $value->save();
+        $renting = Renting::find($value->id);
+        echo "Processed billing for renting: " . $renting->tenant->name . ", amount: " . $renting->payable_amount . "<br>";
+    }
+});
 Route::get('migrate', function () {
     Artisan::call('migrate', ['--force' => true]);
     return nl2br(Artisan::output());

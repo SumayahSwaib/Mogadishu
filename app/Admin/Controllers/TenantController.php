@@ -45,13 +45,13 @@ class TenantController extends AdminController
         $grid->column('rentings', __('Total Rentings (UGX)'))
             ->display(function ($x) {
                 $rentings = $this->rentings->sum('payable_amount');
-                return "<a class=\"d-block text-primary text-center\" title=\"Click to view these invoinces\" target=\"_blank\" href='" . admin_url('rentings') . "?tenant_id={$this->id}'><b>" . number_format($rentings) . "</b></a>";
+                return "<a class=\"d-block text-center\" title=\"Click to view these invoinces\" target=\"_blank\" href='" . admin_url('rentings') . "?tenant_id={$this->id}'><b>" . number_format($rentings) . "</b></a>";
             });
 
         $grid->column('payments', __('Total Payments (UGX)'))
             ->display(function ($x) {
                 $rentings = $this->payments->sum('amount');
-                return "<a class=\"d-block text-primary text-center\" title=\"Click to view these receipts\" target=\"_blank\" href='" . admin_url('tenant-payments') . "?tenant_id={$this->id}'><b>" . number_format($rentings) . "</b></a>";
+                return "<a class=\"d-block text-center\" title=\"Click to view these receipts\" target=\"_blank\" href='" . admin_url('tenant-payments') . "?tenant_id={$this->id}'><b>" . number_format($rentings) . "</b></a>";
             });
 
         $grid->column('balance', __('Balance (UGX)'))
@@ -60,7 +60,7 @@ class TenantController extends AdminController
                 if ($x >= 0) {
                     $color = 'success';
                 }
-                return '<a target="_blank" title="View Invoinces" class="d-block text-left  text-' . $color . '" style="font-size: 16px; text-align: center;" href="' . admin_url('rentings?tenant_id=' . $this->id) . '" ><b>' . number_format($x) . '</b></a>';
+                return '<a target="_blank" title="View Invoinces" class="d-block text-left " style="font-size: 16px; text-align: center;" href="' . admin_url('rentings?tenant_id=' . $this->id) . '" ><b>' . number_format($x) . '</b></a>';
             })->totalRow(function ($x) {
                 return  number_format($x);
             })->sortable();

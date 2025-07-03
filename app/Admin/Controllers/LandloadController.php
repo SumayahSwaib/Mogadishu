@@ -66,23 +66,23 @@ class LandloadController extends AdminController
 
         $grid->column('estates', __('Eestates'))
             ->display(function ($x) {
-                return "<a class=\"d-block text-primary text-center\" title=\"Click to view\" target=\"_blank\" href='" . admin_url('houses') . "?landload_id={$this->id}'><b>" . count($this->houses) . "</b></a>";
+                return "<a class=\"d-block text-center\" title=\"Click to view\" target=\"_blank\" href='" . admin_url('houses') . "?landload_id={$this->id}'><b>" . count($this->houses) . "</b></a>";
             });
         $grid->column('rentings', __('Total Rentings (UGX)'))
             ->display(function ($x) {
                 $rentings = $this->rentings->count();
-                return "<a class=\"d-block text-primary text-center\" title=\"Click to view these renting\" target=\"_blank\" href='" . admin_url('rentings') . "?landload_id={$this->id}'><b>" . number_format($rentings) . "</b></a>";
+                return "<a class=\"d-block text-center\" title=\"Click to view these renting\" target=\"_blank\" href='" . admin_url('rentings') . "?landload_id={$this->id}'><b>" . number_format($rentings) . "</b></a>";
             });
         $grid->column('payable_amount', __('Payable Amount (UGX)'))
             ->display(function ($x) {
-                return "<a class=\"d-block text-primary text-center\" title=\"Click to view these payments\" target=\"_blank\" href='" . admin_url('tenant-payments') . "?landload_id={$this->id}'><b>" . number_format($x) . "</b></a>";
+                return "<a class=\"d-block text-center\" title=\"Click to view these payments\" target=\"_blank\" href='" . admin_url('tenant-payments') . "?landload_id={$this->id}'><b>" . number_format($x) . "</b></a>";
             })->totalRow(function ($x) {
                 return  number_format($x);
             })->sortable();
 
         $grid->column('paid_amount', __('Paid Amount (UGX)'))
             ->display(function ($x) {
-                return "<a class=\"d-block text-primary text-center\" title=\"Click to view these payments\" target=\"_blank\" href='" . admin_url('landload-payments') . "?landload_id={$this->id}'><b>" . number_format($x) . "</b></a>";
+                return "<a class=\"d-block text-center\" title=\"Click to view these payments\" target=\"_blank\" href='" . admin_url('landload-payments') . "?landload_id={$this->id}'><b>" . number_format($x) . "</b></a>";
             })->totalRow(function ($x) {
                 return  number_format($x);
             })->sortable();
@@ -95,7 +95,7 @@ class LandloadController extends AdminController
             })->sortable(); 
          $grid->column('report', __('Report'))
             ->display(function ($x) {
-                return "<a class=\"d-block text-primary text-center\" target=\"_blank\" href='" . url('landlord-report') . "?id={$this->id}'><b>PRINT</b></a>";
+                return "<a class=\"d-block text-center\" target=\"_blank\" href='" . url('landlord-report') . "?id={$this->id}'><b>PRINT</b></a>";
             })->sortable();
  */
         $grid->column('created_at', __('Date'))->display(function ($x) {

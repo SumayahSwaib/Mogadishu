@@ -30,6 +30,10 @@ class RentingController extends AdminController
     {
         $grid = new Grid(new Renting());
         // $grid->disableCreateButton();
+        //add button on tools that ipen s process-billings to new tab
+        $grid->tools(function ($tools) {
+            $tools->append('<a href="' . url('process-billings') . '" class="btn btn-sm btn-primary" target="_blank"><i class="fa fa-refresh"></i> Process Billings</a>');
+        });
 
         $grid->filter(function ($filter) {
             // Remove the default id filter
@@ -101,13 +105,6 @@ class RentingController extends AdminController
             })->totalRow(function ($x) {
                 return  number_format($x);
             })->sortable();
-        $grid->column('payable_amount', __('Payable amount (UGX)'))
-            ->display(function ($x) {
-                return number_format($x);
-            })
-            ->totalRow(function ($x) {
-                return  number_format($x);
-            })->sortable();
         //security_fee
         $grid->column('security_fee', __('Security Fee (UGX)'))
             ->display(function ($x) {
@@ -121,6 +118,14 @@ class RentingController extends AdminController
             ->display(function ($x) {
                 return number_format($x);
             })->totalRow(function ($x) {
+                return  number_format($x);
+            })->sortable();
+
+        $grid->column('payable_amount', __('Payable amount (UGX)'))
+            ->display(function ($x) {
+                return number_format($x);
+            })
+            ->totalRow(function ($x) {
                 return  number_format($x);
             })->sortable();
 
@@ -268,7 +273,6 @@ invoice_as_been_billed
             ->rules('required')
             ->required();
         $form->hidden('discount', 'discount')->default(0);
-        $form->text('remarks', __('Remarks'));
         if (!$form->isCreating()) {
             $form->divider();
             $form->radio('update_billing', __('Update billing'))
@@ -296,6 +300,7 @@ invoice_as_been_billed
             ->rules('required')
             ->required()
             ->help('This is the garbage fee for the room, it is not refundable. It is used to cover the cost of garbage collection and disposal.');
+        $form->textarea('remarks', __('Remarks'));
         return $form;
     }
 }

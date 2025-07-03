@@ -194,7 +194,7 @@
                     <div id="footer-links" class="row">
                         <div class="col-lg-4">
                             <h6 class="mb-2">
-                                <a href="#useful-links" class="d-block text-primary h5 dropdown-toggle  py-0  "
+                                <a href="#useful-links" class="d-block h5 dropdown-toggle  py-0  "
                                     data-bs-toggle="collapse">Quick Links</a>
                             </h6>
                             <div id="useful-links" class="expanded d-lg-block" data-bs-parent="#footer-links">

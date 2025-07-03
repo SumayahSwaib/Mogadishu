@@ -527,7 +527,7 @@
             <div class="col-xl-3 col-md-4 text-center text-md-start">
                 <h2 class="h1 mb-4">ICT for persons with disabilites Grand Dinner - 2023</h2>
                 <h3 class="h4">Venue</h3>
-                <div class="d-none d-md-block text-primary">
+                <div class="d-none d-md-block">
                     <svg xmlns="http://www.w3.org/2000/svg" width="118" height="118" fill="none">
                         <g clip-path="url(#A)">
                             <path
