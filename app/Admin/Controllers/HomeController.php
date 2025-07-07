@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Floor;
 use App\Models\House;
 use App\Models\Room;
 use App\Models\Tenant;
@@ -60,10 +61,17 @@ class HomeController extends Controller
             foreach ($floors as $floor) {
                 $row->column(4, function (Column $column) use ($floor) {
                     $rooms = Room::where('floor', $floor)->get();
+                    $FLOOR = Floor::where('name', $floor)->first();
+                    $range = "";
+                    if ($FLOOR != null) {
+                        $range = $FLOOR->range;
+                    }
+
                     $column->append(
                         view('widgets.dashboard-floor-overview', [
                             'floor' => $floor,
                             'rooms' => $rooms,
+                            'range' => $range,
                         ])
                     );
                 });

@@ -83,7 +83,7 @@ $link = $link ?? 'javascript:;';
                 style="background: linear-gradient(90deg, var(--primary) 0%, #6dd5fa 100%); height: 2.5px; border: none;">
             @php
                 $roomNumbers = $rooms->pluck('name')->sort();
-                $range = $roomNumbers->isNotEmpty() ? $roomNumbers->first() . ' - ' . $roomNumbers->last() : '';
+               
             @endphp
             <div class="d-flex align-items-center mt-2">
                 <i class="fas fa-door-open mr-2" style="color: var(--primary); font-size: 1.3rem;"></i>
