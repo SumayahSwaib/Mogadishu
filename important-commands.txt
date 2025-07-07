@@ -1,7 +1,7 @@
 php artisan make:migration create_landloads_table
 php artisan make:migration create_houses_table
 
-php artisan make:migration add_rent_amount_to_rentings --table=rentings
+php artisan make:migration add_garbage_amount_to_TenantPayment --table=tenant_payments
 
 
 activity_name

@@ -77,13 +77,12 @@ class TenantPaymentController extends AdminController
             })
             ->sortable();
         $grid->column('tenant_id', __('Tenant'))->display(function ($x) {
-            if ($this->tenant == null){
+            if ($this->tenant == null) {
                 return $x;
-            } 
+            }
             return $this->tenant->name;
-           
         })->sortable();
-       
+
         $grid->column('amount', __('Amount (UGX)'))
             ->display(function ($x) {
                 return number_format($x);
@@ -96,13 +95,21 @@ class TenantPaymentController extends AdminController
         })->totalRow(function ($x) {
             return  number_format($x);
         })->sortable();
+
+        //garbage_amount
+        $grid->column('garbage_amount', __('Garbage Amount (UGX)'))->display(function ($x) {
+            return number_format($x);
+        })->totalRow(function ($x) {
+            return  number_format($x);
+        })->sortable();
+
         $grid->column('days_before', __('Days Before'))->display(function ($x) {
             return number_format($x);
         })->totalRow(function ($x) {
             return  number_format($x);
         })->sortable();
 
-            
+
 
 
         /* $grid->column('landlord_amount', __('Landlord (UGX)'))
@@ -140,18 +147,17 @@ class TenantPaymentController extends AdminController
             })
             ->hide()
             ->sortable(); */
-         $grid->column('room_id', __('Room'))
+        $grid->column('room_id', __('Room'))
             ->display(function ($x) {
-                if($this->renting == null) {
+                if ($this->renting == null) {
                     return "No Renting";
-
                 }
                 if ($this->renting->room == null)
-                 return "No room";
-                  return $this->renting->room->name;     
-            })->sortable(); 
+                    return "No room";
+                return $this->renting->room->name;
+            })->sortable();
 
-           
+
         /* $grid->column('landload_id', __('Landlord'))->display(function ($x) {
             $loc = Landload::find($x);
             if ($loc != null) {
@@ -168,7 +174,7 @@ class TenantPaymentController extends AdminController
             $link = url('receipt?id=' . $this->id);
             return '<b><a target="_blank" href="' . $link . '">PRINT RECEIPT</a></b>';
         });
-       
+
 
         $grid->column('payment_method', __('Payment method'))->hide();
         $grid->column('payment_destination', __('Payment destination'))->hide();
@@ -237,7 +243,7 @@ class TenantPaymentController extends AdminController
         $form->decimal('amount', __('Amount Paid'))->rules('required')->required();
         $form->decimal('securty_deposit', __('Security Deposit'));
         $form->decimal('days_before', __('Days Before'));
-        
+
 
         $form->radio('payment_method', __('Payment method'))
             ->options([
@@ -257,6 +263,8 @@ class TenantPaymentController extends AdminController
                 $form->text('payment_destination', __('Cash received by'));
             })
             ->rules('required')->required();
+        //garbage_amount
+        $form->decimal('garbage_amount', __('Garbage Amount'));
 
 
 
