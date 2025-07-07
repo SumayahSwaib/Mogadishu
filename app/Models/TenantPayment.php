@@ -83,7 +83,7 @@ public function renting()
             return $m;
         }); */
         self::updating(function ($m) {
-            $m = self::process_commission($m);
+
             return $m;
         });
 
@@ -105,15 +105,11 @@ public function renting()
             /* $m->details = "being payment of rent of { $rent->number_of_months} months from {$stat_rent} to {$end_rent}. 
              Invoice no. 0{$rent->id}. recieved from {$rent->room_number}"; */
 
-           // $m = self::process_commission($m);
             return $m;
         });
     }
 
-    public function landlord()
-    {
-        return $this->belongsTo(Landload::class, 'landload_id');
-    }
+ 
 
    /*  public static function process_commission($m)
     {

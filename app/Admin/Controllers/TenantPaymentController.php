@@ -243,7 +243,7 @@ class TenantPaymentController extends AdminController
         $form->decimal('amount', __('Amount Paid'))->rules('required')->required();
         $form->decimal('securty_deposit', __('Security Deposit'));
         $form->decimal('days_before', __('Days Before'));
-
+        $form->decimal('garbage_amount', __('Garbage Amount')); 
 
         $form->radio('payment_method', __('Payment method'))
             ->options([
@@ -264,7 +264,7 @@ class TenantPaymentController extends AdminController
             })
             ->rules('required')->required();
         //garbage_amount
-        $form->decimal('garbage_amount', __('Garbage Amount'));
+
 
 
 
