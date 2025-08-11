@@ -172,9 +172,11 @@
                                         <i class="fa fa-plus-circle"></i> New Rent
                                     </a>
                                 @else
-                                    <a href="{{ admin_url('rentings/' . $room->latest_renting->id . '/edit') }}">
-                                        <i class="fa fa-edit"></i> Update Rent
-                                    </a>
+                                    @if ($room->latest_renting)
+                                        <a href="{{ admin_url('rentings/' . $room->latest_renting->id . '/edit') }}">
+                                            <i class="fa fa-edit"></i> Update Rent
+                                        </a>
+                                    @endif
                                 @endif
                             </li>
                         </ul>
