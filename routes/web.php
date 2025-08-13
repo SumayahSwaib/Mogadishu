@@ -6,6 +6,7 @@ use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Models\LandloadPayment;
 use App\Models\Renting;
+use App\Models\Room;
 use App\Models\TenantPayment;
 use App\Models\Utils;
 use Carbon\Carbon;
@@ -23,6 +24,22 @@ Route::get('process-billings', function () {
         $value->save();
         $renting = Renting::find($value->id);
         echo "Processed billing for renting: " . $renting->tenant->name . ", amount: " . $renting->payable_amount . "<br>";
+    }
+
+    // Ensure room vacancy statuses are accurate based on active rentings
+    $activeRoomIds = Renting::where('invoice_status', 'Active')
+        ->pluck('room_id')
+        ->filter()
+        ->unique()
+        ->toArray();
+
+    foreach (Room::all() as $room) {
+        $hasActiveRenting = in_array($room->id, $activeRoomIds);
+        if (!$hasActiveRenting && $room->status !== 'Vacant') {
+            $room->status = 'Vacant';
+            $room->save();
+            echo "Room: {$room->name} marked as vacant.<br>";
+        }
     }
 });
 Route::get('migrate', function () {
@@ -206,7 +223,7 @@ Route::get('landlord-report-1', function () {
         ->orderBy('id', 'DESC')
         ->get();
 
-        
+
     foreach ($tenantPayments as $renting) {
         $total_income += $renting->amount_paid;
     }
