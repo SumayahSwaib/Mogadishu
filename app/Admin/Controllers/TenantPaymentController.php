@@ -83,7 +83,7 @@ class TenantPaymentController extends AdminController
             return $this->tenant->name;
         })->sortable();
 
-        $grid->column('amount', __('Amount (UGX)'))
+        $grid->column('rent_amount', __('Rent Amount (UGX)'))
             ->display(function ($x) {
                 return number_format($x);
             })->totalRow(function ($x) {
@@ -103,12 +103,17 @@ class TenantPaymentController extends AdminController
             return  number_format($x);
         })->sortable();
 
-        $grid->column('days_before', __('Days Before'))->display(function ($x) {
+        $grid->column('days_before', __('Remaining Days'))->display(function ($x) {
             return number_format($x);
         })->totalRow(function ($x) {
             return  number_format($x);
         })->sortable();
-
+        $grid->column('amount', __('Total Amount (UGX)'))
+            ->display(function ($x) {
+                return number_format($x);
+            })->totalRow(function ($x) {
+                return  number_format($x);
+            })->sortable();
 
 
 
@@ -140,13 +145,7 @@ class TenantPaymentController extends AdminController
         })->sortable();
 
 
-
-        /* $grid->column('house_id', __('House'))
-            ->display(function ($x) {
-                return $this->house->name;
-            })
-            ->hide()
-            ->sortable(); */
+ 
         $grid->column('room_id', __('Room'))
             ->display(function ($x) {
                 if ($this->renting == null) {
@@ -156,17 +155,7 @@ class TenantPaymentController extends AdminController
                     return "No room";
                 return $this->renting->room->name;
             })->sortable();
-
-
-        /* $grid->column('landload_id', __('Landlord'))->display(function ($x) {
-            $loc = Landload::find($x);
-            if ($loc != null) {
-                return $loc->name;
-            }
-            return $x;
-        })->sortable(); */
-
-
+ 
 
         $grid->column('details', __('Details'))->hide();
 
@@ -238,12 +227,18 @@ class TenantPaymentController extends AdminController
         /* 
         $form->number('tenant_id', __('Tenant id')); 
         $form->number('balance', __('Balance'))->rules('required')->required();         
-                $form->textarea('details', __('Details')); 
+        $form->textarea('details', __('Details')); 
         */
-        $form->decimal('amount', __('Amount Paid'))->rules('required')->required();
-        $form->decimal('securty_deposit', __('Security Deposit'));
-        $form->decimal('days_before', __('Days Before'));
-        $form->decimal('garbage_amount', __('Garbage Amount')); 
+        $form->decimal('rent_amount', __('Rent Amount (UGX)'))
+            ->help('This is the amount of rent paid only. It does not include any other charges.');
+        $form->decimal('securty_deposit', __('Security Deposit (UGX)'))
+            ->help('Leave this blank if no security deposit was paid.');
+        $form->decimal('days_before', __('Remaining Days (UGX)'))
+            ->help('This is the amount for remaining days of the month. Leave this blank if not applicable.')
+            ->default(0)
+            ->rules('required')->required();
+        $form->decimal('garbage_amount', __('Garbage Amount (UGX)'))
+            ->help('Leave this blank if no garbage fee was paid.');
 
         $form->radio('payment_method', __('Payment method'))
             ->options([

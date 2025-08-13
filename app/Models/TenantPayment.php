@@ -30,7 +30,7 @@ class TenantPayment extends Model
     {
         return $this->belongsTo(Tenant::class);
     }
-public function renting()
+    public function renting()
     {
         return $this->belongsTo(Renting::class);
     }
@@ -39,51 +39,37 @@ public function renting()
         parent::boot();
         self::created(function ($m) {
             $m->process_balance($m);
-            /* $landlord = Landload::find($m->landload_id);
-            if ($landlord == null) {
-                throw new Exception("Landlord not found.", 1);
-            } */
-
             $total_paid = $m->renting->payments->sum('amount');
             $balance =  $total_paid - $m->renting->payable_amount;
             $m->renting->balance = $balance;
+            $m->renting->update_billing = 'Yes';
             $m->renting->save();
             DB::table('tenant_payments')->where('id', $m->id)->update(['balance' => $balance]);
-
-          // $landlord->update_balance();
             return $m;
         });
         self::updated(function ($m) {
             $m->process_balance($m);
-            /* $landlord = Landload::find($m->landload_id);
-            if ($landlord == null) {
-                throw new Exception("Landlord not found.", 1);
-            } */
-
+            
             $total_paid = $m->renting->payments->sum('amount');
             $balance = $m->renting->payable_amount - $total_paid;
             $balance =  $total_paid - $m->renting->payable_amount;
+            $m->renting->balance = $balance;
+            $m->renting->update_billing = 'Yes';
             $m->renting->save();
             DB::table('tenant_payments')->where('id', $m->id)->update(['balance' => $balance]);
 
-
-           // $landlord->update_balance();
+ 
             return $m;
         });
-        /* self::deleted(function ($m) {
-            try {
-                $landlord = Landload::find($m->landload_id);
-                if ($landlord != null) {
-                    $landlord->update_balance();
-                }
-            } catch (\Throwable $th) {
-                //throw $th;
-            }
-
-            return $m;
-        }); */
         self::updating(function ($m) {
-
+            $amount = ((int)($m->rent_amount))
+                + ((int)($m->securty_deposit))
+                + ((int)($m->days_before))
+                + ((int)($m->garbage_amount));
+            if ($amount <= 0) {
+                throw new Exception("Amount must be greater than zero.", 1);
+            }
+            $m->amount = $amount;
             return $m;
         });
 
@@ -94,64 +80,26 @@ public function renting()
                 throw new Exception("Invoice not found.", 1);
             }
 
+            $amount = ((int)($m->rent_amount))
+                + ((int)($m->securty_deposit))
+                + ((int)($m->days_before))
+                + ((int)($m->garbage_amount));
+            if ($amount <= 0) {
+                throw new Exception("Amount must be greater than zero.", 1);
+            }
+            $m->amount = $amount;
             $rent->balance += $m->amount;
             $m->tenant_id = $rent->tenant_id;
             $m->balance = $rent->balance;
             $stat_rent = Utils::my_date($rent->start_date);
             $end_rent = Utils::my_date($rent->end_date);
-            //put space between words in html
-            $m->details = "being payment  of $rent->number_of_months months from {$stat_rent} to {$end_rent}
+            $m->details = "Being payment  of $rent->number_of_months months from {$stat_rent} to {$end_rent}
              Invoice 0{$rent->id}{$rent->room_number}";
-            /* $m->details = "being payment of rent of { $rent->number_of_months} months from {$stat_rent} to {$end_rent}. 
-             Invoice no. 0{$rent->id}. recieved from {$rent->room_number}"; */
-
             return $m;
         });
     }
 
- 
-
-   /*  public static function process_commission($m)
-    {
-
-        $rent = Renting::find($m->renting_id);
-
-        if ($rent == null) {
-            throw new Exception("Invoice not found.", 1);
-        }
-        $room_id = $rent->room_id;
-
-        $room = Room::find($room_id);
-        if ($room == null) {
-            throw new Exception("House not found while billing.", 1);
-        }
-
-        $percentage = 0;
-        if ($room->commission_type == 1) {
-
-            if ($room->price > 0) {
-                $percentage = ($room->flate_rate_amount / $room->price) * 100;
-                $percentage = ($percentage);
-                $_percentage = ceil($percentage);
-            }
-            $m->commission_type = 'Flat Rate - UGX ' . number_format($room->flate_rate_amount) . " ({$_percentage}%)";
-        } else {
-            $m->commission_type = 'Percentage';
-            $percentage =  $room->percentage_rate;
-        }
-
-        $total_rent = $m->amount;
-        $commission =  ($percentage / 100) * $total_rent;
-        $m->commission_type_value = $room->percentage_rate;
-        $m->commission_amount = $commission;
-      //  $m->landlord_amount = $total_rent - $commission;
-        $m->house_id = $room->house_id;
-        $m->room_id = $room->id;
-       // $m->landload_id = $room->landload_id;
-
-        return $m;
-    } */
-
+  
     public function house()
     {
         return $this->belongsTo(House::class);

@@ -18,87 +18,87 @@ $imagelink = url('floorimages/logo-1.png');
     <style>
         @page {
             size: A4 portrait;
-            margin: 1.5cm;
+            margin: 0.8cm;
         }
 
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
-            font-size: 13px;
+            font-size: 11px;
             background: #fff;
             color: #222;
         }
 
         .receipt {
-            border: 2px solid #222;
-            border-radius: 8px;
-            max-width: 700px;
-            margin: 30px auto;
+            border: 1px solid #222;
+            border-radius: 4px;
+            max-width: 100%;
+            margin: 8px auto;
             background: #fafbfc;
-            padding: 32px 36px 28px 36px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            padding: 16px 18px 14px 18px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
         }
 
         .receipt-header {
             border-bottom: 1px solid #ddd;
-            padding-bottom: 12px;
-            margin-bottom: 18px;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
         }
 
         .company-title {
-            font-size: 2rem;
+            font-size: 1.4rem;
             font-weight: 700;
-            letter-spacing: 1px;
-            margin-bottom: 2px;
+            letter-spacing: 0.5px;
+            margin-bottom: 1px;
         }
 
         .company-info {
-            font-size: 0.98rem;
+            font-size: 0.85rem;
             color: #555;
         }
 
         .receipt-no {
-            font-size: 1.1rem;
+            font-size: 0.95rem;
             color: #b00;
             font-weight: 600;
             text-align: right;
         }
 
         .receipt-title {
-            font-size: 1.15rem;
+            font-size: 1rem;
             font-weight: 600;
-            margin: 18px 0 10px 0;
-            letter-spacing: 1px;
+            margin: 10px 0 6px 0;
+            letter-spacing: 0.5px;
         }
 
         .receipt-details {
-            margin-bottom: 18px;
+            margin-bottom: 10px;
         }
 
         .receipt-details p {
-            margin: 0 0 7px 0;
-            line-height: 1.5;
+            margin: 0 0 4px 0;
+            line-height: 1.3;
         }
 
         .amount-box {
             display: inline-block;
             font-weight: 700;
-            font-size: 1.15rem;
-            border: 2px solid #222;
-            border-radius: 6px;
-            padding: 7px 18px;
+            font-size: 1rem;
+            border: 1px solid #222;
+            border-radius: 3px;
+            padding: 4px 12px;
             background: #f5f5f5;
-            margin-top: 10px;
+            margin-top: 6px;
         }
 
         .approved {
             text-align: right;
-            font-size: 0.97rem;
-            padding-top: 18px;
+            font-size: 0.85rem;
+            padding-top: 10px;
         }
 
         .balance {
-            margin: 18px 0 0 0;
-            font-size: 1.05rem;
+            margin: 10px 0 0 0;
+            font-size: 0.95rem;
         }
 
         .text-right {
@@ -110,35 +110,35 @@ $imagelink = url('floorimages/logo-1.png');
         }
 
         .mt-1 {
-            margin-top: 6px;
+            margin-top: 3px;
         }
 
         .mt-2 {
-            margin-top: 12px;
+            margin-top: 6px;
         }
 
         .mt-3 {
-            margin-top: 18px;
+            margin-top: 10px;
         }
 
         .mb-1 {
-            margin-bottom: 6px;
+            margin-bottom: 3px;
         }
 
         .mb-2 {
-            margin-bottom: 12px;
+            margin-bottom: 6px;
         }
 
         .mb-3 {
-            margin-bottom: 18px;
+            margin-bottom: 10px;
         }
 
         .pb-2 {
-            padding-bottom: 12px;
+            padding-bottom: 6px;
         }
 
         .pb-4 {
-            padding-bottom: 24px;
+            padding-bottom: 12px;
         }
     </style>
 </head>
@@ -166,35 +166,34 @@ $imagelink = url('floorimages/logo-1.png');
             <div class="text-right mb-2"><b>{{ Utils::my_date($receipt->created_at) }}</b></div>
             <p>
                 Received sum of <b>UGX
-                    {{ number_format($receipt->amount + $receipt->securty_deposit + $receipt->days_before) }}</b>
+                    {{ number_format($receipt->amount) }}</b>
                 in words:
-                <b>{{ Utils::convert_number_to_words($receipt->amount + $receipt->securty_deposit + $receipt->days_before) }}</b>
-                from <b>{{ $receipt->tenant->name }}</b>
+                <b>{{ Utils::convert_number_to_words($receipt->amount) }}</b>
+                from <b>{{ $receipt->tenant->name }}</b> {!! $receipt->details !!} distributed as follows;-
             </p>
-            <p class="mt-2">
-                Rent Amount: <b>UGX {{ number_format($receipt->amount) }}</b>
-                {!! $receipt->details !!}
-            </p>
-            <br>
-            @if ((int) $receipt->days_before > 0)
-                <p>Payment of the remaining days of the month: <b>UGX {{ number_format($receipt->days_before) }}</b></p>
+            @if (!empty($receipt->rent_amount) && $receipt->rent_amount > 0)
+                <p class="mt-2">
+                    Rent: <b>UGX {{ number_format($receipt->rent_amount) }}</b>
+                </p>
             @endif
-            @if ($receipt->securty_deposit > 0)
+
+            @if (((int) $receipt->securty_deposit) > 0)
                 <p>Security Deposit: <b>UGX {{ number_format($receipt->securty_deposit) }}</b></p>
             @endif
-            {{-- garbage_amount --}}
-            @if ($receipt->garbage_amount > 0)
+            @if ((int) $receipt->days_before > 0)
+                <p>Remaining days: <b>UGX {{ number_format($receipt->days_before) }}</b></p>
+            @endif
+
+            @if (((int) $receipt->garbage_amount) > 0)
                 <p>Garbage Amount: <b>UGX {{ number_format($receipt->garbage_amount) }}</b></p>
             @endif
-            
-
         </div>
 
         <div class="balance">
             Balance: <b>UGX {{ number_format($receipt->balance) }}</b>
         </div>
 
-        <table style="width: 100%; margin-top: 18px;">
+        <table style="width: 100%; margin-top: 10px;">
             <tr>
                 <td>
                     <div class="amount-box">

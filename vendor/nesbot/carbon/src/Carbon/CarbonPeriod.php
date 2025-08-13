@@ -1971,7 +1971,7 @@ class CarbonPeriod implements Iterator, Countable, JsonSerializable
      * @example
      * ```
      * Carbon::create('2020-11-29')->daysUntil('2020-12-24')->forEach(function (Carbon $date) {
-     *   echo $date->diffInDays('2020-12-25')." days before Christmas!\n";
+     *   echo $date->diffInDays('2020-12-25')." Remaining Days Christmas!\n";
      * });
      * ```
      *
@@ -1991,7 +1991,7 @@ class CarbonPeriod implements Iterator, Countable, JsonSerializable
      * ```
      * $period = Carbon::create('2020-11-29')->daysUntil('2020-12-24');
      * echo implode("\n", iterator_to_array($period->map(function (Carbon $date) {
-     *   return $date->diffInDays('2020-12-25').' days before Christmas!';
+     *   return $date->diffInDays('2020-12-25').' Remaining Days Christmas!';
      * })));
      * ```
      *
