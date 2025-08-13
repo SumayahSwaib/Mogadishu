@@ -116,13 +116,14 @@ class ExpenseController extends AdminController
 
         $form->text('name', 'Particulars')->rules('required');
         $form->select('category', 'Category')->options([
+            'Bank Expenditure (DFCU)'        => 'Bank Expenditure (DFCU)',
+            'Brokers'                        => 'Brokers',
+            'Garbage Collectors'             => 'Garbage Collectors',
+            'Maintenance'                    => 'Maintenance',
+            'Meals'                          => 'Meals',
             'Salary'                         => 'Salary',
             'Security Deposit Refund'        => 'Security Deposit Refund',
             'Transport'                      => 'Transport',
-            'Bank Expenditure (DFCU)'        => 'Bank Expenditure (DFCU)',
-            'Meals'                          => 'Meals',
-            'Brokers'                        => 'Brokers',
-            'Garbage Collectors'             => 'Garbage Collectors',
             'Others'                         => 'Others',
         ])->rules('required');
         $form->textarea('description', 'Description')->rows(3);

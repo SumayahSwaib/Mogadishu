@@ -197,7 +197,7 @@ $imagelink = url('floorimages/logo-1.png');
             <tr>
                 <td>
                     <div class="amount-box">
-                        UGX {{ number_format($receipt->amount + $receipt->securty_deposit + $receipt->days_before) }}
+                        UGX {{ number_format($receipt->amount) }}
                     </div>
                 </td>
                 <td class="approved">
