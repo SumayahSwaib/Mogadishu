@@ -121,6 +121,11 @@ class RentingController extends AdminController
                 return  number_format($x);
             })->sortable();
 
+
+        $grid->column('days_before', __('Remaining Days'))->display(function ($x) {
+            return number_format($x);
+        });
+ 
         $grid->column('payable_amount', __('Payable amount (UGX)'))
             ->display(function ($x) {
                 return number_format($x);
@@ -287,6 +292,12 @@ invoice_as_been_billed
             ])
             ->rules('required')
             ->default('Active');
+
+
+        $form->decimal('days_before', __('Remaining Days (UGX)'))
+            ->help('This is the amount for remaining days of the month. Leave this blank if not applicable.')
+            ->default(0)
+            ->rules('required')->required();
 
         //security_fee
         $form->decimal('security_fee', __('Security Fee (UGX)'))
