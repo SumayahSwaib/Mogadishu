@@ -53,6 +53,7 @@ class LandloadController extends AdminController
         $grid->column('phone_number_2', __('Phone number 2'))->hide();
         $grid->column('address', __('Address'))->hide()->sortable();
 
+        /* Landlord-relation columns disabled with the retired Landload model.
         $grid->column('fully_paid', __('Fully Paid'))
             ->dot([
                 'No' => 'danger',

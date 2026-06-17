@@ -14,7 +14,8 @@ Route::group([
     //$router->resource('/', RentingController::class); 
     $router->get('/', 'HomeController@index')->name('home');
 
-    $router->resource('landloads', LandloadController::class);
+    // Landlord feature retired (Landload model disabled; replaced by Land Lord Reports). Route removed to avoid dispatching the deprecated controller.
+    // $router->resource('landloads', LandloadController::class);
     $router->resource('houses', HouseController::class);
     $router->resource('rooms', RoomController::class);
     $router->resource('tenants', TenantController::class);
