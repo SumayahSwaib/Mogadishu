@@ -68,7 +68,13 @@ class SubcountyController extends AdminController
     {
         $form = new Form(new Location());
 
-        $form->select('parent', __('District'))->options(Location::get_districts_array())->rules('required');
+        $form->select('parent', __('District'))
+            ->options(function ($id) {
+                return SelectOptionsController::districtOption($id);
+            })
+            ->config('minimumInputLength', 0)
+            ->ajax(admin_url('select-options/districts'))
+            ->rules('required');
         $form->text('name', __('Name'))->rules('required');
 
         $form->hidden('order', __('Parent'))->default(0);

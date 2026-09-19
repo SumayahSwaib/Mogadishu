@@ -3,15 +3,15 @@
 
 <head>
     <meta charset="utf-8">
-    <title>{{ env('APP_NAME') }}</title>
+    <title>{{ config('app.name') }}</title>
     <base href="{{ url('') }}/">
 
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="{{ env('APP_NAME') }} is a real estate company that provides quality
+    <meta name="description" content="{{ config('app.name') }} is a real estate company that provides quality
         housing solutions in Uganda. We offer a wide range of properties for rent and sale, ensuring comfort and
         convenience for our clients.">
-    <meta name="keywords" content="{{ env('APP_NAME') }}">
+    <meta name="keywords" content="{{ config('app.name') }}">
     <meta name="author" content="Nannyombi Sumayah">
 
     <!-- Viewport -->

@@ -89,7 +89,8 @@ class Renting extends Model
 
         //calculate amount_paid
         $amount_paid = $this->payments->sum('amount');
-        $room_price = $this->room->price;
+        $room = $this->room;
+        $room_price = $room ? $room->price : 0;
         if ($room_price == 0) {
             return 0;
         }
@@ -102,7 +103,9 @@ class Renting extends Model
 
     public function getNameTextAttribute()
     {
-        return $this->room->name_text;
+        $room = $this->room;
+
+        return $room ? $room->name_text : '';
     }
 
     public function getNameText2Attribute()
@@ -168,22 +171,17 @@ class Renting extends Model
         });
     }
 
+    /**
+     * Kept free of side effects: relation methods are also invoked on a blank
+     * instance during eager loading, where the old find()/save() repair could
+     * insert a junk row. Dangling ids now simply resolve to null.
+     */
     public function room()
     {
-        $x = Room::find($this->room_id);
-        if ($x == null) {
-            $this->room_id = 1;
-            $this->save();
-        }
         return  $this->belongsTo(Room::class);
     }
     public function tenant()
     {
-        $x = Tenant::find($this->tenant_id);
-        if ($x == null) {
-            $this->tenant_id = 1;
-            $this->save();
-        }
         return  $this->belongsTo(Tenant::class);
     }
     public function process_bill()

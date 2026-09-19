@@ -80,9 +80,11 @@ class RoomController extends AdminController
             //
 
             $filter->equal('region_id', 'Filter by Region')
-                ->select(
-                    Location::get_districts_array()
-                );
+                ->select(function ($value) {
+                    return SelectOptionsController::districtOption($value);
+                })
+                ->config('minimumInputLength', 0)
+                ->ajax(admin_url('select-options/districts'));
             /*  $filter->equal('area_id', 'Filter by Area')
                 ->select(
                     Location::get_sub_counties_array()
@@ -100,7 +102,11 @@ class RoomController extends AdminController
             $batch->add(new BatchCopy());
         });
         $grid->quickSearch('name')->placeholder('Search by name....');
-        $grid->model()->orderBy('id', 'Asc');
+        /* Sum the invoices in SQL instead of loading every Renting: serialising
+           them would fire Renting's appended accessors once per row. */
+        $grid->model()->with(['house'])
+            ->withSum('rentings as rentings_total', 'payable_amount')
+            ->orderBy('id', 'Asc');
         $grid->column('id', __('No.'))->sortable();
 
         $grid->column('image', __('Photo'))
@@ -183,10 +189,9 @@ class RoomController extends AdminController
                 }
             })
             ->sortable(); */
-        $grid->column('rentings', __('Invoices (UGX)'))
+        $grid->column('rentings_total', __('Invoices (UGX)'))
             ->display(function ($x) {
-                $x = $this->rentings->sum('payable_amount');
-                $x = number_format($x);
+                $x = number_format((float) ($this->rentings_total ?? 0));
                 return '<a target="_blank" title="View These Invoices" class="d-block text-left  " style="font-size: 16px; text-align: center;" href="' . admin_url('rentings?room_id=' . $this->id) . '" ><b>' . $x . '</b></a>';
             });
         $grid->column('remarks', __('Remarks'))->sortable()->hide()->editable();

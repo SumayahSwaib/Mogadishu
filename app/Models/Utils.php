@@ -56,11 +56,11 @@ class Utils extends Model
         //4,8,6
         $colour = $colors[rand(0, 15)];
 
-        if (env('APP_NAME') == 'Mogadishu Residence') {
+        if (config('app.name') == 'Mogadishu Residence') {
             $colour = $colors[10]; // red for development environment
-        } else if (env('APP_NAME') == 'Lubiri Apartments') {
+        } else if (config('app.name') == 'Lubili Apartments') {
             $colour = $colors[8]; // blue for live environment
-        } else if (env('APP_NAME') == 'Rubaga Apartments') {
+        } else if (config('app.name') == 'Rubaga Apartments') {
             $colour = $colors[6]; // green for staging environment
         }
 

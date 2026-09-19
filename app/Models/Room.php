@@ -15,7 +15,9 @@ class Room extends Model
 
     public function getNameTextAttribute()
     {
-        return $this->house->name . ", " . $this->name;
+        $house = $this->house;
+
+        return ($house ? $house->name : '') . ", " . $this->name;
     }
 
     public static function boot()
@@ -115,13 +117,13 @@ class Room extends Model
         return $value;
     }
 
+    /**
+     * Kept free of side effects: a relation method is also invoked on a blank
+     * instance during eager loading, where the old find()/save() repair could
+     * insert a junk row. Dangling house_id now simply resolves to null.
+     */
     public function house()
     {
-        $x = House::find($this->house_id);
-        if ($x == null) {
-            $this->house_id = 1;
-            $this->save();
-        }
         return $this->belongsTo(House::class);
     }
     public function rentings()

@@ -39,18 +39,22 @@ class TenantPaymentController extends AdminController
                 ->select(
                     Landload::where([])->orderBy('name', 'Asc')->get()->pluck('name', 'id')
                 ); */
+            // Loaded on demand over ajax - these tables are far too large to inline.
+            // The closure only resolves the currently applied filter value so the
+            // active selection still shows a label; the list itself comes over ajax.
             $filter->equal('tenant_id', 'Filter By Tenant')
-                ->select(
-                    Tenant::get_items()
-                );
-            $invoices = [];
-            foreach (Renting::where([])->orderBy('id', 'desc')->get() as $key => $v) {
-                $invoices[$v->id] = "#" . $v->id . " - ROOM: " . $v->room->name . ", Tenant: " . $v->tenant->name . " , Balance: UGX " . number_format($v->balance);
-            }
+                ->select(function ($value) {
+                    return SelectOptionsController::tenantOption($value);
+                })
+                ->config('minimumInputLength', 0)
+                ->ajax(admin_url('select-options/tenants'));
+
             $filter->equal('renting_id', 'Filter by renting invoice')
-                ->select(
-                    $invoices
-                );
+                ->select(function ($value) {
+                    return SelectOptionsController::rentingOption($value);
+                })
+                ->config('minimumInputLength', 0)
+                ->ajax(admin_url('select-options/rentings'));
             $filter->between('created_at', 'Filter by Date Created')->date();
 
             $filter->group('amount', function ($group) {
@@ -63,7 +67,7 @@ class TenantPaymentController extends AdminController
 
 
         $grid->quickSearch('details')->placeholder('Search by details...');
-        $grid->model()->orderBy('id', 'desc');
+        $grid->model()->with(['renting.room.house', 'renting.tenant', 'tenant'])->orderBy('id', 'desc');
         $grid->disableBatchActions();
         $grid->column('id', __('ID'))->sortable();
         $grid->column('created_at', __('Date'))->display(function ($x) {
@@ -212,15 +216,15 @@ class TenantPaymentController extends AdminController
 
         $form->date('created_at', __('Date'))->default(date('Y-m-d'))->rules('required')->required();
 
-        $invoices = [];
-        foreach (Renting::where([])->orderBy('id', 'desc')->get() as $key => $v) {
-            // if ($v->balance > 0) {
-            //     continue;
-            // }
-            $invoices[$v->id] = "#" . $v->id . " - ROOM: " . $v->room->name . ", Tenant: " . $v->tenant->name . " , Balance: UGX " . number_format($v->balance);
-        }
+        /* Invoices are fetched on demand (see SelectOptionsController). The closure
+           only resolves the row already saved on this record, so editing does not
+           load the whole rentings table. */
         $form->select('renting_id', __('Renting - Invoice'))
-            ->options($invoices)
+            ->options(function ($id) {
+                return SelectOptionsController::rentingOption($id);
+            })
+            ->config('minimumInputLength', 0)
+            ->ajax(admin_url('select-options/rentings'))
             ->rules('required')
             ->required();
 

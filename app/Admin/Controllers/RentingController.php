@@ -42,15 +42,20 @@ class RentingController extends AdminController
                 ->select(
                     Landload::where([])->orderBy('name', 'Asc')->get()->pluck('name', 'id')
                 ); */
+            // Loaded on demand over ajax instead of inlining whole tables.
             $filter->equal('tenant_id', 'Filter By Tenant')
-                ->select(
-                    Tenant::get_items()
-                );
+                ->select(function ($value) {
+                    return SelectOptionsController::tenantOption($value);
+                })
+                ->config('minimumInputLength', 0)
+                ->ajax(admin_url('select-options/tenants'));
 
             $filter->equal('room_id', 'Filter by room')
-                ->select(
-                    Room::get_all_rooms()
-                );
+                ->select(function ($value) {
+                    return SelectOptionsController::roomOption($value);
+                })
+                ->config('minimumInputLength', 0)
+                ->ajax(admin_url('select-options/rooms'));
             $filter->between('created_at', 'Filter by Date Created')->date();
             $filter->between('start_date', 'Filter by Start Date')->date();
             $filter->between('end_date', 'Filter by End Date')->date();
@@ -62,7 +67,7 @@ class RentingController extends AdminController
         });
 
 
-        $grid->model()->orderBy('id', 'desc');
+        $grid->model()->with(['room.house', 'tenant', 'payments'])->orderBy('id', 'desc');
         $grid->disableBatchActions();
         $grid->column('id', __('ID'))->sortable();
         $grid->column('created_at', __('Created'))->display(function ($x) {
@@ -247,29 +252,36 @@ invoice_as_been_billed
                     "#" . $room->id . " - " . $room->name . ", " . $room->house->name . " - UGX " . number_format($room->price)
                 );
             } else {
-                $form->select('room_id', __('Appartment'))->options(Room::get_vacant_rooms())
+                $form->select('room_id', __('Appartment'))
+                    ->options(function ($id) {
+                        return SelectOptionsController::roomOption($id);
+                    })
+                    ->config('minimumInputLength', 0)
+                    ->ajax(admin_url('select-options/vacant-rooms'))
                     ->rules('required')
                     ->required();
             }
 
 
-            $form->select('tenant_id', __('Tenant'))->options(Tenant::get_items())
+            $form->select('tenant_id', __('Tenant'))
+                ->options(function ($id) {
+                    return SelectOptionsController::tenantOption($id);
+                })
+                ->config('minimumInputLength', 0)
+                ->ajax(admin_url('select-options/tenants'))
                 ->rules('required')
                 ->required();
         } else {
 
+            // Room/tenant cannot change after creation - only resolve the saved row.
             $form->select('room_id', __('Appartment'))->options(function ($x) {
                 $r = Room::where('id', $x)->first();
-                return [
-                    $r->id => $r->name
-                ];
+                return $r ? [$r->id => $r->name] : [];
             })->readOnly();
-            $form->select('tenant_id', __('Tenant'))->options(Tenant::get_items())
+            $form->select('tenant_id', __('Tenant'))
                 ->options(function ($x) {
                     $r = Tenant::where('id', $x)->first();
-                    return [
-                        $r->id => $r->name
-                    ];
+                    return $r ? [$r->id => $r->name] : [];
                 })->readOnly();
         }
         $form->date('start_date', __('Start date'))->rules('required')

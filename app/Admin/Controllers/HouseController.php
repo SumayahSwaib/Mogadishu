@@ -3,7 +3,6 @@
 namespace App\Admin\Controllers;
 
 use App\Models\House;
-use App\Models\Landload;
 use App\Models\Location;
 use App\Models\Utils;
 use Encore\Admin\Controllers\AdminController;
@@ -32,24 +31,32 @@ class HouseController extends AdminController
         $grid->filter(function ($filter) {
             // Remove the default id filter
             $filter->disableIdFilter();
-            $filter->equal('landload_id', 'Filter by landlord')
-                ->select(
-                    Landload::where([])->orderBy('name', 'Asc')->get()->pluck('name', 'id')
-                );
+            // Landlord filter retired together with the Landload model.
 
             $filter->equal('region_id', 'Filter by district')
-                ->select(
-                    Location::get_districts_array()
-                );
+                ->select(function ($value) {
+                    return SelectOptionsController::districtOption($value);
+                })
+                ->config('minimumInputLength', 0)
+                ->ajax(admin_url('select-options/districts'));
+
             $filter->equal('area_id', 'Filter by Area')
-                ->select(
-                    Location::get_sub_counties_array()
-                );
+                ->select(function ($value) {
+                    return SelectOptionsController::subCountyOption($value);
+                })
+                ->config('minimumInputLength', 0)
+                ->ajax(admin_url('select-options/sub-counties'));
         });
 
 
         $grid->quickSearch('name')->placeholder('Search by name....');
-        $grid->model()->orderBy('id', 'desc');
+        /* Counts/price range come from SQL aggregates: loading the Room models
+           would fire Room's name_text accessor (and a house lookup) per row. */
+        $grid->model()
+            ->withCount(['rooms', 'occupied_rooms', 'vacant_rooms'])
+            ->withMin('rooms as rooms_min_price', 'price')
+            ->withMax('rooms as rooms_max_price', 'price')
+            ->orderBy('id', 'desc');
         $grid->disableBatchActions();
         $grid->column('id', __('No.'))->sortable();
 
@@ -58,13 +65,7 @@ class HouseController extends AdminController
             ->sortable();
 
         $grid->column('name', __('Estate Name'))->sortable();
-        $grid->column('landload_id', __('Landlord'))->display(function ($x) {
-            $loc = Landload::find($x);
-            if ($loc != null) {
-                return $loc->name;
-            }
-            return $x;
-        })->sortable();
+        // Landlord column retired together with the Landload model.
         $grid->column('region_id', __('Region'))->display(function ($x) {
             $loc = Location::find($x);
             if ($loc != null) {
@@ -79,24 +80,24 @@ class HouseController extends AdminController
             }
             return $x;
         })->sortable();
-        $grid->column('rooms', __('No. of Rooms'))
+        $grid->column('rooms_count', __('No. of Rooms'))
             ->display(function ($x) {
-                $x = count($this->rooms);
+                $x = (int) ($this->rooms_count ?? 0);
                 return '<a target="_blank" title="View These Rooms" class="d-block text-left  text-primary" style="font-size: 16px; text-align: center;" href="' . admin_url('rooms?house_id=' . $this->id) . '" ><b>' . $x . '</b></a>';
             });
         $grid->column('_rooms', __('Occupied Rooms'))
             ->display(function () {
-                $x = count($this->occupied_rooms);
+                $x = (int) ($this->occupied_rooms_count ?? 0);
                 return '<a target="_blank" title="View These Rooms" class="d-block text-left  text-primary" style="font-size: 16px; text-align: center;" href="' . admin_url('rooms?house_id=' . $this->id) . '" ><b>' . $x . '</b></a>';
             });
         $grid->column('v_rooms', __('Vancant Rooms'))
             ->display(function () {
-                $x = count($this->vacant_rooms);
+                $x = (int) ($this->vacant_rooms_count ?? 0);
                 return '<a target="_blank" title="View These Rooms" class="d-block text-left text-primary" style="font-size: 16px; text-align: center;" href="' . admin_url('rooms?house_id=' . $this->id) . '" ><b>' . $x . '</b></a>';
             });
         $grid->column('range', __('Price Range (UGX)'))
             ->display(function ($x) {
-                return $this->price_range();
+                return Utils::number_format($this->rooms_min_price, '') . " - " . Utils::number_format($this->rooms_max_price, '');
             });
         $grid->column('address', __('Address'))->hide();
 
@@ -143,12 +144,14 @@ class HouseController extends AdminController
     {
         $form = new Form(new House());
 
-        $form->select('landload_id', __('Landlord'))
-            ->options(Landload::where([])->orderBy('name', 'asc')->get()->pluck('name', 'id'))
-            ->rules('required');
+        // Landlord select retired together with the Landload model.
 
         $form->select('area_id', __('Select Area'))
-            ->options(Location::get_sub_counties_array())
+            ->options(function ($id) {
+                return SelectOptionsController::subCountyOption($id);
+            })
+            ->config('minimumInputLength', 0)
+            ->ajax(admin_url('select-options/sub-counties'))
             ->rules('required');
 
         $form->text('name', __('Estate Name'))->rules('required');

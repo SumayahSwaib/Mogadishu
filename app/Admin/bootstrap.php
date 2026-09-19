@@ -69,6 +69,36 @@ Form::init(function (Form $form) {
         $tools->disableDelete();
         $tools->disableView();
     });
+
+    // Security: reject uploads of executable/script files on every admin form.
+    // The upload dirs also deny PHP execution at the web-server level (.htaccess),
+    // so this is defence-in-depth against a polyglot-image upload being stored
+    // with a .php extension (the July 2026 incident vector).
+    $form->saving(function (Form $form) {
+        $blocked = [
+            'php', 'php2', 'php3', 'php4', 'php5', 'php6', 'php7', 'php8',
+            'phtml', 'pht', 'phar', 'phps', 'phpt', 'phtm',
+            'cgi', 'pl', 'py', 'sh', 'bash', 'asp', 'aspx', 'jsp', 'jspx',
+            'exe', 'com', 'htaccess', 'htpasswd', 'ini', 'shtml', 'svg',
+        ];
+        $flatten = function ($files) use (&$flatten) {
+            $out = [];
+            foreach ((array) $files as $f) {
+                if (is_array($f)) {
+                    $out = array_merge($out, $flatten($f));
+                } elseif ($f) {
+                    $out[] = $f;
+                }
+            }
+            return $out;
+        };
+        foreach ($flatten(request()->allFiles()) as $file) {
+            $ext = strtolower($file->getClientOriginalExtension());
+            if (in_array($ext, $blocked, true)) {
+                throw new \Exception('Upload blocked: files of type ".' . $ext . '" are not permitted.');
+            }
+        }
+    });
 });
 
 

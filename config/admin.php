@@ -11,7 +11,7 @@ return [
     | login page.
     |
     */
-    'name' => env('APP_NAME') . ' - Admin',
+    'name' => env('APP_NAME'),
 
     /*
     |--------------------------------------------------------------------------
@@ -22,7 +22,7 @@ return [
     | `img` tag, eg '<img src="http://logo-url" alt="Admin logo">'.
     |
     */
-    'logo' => env('APP_NAME') . ' - Admin',
+    'logo' => '<b>' . env('APP_NAME') . '</b>',
 
     /*
     |--------------------------------------------------------------------------
@@ -34,7 +34,7 @@ return [
     | '<img src="http://logo-url" alt="Admin logo">'.
     |
     */
-    'logo-mini' => '<b>' . env('APP_NAME') . '</b>',
+    'logo-mini' => '<b>NE</b>',
 
     /*
     |--------------------------------------------------------------------------
@@ -85,7 +85,7 @@ return [
     | Html title for all pages.
     |
     */
-    'title' => 'Admin',
+    'title' => env('APP_NAME'),
 
     /*
     |--------------------------------------------------------------------------

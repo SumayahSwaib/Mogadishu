@@ -166,7 +166,7 @@ $sign = public_path('/sign.jpg');
     <hr>
 
     <img class="img-fluid w-25" src="{{ $sign }}">  
-    <p class=""><i>{{ env('APP_NAME') }}</i></p>
+    <p class=""><i>{{ config('app.name') }}</i></p>
 
 
     {{-- 
